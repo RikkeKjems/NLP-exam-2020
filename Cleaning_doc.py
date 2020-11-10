@@ -47,11 +47,9 @@ print(new_file)
 # %%
 # PRØVER MED ANDEN TXT FIL:
 # VIRKER!!!
-with open('Newfolder/No_Dys_data/ND1.txt', encoding="utf8", errors='ignore') as f:
+with open('Newfolder/Dys_data_works/D2.txt', encoding="utf8", errors='ignore') as f:
     a = re.sub(
         r"\(\D*\d?\d{4}(?:, s.? [0-9]+.?.?[0-9].?)?(([;])\D*\d{4})*\)|\(([a-zA-Z]+\d\D*\d{4}\))", "", f.read())
     a = re.sub(r'"[^"]+"', "", a)
     contents = f.read()
     print(a)
-
-# %%
