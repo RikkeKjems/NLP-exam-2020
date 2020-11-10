@@ -12,20 +12,20 @@ import lemmy
 import stanza
 
 # %%
-# CLEANING DATA - VIRKER IKKE
+# CLEANING DATA - VIRKER
 
 # Import data
 # regex to remove citations/references and quotes
-with open('Newfolder/Dys_data_works/D1.txt', encoding="latin6", errors='ignore') as f:
+with open('Newfolder/Dys_data_works/D1.txt', encoding="utf8", errors='ignore') as f:
     txt = re.sub(
         r"\(\D*\d?\d{4}(?:, s.? [0-9]+.?.?[0-9].?)?(([;])\D*\d{4})*\)|\(([a-zA-Z]+\d\D*\d{4}\))", "", f.read())
     txt = re.sub(r'"[^"]+"', "", txt)
     contents = f.read()
-    print(a)
+    print(txt)
 
-type(a)
 
 # %%
+# DET HER BEHØVER VI IKKE MERE
 """
 # TEST TEXT
 txt = """
