@@ -54,7 +54,7 @@ with open('Newfolder/Dys_data_works/D2.txt', encoding="utf8", errors='ignore') a
     contents = f.read()
     print(a)
 
-#%% STOPWORDS
+#%% STOPWORDS NLTK - 94
    import nltk
 nltk.download('stopwords') 
 
@@ -65,4 +65,8 @@ print(words)
 
 
 
-# %%
+# %% STOPWORDS SPACY - 219
+import spacy
+from spacy.lang.da.stop_words import STOP_WORDS
+len (STOP_WORDS)
+print (STOP_WORDS)
