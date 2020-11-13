@@ -53,3 +53,16 @@ with open('Newfolder/Dys_data_works/D2.txt', encoding="utf8", errors='ignore') a
     a = re.sub(r'"[^"]+"', "", a)
     contents = f.read()
     print(a)
+
+#%% STOPWORDS
+   import nltk
+nltk.download('stopwords') 
+
+    from nltk.corpus import stopwords
+    words = stopwords.words ('danish')
+    len(words)
+print(words)
+
+
+
+# %%
