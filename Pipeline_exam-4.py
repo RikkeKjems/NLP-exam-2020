@@ -18,7 +18,7 @@ import stanza
 # regex to remove citations/references and quotes
 import re
 
-with open('Newfolder/Dys_data_works/D1 copy 2.txt', encoding='utf8', errors='ignore') as f:
+with open('Data/D_data/D1.txt', encoding='utf8', errors='ignore') as f:
     txt = re.sub(
         r"\(\D*\d?\d{4}(?:, s.? [0-9]+.?.?[0-9].?)?(([;])\D*\d{4})*\)|\(([a-zA-Z]+\d\D*\d{4}\))", "", f.read())
     txt = re.sub(r'"[^"]+"', "", txt)
