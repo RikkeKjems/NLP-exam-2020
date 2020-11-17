@@ -82,4 +82,4 @@ nlp = spacy.load("da_core_news_sm")
 doc = nlp(txt)
 
 for token in doc:
-    print(token.text, lemma, token.pos_, token.is_stop)
+    print(token.text, lemmas, token.pos_, token.is_stop)
