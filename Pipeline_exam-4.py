@@ -23,7 +23,7 @@ import pandas as pd
 # regex to remove citations/references and quotes
 import re
 
-with open('Data/D_data/D1.txt', encoding='utf8', errors='ignore') as f:
+with open('Data/D_data/Test.txt', encoding='utf8', errors='ignore') as f:
     txt = re.sub(
         r"\(\D*\d?\d{4}(?:, s.? [0-9]+.?.?[0-9].?)?(([;])\D*\d{4})*\)|\(([a-zA-Z]+\d\D*\d{4}\))", "", f.read())
     txt = re.sub(r'"[^"]+"', "", txt)
@@ -51,8 +51,6 @@ print(sent_tokenize(txt))
 tokens = nltk.tokenize.word_tokenize(txt)
 print(tokens)
 
-# From list to string
-str_token = print(",".join(str(x) for x in tokens))
 # %%
 # TOKEN FREQUENCIES - VIRKER
 freq = Counter(tokens)
@@ -60,16 +58,16 @@ freq
 freq.most_common
 
 # %%
-# Lemmatization SpaCy - VIRKER men kun på ord ikke text
+# Lemmatization VIRKER
+l = lemmy.load("da")
 
-# Create an instance of the standalone lemmatizer.
-lemmatizer = lemmy.load("da")
 
-# Find lemma for the word 'akvariernes'. First argument is an empty POS tag.
-lemma = lemmatizer.lemmatize("", str_token)
-lemma
+def lemmatize_sentence(sentence, lemmatizer=l):
+    return [lemmatizer.lemmatize("", word) for word in sentence]
 
-len(str_token)
+
+lemmas = lemmatize_sentence(txt.split())
+print(lemmas)
 
 # %%
 
@@ -85,12 +83,20 @@ print(
 )
 
 # %%
+import spacy
+
+# %%
+#nlp = spacy.load("da_core_news_sm")
+spacy.load('da_core_news_sm')
+
+
+# %%
 # SpaCy POS tag - VIRKER hvis lemma gør
 nlp = spacy.load("da_core_news_sm")
 doc = nlp(txt)
 
 for token in doc:
-    print(token.text, lemma, token.pos_, token.is_stop)
+    print(token.text, lemmas, token.pos_, token.is_stop)
 
 # %%
 # VIRKER, MEN ER DÅRLIG

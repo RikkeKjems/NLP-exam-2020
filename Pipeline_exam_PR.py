@@ -51,7 +51,7 @@ freq = Counter(tokens)
 freq
 freq.most_common
 
-#%%
+# %%
 # Lemmatization
 l = lemmy.load("da")
 
@@ -75,6 +75,7 @@ print(
     ],
     sep="\n",
 )
+
 
 # %%
 # SpaCy POS tag - VIRKER hvis lemma gør
