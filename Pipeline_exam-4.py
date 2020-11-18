@@ -15,7 +15,11 @@ import nltk
 import lemmy
 import stanza
 import pandas as pd
+import sys
+import glob
+import os.path
 
+""" ALT DETTE KAN FAKTISK SLETTES
 # %%
 # CLEANING DATA - VIRKER
 
@@ -37,6 +41,63 @@ with open('Data/D_data/Test.txt', encoding='utf8', errors='ignore') as f:
 out = open('Data/D_data/Testfile.txt', 'w')
 out.write(txt)
 out.close()
+"""
+
+# %%
+# HENTER DATA IND --> CLEANER MED REGEX --> GEMMER I NY MAPPE "Final_D_data" OG "Final_ND_data"
+# Cleaning Dyslexia data VIRKER
+
+list_of_files = glob.glob('Data/D_data/*.txt')
+
+for file_name in list_of_files:
+    print(file_name)  # Dette kan kommenteres ud hvis vi har lyst
+
+    # This needs to be done *inside the loop*
+    f = open(file_name, 'r', encoding='utf8', errors='ignore')
+    lst = []
+    for line in f:
+        line.strip()
+        line = re.sub(
+            r"\(\D*\d?\d{4}(?:, s.? [0-9]+.?.?[0-9].?)?(([;])\D*\d{4})*\)|\(([a-zA-Z]+\d\D*\d{4}\))", "", f.read())
+        line = re.sub(r'”[^"]+”', "", line)
+        line = re.sub(r'"[^"]+"', "", line)
+        lst.append(line)
+    f.close()
+
+    f = open(os.path.join('Data/D_data/Final_D_data',
+                          os.path.basename(file_name)), 'w')
+
+    for line in lst:
+        f.write(line)
+    f.close()
+
+# %%
+# Cleaning Non-Dyslexia data VIRKER
+
+list_of_files = glob.glob('Data/ND_data/*.txt')
+
+for file_name in list_of_files:
+    print(file_name)  # Dette kan kommenteres ud hvis vi har lyst
+
+    # This needs to be done *inside the loop*
+    f = open(file_name, 'r', encoding='utf8', errors='ignore')
+    lst = []
+    for line in f:
+        line.strip()
+        line = re.sub(
+            r"\(\D*\d?\d{4}(?:, s.? [0-9]+.?.?[0-9].?)?(([;])\D*\d{4})*\)|\(([a-zA-Z]+\d\D*\d{4}\))", "", f.read())
+        line = re.sub(r'”[^"]+”', "", line)
+        line = re.sub(r'"[^"]+"', "", line)
+        lst.append(line)
+    f.close()
+
+    f = open(os.path.join('Data/ND_data/Final_ND_data',
+                          os.path.basename(file_name)), 'w')
+
+    for line in lst:
+        f.write(line)
+    f.close()
+
 
 # %%
 # SENTENCE SEGMENTATION - VIRKER
@@ -83,7 +144,6 @@ print(
 )
 
 # %%
-import spacy
 
 # %%
 #nlp = spacy.load("da_core_news_sm")
@@ -118,27 +178,29 @@ def postag_stanza(tokenlist):
     # pass
 
     nlp = stanza.Pipeline(
-        lang="da", processors="pos,tokenize,lemma,mwt", tokenize_pretokenized=True
+        lang="da", processors="pos,tokenize,lemma", tokenize_pretokenized=True
     )
-    doc = nlp(tokenslist)
+    doc = nlp(tokenlist)
 
-    res = [
+    """res = [
         (word.postag_stanza)
         for n_sent, sent in enumerate(doc.sentences)
         for word in sent.words
     ]
-
+"""
     # if return_df:
 
     # return pd.DataFrame(res)
-    return res
+    # return res
 
 
 # %%
-postag_stanza(tokenlist=tokenlist)
-
+nlp = postag_stanza(tokenlist=tokenlist)
+print(nlp)
 
 # %%
+
+
 def lemmatize_stanza(txt):
     nlp = stanza.Pipeline(lang='da', processors='tokenize,mwt,pos,lemma')
     doc = nlp(txt)
