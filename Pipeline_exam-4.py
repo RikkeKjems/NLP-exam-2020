@@ -99,6 +99,16 @@ for file_name in list_of_files:
     f.close()
 
 
+# %% Prøver segmentation med for loop VIKER IKKE
+list_of_files = glob.glob('Data/D_data/Testfolder/*.txt')
+
+for file_name in list_of_files:
+    f = open(file_name, 'r', encoding='utf8', errors='ignore')
+    lst = []
+    for line in f:
+        print(sent_tokenize(f))
+
+
 # %%
 # SENTENCE SEGMENTATION - VIRKER
 
