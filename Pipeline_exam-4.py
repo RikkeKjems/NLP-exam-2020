@@ -3,6 +3,7 @@
 import lemmy.pipe
 import regex
 import logging
+import morfessor
 from polyglot.text import Text
 from nltk.tokenize import word_tokenize
 from nltk.tokenize import sent_tokenize
@@ -19,7 +20,8 @@ import sys
 import glob
 import os.path
 
-""" ALT DETTE KAN FAKTISK SLETTES
+""" 
+ALT DETTE KAN FAKTISK SLETTES
 # %%
 # CLEANING DATA - VIRKER
 
@@ -47,25 +49,27 @@ out.close()
 # HENTER DATA IND --> CLEANER MED REGEX --> GEMMER I NY MAPPE "Final_D_data" OG "Final_ND_data"
 # Cleaning Dyslexia data VIRKER
 
-list_of_files = glob.glob('Data/D_data/*.txt')
+list_of_files = glob.glob("Data/D_data/*.txt")
 
 for file_name in list_of_files:
     print(file_name)  # Dette kan kommenteres ud hvis vi har lyst
 
     # This needs to be done *inside the loop*
-    f = open(file_name, 'r', encoding='utf8', errors='ignore')
+    f = open(file_name, "r", encoding="utf8", errors="ignore")
     lst = []
     for line in f:
         line.strip()
         line = re.sub(
-            r"\(\D*\d?\d{4}(?:, s.? [0-9]+.?.?[0-9].?)?(([;])\D*\d{4})*\)|\(([a-zA-Z]+\d\D*\d{4}\))", "", f.read())
+            r"\(\D*\d?\d{4}(?:, s.? [0-9]+.?.?[0-9].?)?(([;])\D*\d{4})*\)|\(([a-zA-Z]+\d\D*\d{4}\))",
+            "",
+            f.read(),
+        )
         line = re.sub(r'”[^"]+”', "", line)
         line = re.sub(r'"[^"]+"', "", line)
         lst.append(line)
     f.close()
 
-    f = open(os.path.join('Data/D_data/Final_D_data',
-                          os.path.basename(file_name)), 'w')
+    f = open(os.path.join("Data/D_data/Final_D_data", os.path.basename(file_name)), "w")
 
     for line in lst:
         f.write(line)
@@ -74,36 +78,52 @@ for file_name in list_of_files:
 # %%
 # Cleaning Non-Dyslexia data VIRKER
 
-list_of_files = glob.glob('Data/ND_data/*.txt')
+list_of_files = glob.glob("Data/ND_data/*.txt")
 
 for file_name in list_of_files:
     print(file_name)  # Dette kan kommenteres ud hvis vi har lyst
 
     # This needs to be done *inside the loop*
-    f = open(file_name, 'r', encoding='utf8', errors='ignore')
+    f = open(file_name, "r", encoding="utf8", errors="ignore")
     lst = []
     for line in f:
         line.strip()
         line = re.sub(
-            r"\(\D*\d?\d{4}(?:, s.? [0-9]+.?.?[0-9].?)?(([;])\D*\d{4})*\)|\(([a-zA-Z]+\d\D*\d{4}\))", "", f.read())
+            r"\(\D*\d?\d{4}(?:, s.? [0-9]+.?.?[0-9].?)?(([;])\D*\d{4})*\)|\(([a-zA-Z]+\d\D*\d{4}\))",
+            "",
+            f.read(),
+        )
         line = re.sub(r'”[^"]+”', "", line)
         line = re.sub(r'"[^"]+"', "", line)
         lst.append(line)
     f.close()
 
-    f = open(os.path.join('Data/ND_data/Final_ND_data',
-                          os.path.basename(file_name)), 'w')
+    f = open(
+        os.path.join("Data/ND_data/Final_ND_data", os.path.basename(file_name)), "w"
+    )
 
     for line in lst:
         f.write(line)
     f.close()
 
+# %% Prøver segmentation med for loop VIKER MÅSKE
+path = glob.glob("Data/D_data/Final_D_data/*.txt")
+
+for file_name in path:
+    f = open(file_name, "r", encoding="utf8", errors="ignore")
+    if f.mode == "r":
+        contents = f.read()
+        print(contents)  # Kan undlades, tjekker om vi er inde i filen
+    for words in file_name:
+        segment = sent_tokenize(contents)
+        print(segment)
+
 
 # %% Prøver segmentation med for loop VIKER IKKE
-list_of_files = glob.glob('Data/D_data/Testfolder/*.txt')
+list_of_files = glob.glob("Data/D_data/Testfolder/*.txt")
 
 for file_name in list_of_files:
-    f = open(file_name, 'r', encoding='utf8', errors='ignore')
+    f = open(file_name, "r", encoding="utf8", errors="ignore")
     lst = []
     for line in f:
         print(sent_tokenize(f))
@@ -156,8 +176,8 @@ print(
 # %%
 
 # %%
-#nlp = spacy.load("da_core_news_sm")
-spacy.load('da_core_news_sm')
+# nlp = spacy.load("da_core_news_sm")
+spacy.load("da_core_news_sm")
 
 
 # %%
@@ -212,10 +232,16 @@ print(nlp)
 
 
 def lemmatize_stanza(txt):
-    nlp = stanza.Pipeline(lang='da', processors='tokenize,mwt,pos,lemma')
+    nlp = stanza.Pipeline(lang="da", processors="tokenize,mwt,pos,lemma")
     doc = nlp(txt)
-    print(*[f'word: {word.text+" "}\tlemma: {word.lemma}\tPOS: {word.POS}'
-            for sent in doc.sentences for word in sent.words], sep='\n')
+    print(
+        *[
+            f'word: {word.text+" "}\tlemma: {word.lemma}\tPOS: {word.POS}'
+            for sent in doc.sentences
+            for word in sent.words
+        ],
+        sep="\n",
+    )
 
 
 # %%
@@ -227,6 +253,6 @@ lemmatizer = lemmy.load("da")
 lemmatizer.lemmatize("", "elsker")
 # %%
 
-logging.basicConfig(format='%(levelname)s : %(message)s', level=logging.DEBUG)
+logging.basicConfig(format="%(levelname)s : %(message)s", level=logging.DEBUG)
 # %%
 nlp = da.load()
