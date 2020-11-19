@@ -109,7 +109,7 @@ for file_name in list_of_files:
     f.close()
 
 # %% Prøver segmentation med for loop VIKER MÅSKE
-path = glob.glob("Data/D_data/Final_D_data/*.txt")
+path = glob.glob("Data/D_data/Testfolder/*.txt")
 
 for file_name in path:
     f = open(file_name, "r", encoding="utf8", errors="ignore")
