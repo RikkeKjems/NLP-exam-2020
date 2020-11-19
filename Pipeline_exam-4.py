@@ -19,31 +19,6 @@ import os.path
 import lemmy.pipe
 import morfessor
 from polyglot.text import Text
-# %%
-""" 
-ALT DETTE KAN FAKTISK SLETTES
-# %%
-# CLEANING DATA - VIRKER
-
-# Import data
-# regex to remove citations/references and quotes
-import re
-
-with open('Data/D_data/Test.txt', encoding='utf8', errors='ignore') as f:
-    txt = re.sub(
-        r"\(\D*\d?\d{4}(?:, s.? [0-9]+.?.?[0-9].?)?(([;])\D*\d{4})*\)|\(([a-zA-Z]+\d\D*\d{4}\))", "", f.read())
-    txt = re.sub(r'"[^"]+"', "", txt)
-    contents = f.read()
-    print(txt)
-
-
-# %%
-# VIRKER TIL AT GEMME NY FIL
-# DER SKAL LAVES ET FOR LOOP FOR AT KLARE ALLE FILER
-out = open('Data/D_data/Testfile.txt', 'w')
-out.write(txt)
-out.close()
-"""
 
 # %%
 # HENTER DATA IND --> CLEANER MED REGEX --> GEMMER I NY MAPPE "Final_D_data" OG "Final_ND_data"
@@ -69,8 +44,7 @@ for file_name in list_of_files:
         lst.append(line)
     f.close()
 
-    f = open(os.path.join("Data/D_data/Final_D_data",
-                          os.path.basename(file_name)), "w")
+    f = open(os.path.join("Data/D_data/Final_D_data", os.path.basename(file_name)), "w")
 
     for line in lst:
         f.write(line)
@@ -100,69 +74,92 @@ for file_name in list_of_files:
     f.close()
 
     f = open(
-        os.path.join("Data/ND_data/Final_ND_data",
-                     os.path.basename(file_name)), "w"
+        os.path.join("Data/ND_data/Final_ND_data", os.path.basename(file_name)), "w"
     )
 
     for line in lst:
         f.write(line)
     f.close()
 
-# %% Prøver segmentation med for loop VIKER MÅSKE
-path = glob.glob("Data/D_data/Testfolder/*.txt")
+# %% Segmentation D_data VIRKER
+path = glob.glob("Data/D_data/Final_D_data/*.txt")
 
 for file_name in path:
     f = open(file_name, "r", encoding="utf8", errors="ignore")
-    if f.mode == "r":
-        contents = f.read()
-        print(contents)  # Kan undlades, tjekker om vi er inde i filen
+    seg_lst = []  # tom liste
+    if f.mode == "r":  # tjek om filen kan læses
+        contents = f.read()  # læs indholdet i filen
+        # print(contents)  #print indholdet - Kan undlades, tjekker om vi er inde i filen
     for words in file_name:
-        segment = sent_tokenize(contents)
-        print(segment)
+        segment = sent_tokenize(contents)  # segmentation funktion
+        seg_lst.append(segment)  # gem segmentation for hver dokument i en liste
 
-# %% DET HER ER DET NYESTE MED NY TESTFOLDER MED KUN TO FILER.
-path = glob.glob("Data/D_data/Testfolder2/*.txt")
+print(seg_lst)  # print liste
+
+# %% Segmentation ND_data VIRKER
+path = glob.glob("Data/ND_data/Final_ND_data/*.txt")
 
 for file_name in path:
     f = open(file_name, "r", encoding="utf8", errors="ignore")
-    if f.mode == "r":
-        contents = f.read()
+    seg_lst = []  # tom liste
+    if f.mode == "r":  # tjek om filen kan læses
+        contents = f.read()  # læs indholdet i filen
+        # print(contents)  #print indholdet - Kan undlades, tjekker om vi er inde i filen
+    for words in file_name:
+        segment = sent_tokenize(contents)  # segmentation funktion
+        seg_lst.append(segment)  # gem segmentation for hver dokument i en liste
 
-    for words in contents:
-        segment = sent_tokenize(contents)
-
-print(segment)
-
-
-# %% Prøver segmentation med for loop VIKER IKKE
-list_of_files = glob.glob("Data/D_data/Testfolder/*.txt")
-
-for file_name in list_of_files:
-    f = open(file_name, "r", encoding="utf8", errors="ignore")
-    lst = []
-    for line in f:
-        print(sent_tokenize(f))
-
+print(seg_lst)  # print liste
 
 # %%
-# SENTENCE SEGMENTATION - VIRKER
-
-print(sent_tokenize(txt))
-
 # Det nye regex fra Mikkel: = ([.?!)(?![\s]*[\d])
 
+#%%%
+# Loop Tokenization - VIRKER
+path = glob.glob("Data/D_data/Final_D_data/*.txt")
+
+for file_name in path:
+    f = open(file_name, "r", encoding="utf8", errors="ignore")
+    token_lst = []  # tom liste
+    if f.mode == "r":  # tjek om filen kan læses
+        contents = f.read()  # læs indholdet i filen
+        # print(contents)  #print indholdet - Kan undlades, tjekker om vi er inde i filen
+    for words in file_name:
+        tokens = nltk.tokenize.word_tokenize(contents)  # tokenization function
+        token_lst.append(tokens)  # gem segmentation for hver dokument i en liste
+
+print(token_lst)  # print liste
 # %%
-# TOKENIZATION - VIRKER
+# TOKENIZATION - VIRKER - Kan slettes hvis ovenstående virker hos Rikke
 
 tokens = nltk.tokenize.word_tokenize(txt)
 print(tokens)
 
 # %%
-# TOKEN FREQUENCIES - VIRKER
-freq = Counter(tokens)
+# 219 STOP WORDS
+import spacy
+from spacy.lang.da.stop_words import STOP_WORDS
+len (STOP_WORDS)
+print (STOP_WORDS)
+
+#%% 
+# 94 STOP WORDS
+ import nltk
+nltk.download('stopwords') 
+
+    from nltk.corpus import stopwords
+    words = stopwords.words ('danish')
+    len(words)
+print(words)
+# %%
+# TOKEN FREQUENCIES - VIRKER IKKE 
+freq = Counter(token_lst)
 freq
 freq.most_common
-
+# %%
+tokenfreq = token_lst.count
+len(tokenfreq)
+print(tokenfreq)
 # %%
 # Lemmatization VIRKER
 l = lemmy.load("da")
