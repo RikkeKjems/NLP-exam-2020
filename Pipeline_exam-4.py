@@ -1,10 +1,7 @@
 # %%
 # IMPORT PACKAGES
-import lemmy.pipe
 import regex
 import logging
-import morfessor
-from polyglot.text import Text
 from nltk.tokenize import word_tokenize
 from nltk.tokenize import sent_tokenize
 import re
@@ -19,7 +16,10 @@ import pandas as pd
 import sys
 import glob
 import os.path
-
+import lemmy.pipe
+import morfessor
+from polyglot.text import Text
+# %%
 """ 
 ALT DETTE KAN FAKTISK SLETTES
 # %%
@@ -69,7 +69,8 @@ for file_name in list_of_files:
         lst.append(line)
     f.close()
 
-    f = open(os.path.join("Data/D_data/Final_D_data", os.path.basename(file_name)), "w")
+    f = open(os.path.join("Data/D_data/Final_D_data",
+                          os.path.basename(file_name)), "w")
 
     for line in lst:
         f.write(line)
@@ -99,7 +100,8 @@ for file_name in list_of_files:
     f.close()
 
     f = open(
-        os.path.join("Data/ND_data/Final_ND_data", os.path.basename(file_name)), "w"
+        os.path.join("Data/ND_data/Final_ND_data",
+                     os.path.basename(file_name)), "w"
     )
 
     for line in lst:
