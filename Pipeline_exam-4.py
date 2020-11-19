@@ -120,6 +120,19 @@ for file_name in path:
         segment = sent_tokenize(contents)
         print(segment)
 
+# %% DET HER ER DET NYESTE MED NY TESTFOLDER MED KUN TO FILER.
+path = glob.glob("Data/D_data/Testfolder2/*.txt")
+
+for file_name in path:
+    f = open(file_name, "r", encoding="utf8", errors="ignore")
+    if f.mode == "r":
+        contents = f.read()
+
+    for words in contents:
+        segment = sent_tokenize(contents)
+
+print(segment)
+
 
 # %% Prøver segmentation med for loop VIKER IKKE
 list_of_files = glob.glob("Data/D_data/Testfolder/*.txt")
