@@ -1,4 +1,4 @@
-# %%
+# %% 
 # IMPORT PACKAGES
 import regex
 import logging
@@ -20,40 +20,11 @@ import lemmy.pipe
 import morfessor
 from polyglot.text import Text
 
-# %%
-# HENTER DATA IND --> CLEANER MED REGEX --> GEMMER I NY MAPPE "Final_D_data" OG "Final_ND_data"
-# Cleaning Dyslexia data VIRKER
+# %% CLEANING
+# HENTER AL DATA IND --> CLEANER MED REGEX --> GEMMER I NY MAPPE "Final_Data"
+# Cleaning AL data VIRKER
 
-list_of_files = glob.glob("Data/D_data/*.txt")
-
-for file_name in list_of_files:
-    print(file_name)  # Dette kan kommenteres ud hvis vi har lyst
-
-    # This needs to be done *inside the loop*
-    f = open(file_name, "r", encoding="utf8", errors="ignore")
-    lst = []
-    for line in f:
-        line.strip()
-        line = re.sub(
-            r"\(\D*\d?\d{4}(?:, s.? [0-9]+.?.?[0-9].?)?(([;])\D*\d{4})*\)|\(([a-zA-Z]+\d\D*\d{4}\))",
-            "",
-            f.read(),
-        )
-        line = re.sub(r'”[^"]+”', "", line)
-        line = re.sub(r'"[^"]+"', "", line)
-        lst.append(line)
-    f.close()
-
-    f = open(os.path.join("Data/D_data/Final_D_data", os.path.basename(file_name)), "w")
-
-    for line in lst:
-        f.write(line)
-    f.close()
-
-# %%
-# Cleaning Non-Dyslexia data VIRKER
-
-list_of_files = glob.glob("Data/ND_data/*.txt")
+list_of_files = glob.glob("Data/*.txt")
 
 for file_name in list_of_files:
     print(file_name)  # Dette kan kommenteres ud hvis vi har lyst
@@ -73,31 +44,15 @@ for file_name in list_of_files:
         lst.append(line)
     f.close()
 
-    f = open(
-        os.path.join("Data/ND_data/Final_ND_data", os.path.basename(file_name)), "w"
-    )
+    f = open(os.path.join("Data/Final_Data", os.path.basename(file_name)), "w")
 
     for line in lst:
         f.write(line)
     f.close()
 
-# %% Segmentation D_data VIRKER
-path = glob.glob("Data/D_data/Final_D_data/*.txt")
-
-for file_name in path:
-    f = open(file_name, "r", encoding="utf8", errors="ignore")
-    seg_lst = []  # tom liste
-    if f.mode == "r":  # tjek om filen kan læses
-        contents = f.read()  # læs indholdet i filen
-        # print(contents)  #print indholdet - Kan undlades, tjekker om vi er inde i filen
-    for words in file_name:
-        segment = sent_tokenize(contents)  # segmentation funktion
-        seg_lst.append(segment)  # gem segmentation for hver dokument i en liste
-
-print(seg_lst)  # print liste
-
-# %% Segmentation ND_data VIRKER
-path = glob.glob("Data/ND_data/Final_ND_data/*.txt")
+# %% SEGMENTATION 
+# Segmentation Data VIRKER
+path = glob.glob("Data/Final_Data/*.txt")
 
 for file_name in path:
     f = open(file_name, "r", encoding="utf8", errors="ignore")
@@ -112,11 +67,12 @@ for file_name in path:
 print(seg_lst)  # print liste
 
 # %%
+#DET HER SKAL VI VEL HAVE IND ET STED?
 # Det nye regex fra Mikkel: = ([.?!)(?![\s]*[\d])
 
-#%%%
+#%%
 # Loop Tokenization - VIRKER
-path = glob.glob("Data/D_data/Final_D_data/*.txt")
+path = glob.glob("Data/Final_Data/*.txt")
 
 for file_name in path:
     f = open(file_name, "r", encoding="utf8", errors="ignore")
@@ -126,7 +82,7 @@ for file_name in path:
         # print(contents)  #print indholdet - Kan undlades, tjekker om vi er inde i filen
     for words in file_name:
         tokens = nltk.tokenize.word_tokenize(contents)  # tokenization function
-        token_lst.append(tokens)  # gem segmentation for hver dokument i en liste
+        token_lst.append(tokens)  # gem segmentation for hvert dokument i en liste
 
 print(token_lst)  # print liste
 # %%
