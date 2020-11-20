@@ -50,7 +50,25 @@ for file_name in list_of_files:
         f.write(line)
     f.close()
 
+
 # %% SEGMENTATION 
+# Segmentation Data VIRKER
+sent_tokenize = nltk.data.load('tokenizers/punkt/danish.pickle')
+path = glob.glob("Data/Final_Data/*.txt")
+
+for file_name in path:
+    f = open(file_name, "r", encoding="utf8", errors="ignore")
+    seg_lst = []  # tom liste
+    if f.mode == "r":  # tjek om filen kan læses
+        contents = f.read()  # læs indholdet i filen
+        # print(contents)  #print indholdet - Kan undlades, tjekker om vi er inde i filen
+    for words in file_name:
+        segment = sent_tokenize.tokenize(contents)  # segmentation funktion
+        seg_lst.append(segment)  # gem segmentation for hver dokument i en liste
+
+print(seg_lst)  # print liste
+
+# %% SEGMENTATION ORIGINAL
 # Segmentation Data VIRKER
 path = glob.glob("Data/Final_Data/*.txt")
 
