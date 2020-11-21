@@ -1,5 +1,7 @@
-# %% 
+# %%
 # IMPORT PACKAGES
+from nltk.corpus import stopwords
+from spacy.lang.da.stop_words import STOP_WORDS
 import regex
 import logging
 from nltk.tokenize import word_tokenize
@@ -51,10 +53,9 @@ for file_name in list_of_files:
     f.close()
 
 
-# %% SEGMENTATION 
+# %% SEGMENTATION ORIGINAL
 # Segmentation Data VIRKER
-sent_tokenize = nltk.data.load('tokenizers/punkt/danish.pickle')
-path = glob.glob("Data/Final_Data/*.txt")
+path = glob.glob("Data/Final_UTF8_data/*.txt")
 
 for file_name in path:
     f = open(file_name, "r", encoding="utf8", errors="ignore")
@@ -64,33 +65,18 @@ for file_name in path:
         # print(contents)  #print indholdet - Kan undlades, tjekker om vi er inde i filen
     for words in file_name:
         segment = sent_tokenize.tokenize(contents)  # segmentation funktion
-        seg_lst.append(segment)  # gem segmentation for hver dokument i en liste
-
-print(seg_lst)  # print liste
-
-# %% SEGMENTATION ORIGINAL
-# Segmentation Data VIRKER
-path = glob.glob("Data/Final_Data/*.txt")
-
-for file_name in path:
-    f = open(file_name, "r", encoding="utf8", errors="ignore")
-    seg_lst = []  # tom liste
-    if f.mode == "r":  # tjek om filen kan læses
-        contents = f.read()  # læs indholdet i filen
-        # print(contents)  #print indholdet - Kan undlades, tjekker om vi er inde i filen
-    for words in file_name:
-        segment = sent_tokenize(contents)  # segmentation funktion
-        seg_lst.append(segment)  # gem segmentation for hver dokument i en liste
+        # gem segmentation for hver dokument i en liste
+        seg_lst.append(segment)
 
 print(seg_lst)  # print liste
 
 # %%
-#DET HER SKAL VI VEL HAVE IND ET STED?
+# DET HER SKAL VI VEL HAVE IND ET STED?
 # Det nye regex fra Mikkel: = ([.?!)(?![\s]*[\d])
 
-#%%
+# %%
 # Loop Tokenization - VIRKER
-path = glob.glob("Data/Final_Data/*.txt")
+path = glob.glob("Data/Final_UTF8_data/*.txt")
 
 for file_name in path:
     f = open(file_name, "r", encoding="utf8", errors="ignore")
@@ -100,7 +86,8 @@ for file_name in path:
         # print(contents)  #print indholdet - Kan undlades, tjekker om vi er inde i filen
     for words in file_name:
         tokens = nltk.tokenize.word_tokenize(contents)  # tokenization function
-        token_lst.append(tokens)  # gem segmentation for hvert dokument i en liste
+        # gem segmentation for hvert dokument i en liste
+        token_lst.append(tokens)
 
 print(token_lst)  # print liste
 # %%
@@ -111,22 +98,18 @@ print(tokens)
 
 # %%
 # 219 STOP WORDS
-import spacy
-from spacy.lang.da.stop_words import STOP_WORDS
-len (STOP_WORDS)
-print (STOP_WORDS)
+len(STOP_WORDS)
+print(STOP_WORDS)
 
-#%% 
+# %%
 # 94 STOP WORDS
- import nltk
-nltk.download('stopwords') 
+nltk.download('stopwords')
 
-    from nltk.corpus import stopwords
-    words = stopwords.words ('danish')
-    len(words)
+words = stopwords.words('danish')
+len(words)
 print(words)
 # %%
-# TOKEN FREQUENCIES - VIRKER IKKE 
+# TOKEN FREQUENCIES - VIRKER IKKE
 freq = Counter(token_lst)
 freq
 freq.most_common
