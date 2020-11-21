@@ -55,6 +55,7 @@ for file_name in list_of_files:
 
 # %% SEGMENTATION ORIGINAL
 # Segmentation Data VIRKER
+# Filer hentes fra Final_UTF8_data da alle filer skal være uft8
 path = glob.glob("Data/Final_UTF8_data/*.txt")
 
 for file_name in path:
@@ -76,6 +77,7 @@ print(seg_lst)  # print liste
 
 # %%
 # Loop Tokenization - VIRKER
+# Filer hentes fra Final_UTF8_data da alle filer skal være uft8
 path = glob.glob("Data/Final_UTF8_data/*.txt")
 
 for file_name in path:
@@ -90,18 +92,13 @@ for file_name in path:
         token_lst.append(tokens)
 
 print(token_lst)  # print liste
-# %%
-# TOKENIZATION - VIRKER - Kan slettes hvis ovenstående virker hos Rikke
 
-tokens = nltk.tokenize.word_tokenize(txt)
-print(tokens)
-
-# %%
+# %% VIRKER
 # 219 STOP WORDS
 len(STOP_WORDS)
 print(STOP_WORDS)
 
-# %%
+# %% VIRKER
 # 94 STOP WORDS
 nltk.download('stopwords')
 
