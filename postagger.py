@@ -51,7 +51,7 @@ def postagger(text, stanza_pipeline):
 
 # %% VIRKER!!! SKAL RETTES TIL RIGTIGE FOLDER
 # FOR D_DATA
-path = glob.glob("Data/D_Data_For_Postag/*.txt")
+path = glob.glob("Data/Testfolder/Tokenfolder/*.txt")
 i = 0
 for file_name in path:
     f = open(file_name, "r", encoding="utf8", errors="ignore")
@@ -69,10 +69,11 @@ for file_name in path:
         pos_tagged = [postagger(text, s_nlp) for text in out]
         newFile = "D" + str(i)  # kan ændres hvis vi vil have D og ND
         print(newFile)
-        tagged_texts = open(f'Data/D_Tagged_Output/tagged_{newFile}.txt', 'w')
+        tagged_texts = open(
+            f'Data/Testfolder/Tokenfolder/tagged_{newFile}.txt', 'w')
         for tagged in pos_tagged:
             tagged_texts.write(str(tagged))
-
+        tagged_texts.close()
         i += 1
 
 # print(pos_tagged)
@@ -95,7 +96,7 @@ for file_name in path:
         # print(out)
 
         pos_tagged = [postagger(text, s_nlp) for text in out]
-        newFile = "D" + str(i)  # kan ændres hvis vi vil have D og ND
+        newFile = "ND" + str(i)  # kan ændres hvis vi vil have D og ND
         print(newFile)
         tagged_texts = open(f'Data/ND_Tagged_Output/tagged_{newFile}.txt', 'w')
         for tagged in pos_tagged:
@@ -105,8 +106,17 @@ for file_name in path:
 
 # print(pos_tagged)
 
+
+# PRØVER FOR LEMMA
 # %%
-text = "Dette er en tekst"
+
+# %%VIRKER
+d_nlp = stanza.Pipeline(lang='da',
+                        processors='tokenize,pos,lemma',
+                        use_gpu=False)
+
+# %%
+#text = "Dette er en tekst"
 
 
 def lemmatizer(text, stanza_pipeline):
@@ -121,5 +131,32 @@ def lemmatizer(text, stanza_pipeline):
 
 
 # %%
-lemmatizer(text, s_nlp)
+#lemmatizer(text, s_nlp)
 # %%
+# PRØVER STADIG FOR LEMMA
+# %% virker måske
+# FOR ND_DATA
+path = glob.glob("Data/Testfolder/*.txt")
+i = 0
+for file_name in path:
+    f = open(file_name, "r", encoding="utf8", errors="ignore")
+    if f.mode == "r":  # tjek om filen kan læses
+        contents = f.read()  # læs indholdet i filen
+        # print(contents)
+        texts = contents.replace('\n', '').split(' ')
+        texts.sort()
+        out = []
+        for text in texts:
+            if (text != ""):
+                out.append(text)
+        # print(out)
+
+        pos_tagged = [lemmatizer(text, d_nlp) for text in out]
+        newFile = "D" + str(i)  # kan ændres hvis vi vil have D og ND
+        print(newFile)
+        tagged_texts = open(
+            f'Data/Testfolder/Tagged_test/tagged_{newFile}.txt', 'w')
+        for tagged in pos_tagged:
+            tagged_texts.write(str(tagged))
+
+        i += 1
