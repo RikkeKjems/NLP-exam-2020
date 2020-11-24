@@ -65,7 +65,7 @@ for file_name in path:
         contents = f.read()  # læs indholdet i filen
         # print(contents)  #print indholdet - Kan undlades, tjekker om vi er inde i filen
     for words in file_name:
-        segment = sent_tokenize.tokenize(contents)  # segmentation funktion
+        segment = sent_tokenize(contents)  # segmentation funktion
         # gem segmentation for hver dokument i en liste
         seg_lst.append(segment)
 
@@ -91,18 +91,34 @@ for file_name in path:
         # gem segmentation for hvert dokument i en liste
         token_lst.append(tokens)
 
-print(token_lst)  # print liste
+# print(token_lst)  # print liste
 
-# %% VIRKER
+# %% STOPWORDS VIRKER
+import nltk
+from nltk.corpus import stopwords
+
+stop = set(stopwords.words("danish"))
+print(stop)
+
+stop_lst = []
+
+for t in tokens:
+    if t not in stop:
+        stop_lst.append(t)
+
+print(stop_lst)
+
+
+#%%
 # 219 STOP WORDS
 len(STOP_WORDS)
 print(STOP_WORDS)
 
 # %% VIRKER
 # 94 STOP WORDS
-nltk.download('stopwords')
+nltk.download("stopwords")
 
-words = stopwords.words('danish')
+words = stopwords.words("danish")
 len(words)
 print(words)
 # %%
