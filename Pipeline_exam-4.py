@@ -147,6 +147,17 @@ for file_name in path:
 
 # print(token_lst)  # print liste
 
+# %%
+# TOKEN FREQUENCIES - VIRKER
+freq = Counter(without_stop_lst)
+
+tf = freq.most_common
+print(tf)
+# %% FREQ LIST
+
+df = pd.DataFrame(tf, columns=["tf"])
+df
+
 
 #####
 # POSTAGGING
@@ -222,14 +233,4 @@ print(without_stop_lst)
 len(STOP_WORDS)
 print(STOP_WORDS)
 
-# %%
-# TOKEN FREQUENCIES - VIRKER
-freq = Counter(without_stop_lst)
-
-tf = freq.most_common
-print(tf)
-# %% FREQ LIST
-
-df = pd.DataFrame(tf, columns=["tf"])
-df
 """
