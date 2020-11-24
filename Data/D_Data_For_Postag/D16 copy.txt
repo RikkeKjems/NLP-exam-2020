@@ -1,0 +1,70 @@
+I x bundne recessive sygdomme er bærer hyppigheden i befolkningen den samme som sygdoms hyppigheden hos drenge.  
+Derfor er hyppigheden af af hæmofili A 1/5000 og hyppigheden af hlmofili B 1/30000  
+Befolkning tal er 6 millioner  
+6000000/5000 + 6000000/30000 = 1400  
+1400 piger bærer en blødersygdoms allel.  
+ 
+b)  
+1-2 har en syg bror 1-3. Sygdommen er x bunden recessiv, derfor må 1-2 og 1-3 mor være obligat bærer. Der er da 50% for at 1-2 er bærer inden hun får en syg dreng 2-5.  
+ 
+c)  
+1) ag er almindelig acceptor. Når a bliver til g, vil acceptor rykkes mod 5’. På mRNA niveau vil det betyde at der inkluderes noget af et intron så mRNA bliver længere. Det kan resultere i et for tidligt stopcodon, og eventuel nonsense mediated decay af mRNA. 2) På faktor IX proteinet kan en splice site mutation betyde, at der kommer et for tidligt stopcodon, hvilket kan resulterer i nonsense mediated decay. Dette vil betyde at mRNA ikke translateres og faktor IX proteinet derfor ikke dannes.  
+ 
+d)  
+Mængden af F9 mRNA i sønnen er 3% af det almindelige. Dette understøtter antagelsen om en splice site mutation. Da sønnen blot har et x kromosom vil i hans tilfælde betyde at det meste af det mRNA han producerer vil undergå nonsense mediated decay. Moderen er heterozygot med to x kromosomer. Kun det ene af hendes x kromosomer indeholder denne mutation der resulterer i nonsense mediated decay, hvorfor hendes mRNA niveau er 51% af det normale.  
+ 
+E)  
+Der er sket en splice site mutation der ændrer en acceptor. Det kan tænkes at der i 4% af tilfældene sker en splicing på pre-mRNA det sted hvor der oprindeligt var en acceptor. Det vil betyde at der i de tilfælde ikke inkluderes noget intron i det færdige mRNA, hvorfor det bliver normal F9 mRNA.  
+ 
+f)  
+Mutation 1) Der sker en ændring fra CGA til CCA hvilket resulterer i en missense mutation fra arg til pro. Familien har hæmofili B hvilket skyldes nedsat eller tabt funktion af koagulations faktor IX. Jeg vil derfor forvente det er en loss of function mutation Mutation 2) Der sker en ændring fra CGA til TGA hvilket resulterer i en nonsense mutation fra arg til et stop codon. Det kan resultere i nonsense mediated decay. Jeg vil forvente dette er en loss of function mutation.  
+Mutation 3) Der sker en ændring fra CGA til CTA hvilket resulterer i en missense mutation fra arg til leu. Familien har øget koagulations tendens, så jeg vil forvente at der er gain of function.  
+ 
+g)  
+Hovedparten af mutationerne i F9 er nukleotid substitutioner C til T og G til A. I tilfælde 2) hvor der er loss of function er det netop en substitution fra C til T der giver et for tidligt stopcodon. Når denne type mutation er mest hyppig, er det da der blot er en enkelt methyl gruppe til forskel på C og T, hvorfor der ikke skal meget til før der sker en mutation hvor C bliver til T.  
+ 
+H)  
+Der er øget funktion af faktor IX, hvilket produceres af en gen på x kromosomet. Sønnen 2-1 har ikke fragmentet på 562 basepar, hvilket tyder på han har arvet det andet x kromosom der har en mutation der giver øget funktion af faktor IX og ikke kommer med i gelen.  
+2-2 har mutationen  
+1-2 har mutationen.  
+ 
+i)  
+Alle 3 mutationer er punkt mutationer. Fragment størrelserne er derfor afhængige af hvor retriktionsenzymet TaqI vil kløve. Hvis TaqI ville kløve et andet sted i en af de andre mutationer, båndmønstres have været anderledes. Hvis kløvnings stederne ikke havde ændret sig, ville fragmenterne og dermed bånd mønstret været det samme. 
+ 
+2)  
+a)  
+f) multifaktoriel e) pleiotrop  
+ 
+b)  
+Hvis der er høj heritabilitet betyder det at gener har stor indflydelse på om man bliver syg. Der er så at sige høj arvelighed og der er stor chance for at blive syg, hvis ens tvilling er syg. c)  
+I nogle sygdomme skal der færre risiko alleler og miljø påvirkninger til for at henholdsvis drenge eller piger bliver syge. Man siger at tærskelværdien for drenge er lavere. Der er dermed højere risiko ved at nedarve fra moderen, da hun kan have flere risiko alleler uden at være syg, mens faren ofte vil vise fænotype selvom han har færre risiko alleler.  
+ 
+D)  
+Jeg vil forvente at ASF gentagelse risikoen er større hvis det er en pige der er ens første grads slægtning med ASF. Hun har en højere tærskelværdi, så hun må sandsynligvis have flere risiko alleler end hvis ens første-grads slægtning med ASF var en dreng.  
+ 
+E)  
+En copy number variant (CNV) er en sekvens på over 1000 basepar der er repeteret i genomet.  
+ 
+F)  
+STR - short tandem repeat. En sekvens på mellem 1 og 12 basepar der er repeteret I genomet.  
+VNTR - variant number tandem repeats. En sekvens på mellem 13 og 500 basepar der er repeteret I genomet.  
+ 
+SNP - Single nucleotid polymorphism. Et enkelt basepar der er polymorft, dvs varierer i befolkningen. Kan være A, T, C og G. Typisk dog kun 2 alleler.
+ 
+g) 
+Pleiotropi. Samme mutation kan give flere forskellige fænotyper, da genet kan have betydning for mange ting under foster dannelsen. Hvis CNV er sidder i UTR regionen, kan man risikere at deres dannes patogen mRNA. Ud over at miste sin egen funktion, kan det have negativ indvirkning på andre mRNA, hvorfor kunne give mere end 1 sygdom.  
+ 
+h)  
+Xq27.3 q betyder at det er på q armen af kromosomet, dvs den lange arm.  
+27 betyder at der er i bånd 27 der er sket en ekspansion  
+3 betyder at det er på kromosom 3  
+ 
+i)  
+Methylering betyder at genet  tættere. Det vil betyde at der sker mindre transskription af FMR1 genet, hvilket resulterer i mindre gen produkt.  
+ 
+j)  
+Anticipation er når en fænotype opstår tidligere og tidligere for hver generation. Typisk vil sygdomsgraden også være mere svær. Det kan skyldes at der sker en ekspansion i 5’-enden af FMR1 genet for hver generation, så den nye generation har en længere repeteret sekvens end den forrige 
+generation. I andre familier kan der også være en øget ekspansion i repeat sekvenser for hver ny generation.  
+ 
+k)  
+Der vil blive akkumuleret mutationer i stamceller til gameter i faderen jo ældre han bliver. Derfor vil en ældre mand have flere mutationer og risikoen øges for at en ny-mutation bliver videreført i hans børn.
