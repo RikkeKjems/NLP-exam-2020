@@ -96,14 +96,13 @@ for file_name in path:
     # gem segmentation for hvert dokument i en liste
     print(len(tokens))
     for token in tokens:
-        if (token not in stop):
+        if token not in stop:
             token_lst.append(nltk.tokenize.word_tokenize(token))
     print(len(token_lst))
 
     newFile = "D_token" + str(i)  # kan ændres hvis vi vil have D og ND
     print(newFile)
-    token_texts = open(
-        f'Data/Final_UTF8_data/D_Data/D_Tokenfolder/{newFile}.txt', 'w')
+    token_texts = open(f"Data/Final_UTF8_data/D_Data/D_Tokenfolder/{newFile}.txt", "w")
     for token in token_lst:
         token_texts.write(str(token))
         token_texts.write("/")
@@ -111,10 +110,10 @@ for file_name in path:
     i += 1
 
 
-
 # FOR ND DATA
 # %%
 # Loop Tokenization - VIRKER
+# Stopwords removal
 # Filer hentes fra Final_UTF8_data da alle filer skal være uft8
 path = glob.glob("Data/Final_UTF8_data/ND_data/*.txt")
 i = 1
@@ -131,14 +130,15 @@ for file_name in path:
     # gem segmentation for hvert dokument i en liste
     print(len(tokens))
     for token in tokens:
-        if (token not in stop):
+        if token not in stop:
             token_lst.append(nltk.tokenize.word_tokenize(token))
     print(len(token_lst))
 
     newFile = "ND_token" + str(i)  # kan ændres hvis vi vil have D og ND
     print(newFile)
     token_texts = open(
-        f'Data/Final_UTF8_data/ND_Data/ND_Tokenfolder/{newFile}.txt', 'w')
+        f"Data/Final_UTF8_data/ND_Data/ND_Tokenfolder/{newFile}.txt", "w"
+    )
     for token in token_lst:
         token_texts.write(str(token))
         token_texts.write("/")
@@ -146,116 +146,43 @@ for file_name in path:
     i += 1
 
 
-
 # %%
-# TOKEN FREQUENCIES - VIRKER
-freq = Counter(without_stop_lst)
+# ########  VIRKER PÅ TXT FIL DER IKKE ER TOKENIZED
+# Open the file in read mode
+text = open("Data/Final_UTF8_data/ND_Data/ND2_copy.txt", "r")
 
-tf = freq.most_common
-print(tf)
+# Create an empty dictionary
+d = dict()
 
+# Iterate over each word in line
+for word in text:
+    # Check if the word is already in dictionary
+    if word in d:
+        # Increment count of word by 1
+        d[word] = d[word] + 1
+    else:
+        # Add the word to dictionary with count 1
+        d[word] = 1
 
-import collections
-
-c = collections.Counter()
-data = ('Data/Final_UTF8_data/ND_Data/ND_Tokenfolder', 'rt')
-for file in data:
-    f = open(file_name, "r", encoding="utf8", errors="ignore")
-    for line in f:
-        c.update(line.rstrip().lower())
-
-d = {}
-
-for token in f: 
-    d[token] = d.get(token, 0) + 1
-
-word_freq = []
-for key, value in d.items():
-    word_freq.append((value, key))
-
-word_freq.sort(reverse=True) 
-print(word_freq)
-
-
-
-print=('Most common:')
-    for token, count in c.most_common(3):
-        print '%s: %7d' % (token, count)
-
-from collections import Counter
-Counter(word_list).most_common()
-
-
-############################
-data = ('Data/Final_UTF8_data/ND_Data/ND_Tokenfolder', 'rt')
-for file_name in data:
-    f = open(file_name, "r", encoding="utf8", errors="ignore")
-    d = []  # tom liste
-    if f.mode == "r":  # tjek om filen kan læses
-        contents = f.read()  # læs indholdet i filen
-        # print(contents)  #print indholdet - Kan undlades, tjekker om vi er inde i filen
-
-
-
-
-# counting number of times each word comes up in list of words
-for key in f: 
-    d[key] = d.get(key, 0) + 1
-
-sorted(d.items(), key = lambda x: x[1], reverse = True)
+# Print the contents of dictionary
+for key in list(d.keys()):
+    print(key, ":", d[key])
 
 #%%
-import os
-import re
-from os.path import join
-from collections import Counter, OrderedDict
+file = open("Data/Final_UTF8_data/ND_Data/ND_Tokenfolder/ND_token2.txt", "rt")
+data = file.read()
+word = data.split()
 
-directory = ('Data/Final_UTF8_data/ND_Data/ND_Tokenfolder', 'rt')
-def count_words(directory): # don't use the name dir, it's a builtin function
-    """Counts word frequencies in a directory of files.
-
-    Keyword arguments:
-    directory -- count_words will search this directory recursively
-    ext -- the extension of files that you wish to count
-
-    Returns an OrderedDict, from most to least frequent.
-    """
-
-    # Initialize the counter
-    word_counter = Counter()
-
-    # Personally I like to break my code into small, simple functions
-    # This code could be inline in the loop below,
-    # but I think it's a bit clearer this way.
-    def update_counter(word_counter, filename):
-        '''updates word_counter with all the words in open(filename)'''
-        with open(filename, 'r') as f:
-
-    # Using os.walk instead of glob
-            for root, dirs, files in os.walk(".txt", topdown=True):
-                for fname in files:
-                    if fname.endswith(xt):
-                        update_counter(word_counter, join(root, fname))
-            
-
-    # words_counter.most_common() does exactly the sort you are looking for
-        return word_counter.most_common()
-# %% FREQ LIST
-
-df = pd.DataFrame(tf, columns=["tf"])
-df
-
-
+print(len(word))
+#%%%
 #####
 # POSTAGGING
 
 # %%
-stanza.download('da')
+stanza.download("da")
 
 # %%VIRKER
-s_nlp = stanza.Pipeline(lang='da',
-                        processors='tokenize,pos,lemma',
-                        use_gpu=False)
+s_nlp = stanza.Pipeline(lang="da", processors="tokenize,pos,lemma", use_gpu=False)
 
 
 def postagger(text, stanza_pipeline):
@@ -263,9 +190,7 @@ def postagger(text, stanza_pipeline):
     Return lemmas as generator
     """
     doc = stanza_pipeline(text)
-    postag = [(word.lemma, word.upos)
-              for sent in doc.sentences
-              for word in sent.words]
+    postag = [(word.lemma, word.upos) for sent in doc.sentences for word in sent.words]
     return postag
 
 
@@ -277,14 +202,14 @@ for file_name in path:
     f = open(file_name, "r", encoding="utf8", errors="ignore")
     if f.mode == "r":  # tjek om filen kan læses
         contents = f.read()  # læs indholdet i filen
-        texts = contents.split('/')
+        texts = contents.split("/")
         texts.sort()
         out = []
         for text in texts:
             new = text.replace("[", "")
             new = new.replace("]", "")
             new = new.replace("'", "")
-            if (new != ""):
+            if new != "":
                 out.append(new)
         print(out)
 
@@ -292,32 +217,9 @@ for file_name in path:
         newFile = "D" + str(i)  # kan ændres hvis vi vil have D og ND
         print(newFile)
         tagged_texts = open(
-            f'Data/Testfolder/Tokenfolder/tagged/tagged_{newFile}.txt', 'w')
+            f"Data/Testfolder/Tokenfolder/tagged/tagged_{newFile}.txt", "w"
+        )
         for tagged in pos_tagged:
             tagged_texts.write(str(tagged))
         tagged_texts.close()
         i += 1
-
-"""
-# %% STOPWORDS VIRKER
-
-nltk.download("stopwords")
-
-stop = set(stopwords.words("danish"))
-print(stop)
-
-without_stop_lst = []
-
-for t in tokens:
-    if t not in stop:
-        without_stop_lst.append(t)
-
-print(without_stop_lst)
-
-
-# %% STOP WORDS FRA SPACY ER DE BEDRE?
-# 219 STOP WORDS
-len(STOP_WORDS)
-print(STOP_WORDS)
-
-"""
