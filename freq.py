@@ -149,7 +149,7 @@ with open("Data/Final_UTF8_data/ND_data/ND_Tokenfolder/ND_token6.txt", "r") as f
 
 # FREQ OF POSTAG
 
-# %%
+# %% DET HER VIRKER, MEN TÆLLER PUNCTUATION MED. DET SKAL FIKSES
 file = open("Data/Final_UTF8_data/D_postagged/tagged_D11.txt", "rt")
 data = file.read()
 words = data.split()
