@@ -1,4 +1,4 @@
 {
-    "python.pythonPath": "/Users/rikkekjems/opt/anaconda3/envs/nlp/bin/python",
+    "python.pythonPath": "/opt/anaconda3/envs/nlp/bin/python",
     "jupyter.textOutputLimit": 0
 }

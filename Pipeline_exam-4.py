@@ -96,25 +96,24 @@ for file_name in path:
     # gem segmentation for hvert dokument i en liste
     print(len(tokens))
     for token in tokens:
-        if (token not in stop):
+        if token not in stop:
             token_lst.append(nltk.tokenize.word_tokenize(token))
     print(len(token_lst))
 
     newFile = "D_token" + str(i)  # kan ændres hvis vi vil have D og ND
     print(newFile)
-    token_texts = open(
-        f'Data/Final_UTF8_data/D_Data/D_Tokenfolder/{newFile}.txt', 'w')
+    token_texts = open(f"Data/Final_UTF8_data/D_Data/D_Tokenfolder/{newFile}.txt", "w")
     for token in token_lst:
         token_texts.write(str(token))
         token_texts.write("/")
     token_texts.close()
     i += 1
 
-# print(token_lst)  # print liste
 
 # FOR ND DATA
 # %%
 # Loop Tokenization - VIRKER
+# Stopwords removal
 # Filer hentes fra Final_UTF8_data da alle filer skal være uft8
 path = glob.glob("Data/Final_UTF8_data/ND_data/*.txt")
 i = 1
@@ -131,44 +130,59 @@ for file_name in path:
     # gem segmentation for hvert dokument i en liste
     print(len(tokens))
     for token in tokens:
-        if (token not in stop):
+        if token not in stop:
             token_lst.append(nltk.tokenize.word_tokenize(token))
     print(len(token_lst))
 
     newFile = "ND_token" + str(i)  # kan ændres hvis vi vil have D og ND
     print(newFile)
     token_texts = open(
-        f'Data/Final_UTF8_data/ND_Data/ND_Tokenfolder/{newFile}.txt', 'w')
+        f"Data/Final_UTF8_data/ND_Data/ND_Tokenfolder/{newFile}.txt", "w"
+    )
     for token in token_lst:
         token_texts.write(str(token))
         token_texts.write("/")
     token_texts.close()
     i += 1
 
-# print(token_lst)  # print liste
 
 # %%
-# TOKEN FREQUENCIES - VIRKER
-freq = Counter(without_stop_lst)
+# ########  VIRKER PÅ TXT FIL DER IKKE ER TOKENIZED
+# Open the file in read mode
+text = open("Data/Final_UTF8_data/ND_Data/ND2_copy.txt", "r")
 
-tf = freq.most_common
-print(tf)
-# %% FREQ LIST
+# Create an empty dictionary
+d = dict()
 
-df = pd.DataFrame(tf, columns=["tf"])
-df
+# Iterate over each word in line
+for word in text:
+    # Check if the word is already in dictionary
+    if word in d:
+        # Increment count of word by 1
+        d[word] = d[word] + 1
+    else:
+        # Add the word to dictionary with count 1
+        d[word] = 1
 
+# Print the contents of dictionary
+for key in list(d.keys()):
+    print(key, ":", d[key])
 
+#%%
+file = open("Data/Final_UTF8_data/ND_Data/ND_Tokenfolder/ND_token2.txt", "rt")
+data = file.read()
+word = data.split()
+
+print(len(word))
+#%%%
 #####
 # POSTAGGING
 
 # %%
-stanza.download('da')
+stanza.download("da")
 
 # %%VIRKER
-s_nlp = stanza.Pipeline(lang='da',
-                        processors='tokenize,pos,lemma',
-                        use_gpu=False)
+s_nlp = stanza.Pipeline(lang="da", processors="tokenize,pos,lemma", use_gpu=False)
 
 
 def postagger(text, stanza_pipeline):
@@ -176,9 +190,7 @@ def postagger(text, stanza_pipeline):
     Return lemmas as generator
     """
     doc = stanza_pipeline(text)
-    postag = [(word.lemma, word.upos)
-              for sent in doc.sentences
-              for word in sent.words]
+    postag = [(word.lemma, word.upos) for sent in doc.sentences for word in sent.words]
     return postag
 
 
@@ -190,14 +202,14 @@ for file_name in path:
     f = open(file_name, "r", encoding="utf8", errors="ignore")
     if f.mode == "r":  # tjek om filen kan læses
         contents = f.read()  # læs indholdet i filen
-        texts = contents.split('/')
+        texts = contents.split("/")
         texts.sort()
         out = []
         for text in texts:
             new = text.replace("[", "")
             new = new.replace("]", "")
             new = new.replace("'", "")
-            if (new != ""):
+            if new != "":
                 out.append(new)
         print(out)
 
@@ -205,32 +217,9 @@ for file_name in path:
         newFile = "D" + str(i)  # kan ændres hvis vi vil have D og ND
         print(newFile)
         tagged_texts = open(
-            f'Data/Testfolder/Tokenfolder/tagged/tagged_{newFile}.txt', 'w')
+            f"Data/Testfolder/Tokenfolder/tagged/tagged_{newFile}.txt", "w"
+        )
         for tagged in pos_tagged:
             tagged_texts.write(str(tagged))
         tagged_texts.close()
         i += 1
-
-"""
-# %% STOPWORDS VIRKER
-
-nltk.download("stopwords")
-
-stop = set(stopwords.words("danish"))
-print(stop)
-
-without_stop_lst = []
-
-for t in tokens:
-    if t not in stop:
-        without_stop_lst.append(t)
-
-print(without_stop_lst)
-
-
-# %% STOP WORDS FRA SPACY ER DE BEDRE?
-# 219 STOP WORDS
-len(STOP_WORDS)
-print(STOP_WORDS)
-
-"""
