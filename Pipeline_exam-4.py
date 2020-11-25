@@ -71,7 +71,7 @@ for file_name in path:
         # gem segmentation for hvert dokument i en liste
         seg_lst.append(segment)
 
-print(seg_lst)  # print liste
+print(seg_lst)  # print liste, kan kommenteres ud
 
 # %%
 # DET HER SKAL VI VEL HAVE IND ET STED?
@@ -150,6 +150,7 @@ for file_name in path:
 # ########  VIRKER PÅ TXT FIL DER IKKE ER TOKENIZED
 # Open the file in read mode
 text = open("Data/Final_UTF8_data/ND_Data/ND2_copy.txt", "r")
+print(text)
 
 # Create an empty dictionary
 d = dict()
@@ -163,6 +164,7 @@ for word in text:
     else:
         # Add the word to dictionary with count 1
         d[word] = 1
+
 
 # Print the contents of dictionary
 for key in list(d.keys()):

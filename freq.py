@@ -146,6 +146,31 @@ with open("Data/Final_UTF8_data/ND_data/ND_Tokenfolder/ND_token6.txt", "r") as f
 
     print(f"Unique words: {len(uniques)}")
 
+#%%
+###    WORD FREQ - Pernille arbejder her
+
+## VIRKER
+file = open("Data/Final_UTF8_data/D_Data/D5 copy.txt", "rt")
+data = file.read()
+words = data.split()
+number_words = len(words)
+print("Total number of words:", number_words)
+print(words)
+
+freqs = {}
+for word in words:
+    if word not in freqs:
+        freqs[word] = 1
+    else:
+        freqs[word] += 1
+file.close()
+print(freqs)
+
+### CREATE DF WITH WORDS AND FREQ - VIRKER
+d = freqs
+df = pd.DataFrame(data=d, index=freqs)
+df
+
 
 # FREQ OF POSTAG
 
@@ -154,23 +179,27 @@ file = open("Data/Final_UTF8_data/D_postagged/tagged_D11.txt", "rt")
 data = file.read()
 words = data.split()
 number_words = len(words)
-print('Total number of words:', n_words)
+print("Total number of words:", number_words)
 
 Noun_occurrences = data.count("NOUN")
-Noun_percentage = Noun_occurrences/number_words*100
+Noun_percentage = Noun_occurrences / number_words * 100
 
-print('Number of nouns :', Noun_occurrences)
-print('Percentage of nouns:', Noun_percentage)
+print("Number of nouns :", Noun_occurrences)
+print("Percentage of nouns:", Noun_percentage)
 
 Verb_occurrences = data.count("VERB")
-Verb_percentage = Verb_occurrences/number_words*100
+Verb_percentage = Verb_occurrences / number_words * 100
 
-print('Number of verbs :', Noun_occurrences)
-print('Percentage of verbs:', Verb_percentage)
+print("Number of verbs :", Noun_occurrences)
+print("Percentage of verbs:", Verb_percentage)
 
 Adj_occurrences = data.count("ADJ")
-Adj_percentage = Adj_occurrences/number_words*100
-print('Number of adj :', Adj_occurrences)
-print('Percentage of adj:', Adj_percentage)
+Adj_percentage = Adj_occurrences / number_words * 100
+print("Number of adj :", Adj_occurrences)
+print("Percentage of adj:", Adj_percentage)
 
 # %%
+### DF POS TAG - VIRKER
+d = [Noun_occurrences, Verb_occurrences, Adj_occurrences]
+df = pd.DataFrame(data=d)
+df
