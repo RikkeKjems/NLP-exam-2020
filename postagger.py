@@ -209,14 +209,16 @@ for file_name in path:
             new = new.replace("'", "")
             if (new != ""):
                 out.append(new)
-        print(out)
+        # print(out)
 
         pos_tagged = [postagger(text, s_nlp) for text in out]
         newFile = "D" + str(i)  # kan ændres hvis vi vil have D og ND
         print(newFile)
         tagged_texts = open(
-            f'Data/Testfolder/Tokenfolder/tagged/tagged_{newFile}.txt', 'w')
+            f'Data/Final_UTF8_data/D_postagged/tagged_{newFile}.txt', 'w')
         for tagged in pos_tagged:
             tagged_texts.write(str(tagged))
         tagged_texts.close()
         i += 1
+
+# %%
