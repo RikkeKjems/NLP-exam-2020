@@ -222,3 +222,30 @@ for file_name in path:
         i += 1
 
 # %%
+path = glob.glob("Data/Final_UTF8_data/ND_data/ND_Tokenfolder/*.txt")
+i = 0
+for file_name in path:
+    f = open(file_name, "r", encoding="utf8", errors="ignore")
+    if f.mode == "r":  # tjek om filen kan læses
+        contents = f.read()  # læs indholdet i filen
+        texts = contents.split('/')
+        texts.sort()
+        out = []
+        for text in texts:
+            new = text.replace("[", "")
+            new = new.replace("]", "")
+            new = new.replace("'", "")
+            if (new != ""):
+                out.append(new)
+        # print(out)
+
+        pos_tagged = [postagger(text, s_nlp) for text in out]
+        newFile = "ND" + str(i)  # kan ændres hvis vi vil have D og ND
+        print(newFile)
+        tagged_texts = open(
+            f'Data/Final_UTF8_data/ND_postagged/tagged_{newFile}.txt', 'w')
+        for tagged in pos_tagged:
+            tagged_texts.write(str(tagged))
+        tagged_texts.close()
+        i += 1
+# %%
