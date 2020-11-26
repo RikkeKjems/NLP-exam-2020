@@ -155,7 +155,7 @@ data = file.read()
 words = data.split()
 number_words = len(words)
 print("Total number of words:", number_words)
-print(words)
+# print(words)
 
 freqs = {}
 for word in words:
@@ -168,7 +168,7 @@ print(freqs)
 
 ### CREATE DF WITH WORDS AND FREQ - VIRKER
 d = freqs
-df = pd.DataFrame(data=d, index=freqs)
+df = pd.DataFrame(data=d)
 df
 
 
@@ -203,3 +203,36 @@ print("Percentage of adj:", Adj_percentage)
 d = [Noun_occurrences, Verb_occurrences, Adj_occurrences]
 df = pd.DataFrame(data=d)
 df
+
+#%%
+### FRA PIPELINE 4
+# %%
+# ########  VIRKER PÅ TXT FIL DER IKKE ER TOKENIZED
+# Open the file in read mode
+text = open("Data/Final_UTF8_data/ND_Data/ND2_copy.txt", "r")
+print(text)
+
+# Create an empty dictionary
+d = dict()
+
+# Iterate over each word in line
+for word in text:
+    # Check if the word is already in dictionary
+    if word in d:
+        # Increment count of word by 1
+        d[word] = d[word] + 1
+    else:
+        # Add the word to dictionary with count 1
+        d[word] = 1
+
+
+# Print the contents of dictionary
+for key in list(d.keys()):
+    print(key, ":", d[key])
+
+#%%
+file = open("Data/Final_UTF8_data/ND_Data/ND_Tokenfolder/ND_token2.txt", "rt")
+data = file.read()
+word = data.split()
+
+print(len(word))
