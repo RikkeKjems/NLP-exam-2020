@@ -71,7 +71,6 @@ for i in lines:
     if i not in words:
         words.append(i)
 print(words)
-count
 
 uniques = set()
 for line in lines:
@@ -174,8 +173,8 @@ df
 
 # FREQ OF POSTAG
 
-# %% DET HER VIRKER, MEN TÆLLER PUNCTUATION MED. DET SKAL FIKSES
-file = open("Data/Final_UTF8_data/D_postagged/tagged_D11.txt", "rt")
+# %% DET HER VIRKER, MEN TÆLLER NUMERIC & PUNCTUATION MED. DET SKAL FIKSES
+file = open("Data/Final_UTF8_data/New_D_postagged/tagged_D3.txt", "rt")
 data = file.read()
 words = data.split()
 number_words = len(words)
@@ -183,14 +182,12 @@ print("Total number of words:", number_words)
 
 Noun_occurrences = data.count("NOUN")
 Noun_percentage = Noun_occurrences / number_words * 100
-
 print("Number of nouns :", Noun_occurrences)
 print("Percentage of nouns:", Noun_percentage)
 
 Verb_occurrences = data.count("VERB")
 Verb_percentage = Verb_occurrences / number_words * 100
-
-print("Number of verbs :", Noun_occurrences)
+print("Number of verbs :", Verb_occurrences)
 print("Percentage of verbs:", Verb_percentage)
 
 Adj_occurrences = data.count("ADJ")
@@ -198,9 +195,49 @@ Adj_percentage = Adj_occurrences / number_words * 100
 print("Number of adj :", Adj_occurrences)
 print("Percentage of adj:", Adj_percentage)
 
+Pron_occurrences = data.count("PRON")
+Pron_percentage = Pron_occurrences / number_words * 100
+print("Number of pron :", Pron_occurrences)
+print("Percentage of pron:", Pron_percentage)
+
+Adv_occurrences = data.count("ADV")
+Adv_percentage = Adv_occurrences / number_words * 100
+print("Number of adv :", Adv_occurrences)
+print("Percentage of adv:", Adv_percentage)
+
+Propn_occurrences = data.count("PROPN")
+Propn_percentage = Propn_occurrences / number_words * 100
+print("Number of propn :", Propn_occurrences)
+print("Percentage of propn:", Propn_percentage)
+
+usefull_tokens = (Noun_occurrences+Verb_occurrences+Adj_occurrences+Pron_occurrences+Adv_occurrences+Propn_occurrences)
+print(usefull_tokens)
+
+tokens_we_need = (number_words-usefull_tokens)
+print(tokens_we_need)
+
+####
+#%%
+# Overstående komprimeret:
+file = open("Data/Final_UTF8_data/New_D_postagged/tagged_D3.txt", "rt")
+data = file.read()
+words = data.split()
+number_words = len(words)
+
+Noun_occurrences = data.count("NOUN")
+Verb_occurrences = data.count("VERB")
+Adj_occurrences = data.count("ADJ")
+Pron_occurrences = data.count("PRON")
+Adv_occurrences = data.count("Adv")
+Probn_occurrences = data.count("PROPN")
+
+usefull_tokens = (Noun_occurrences+Verb_occurrences+Adj_occurrences+Pron_occurrences+Adv_occurrences+Propn_occurrences)
+tokens_we_need = (number_words-usefull_tokens)
+print(tokens_we_need)
+
 # %%
 ### DF POS TAG - VIRKER
-d = [Noun_occurrences, Verb_occurrences, Adj_occurrences]
+d = [Noun_occurrences, Verb_occurrences, Adj_occurrences, Adv_occurences, Propn_occurrences]
 df = pd.DataFrame(data=d)
 df
 
@@ -236,3 +273,103 @@ data = file.read()
 word = data.split()
 
 print(len(word))
+
+#%%
+
+path = glob.glob("Data/Final_UTF8_data/New_D_postagged/*.txt")
+
+
+file = open("Data/Final_UTF8_data/New_D_postagged/*.txt", "rt")
+data = file.read()
+words = data.split()
+number_words = len(words)
+
+Noun_occurrences = data.count("NOUN")
+Verb_occurrences = data.count("VERB")
+Adj_occurrences = data.count("ADJ")
+Pron_occurrences = data.count("PRON")
+Adv_occurrences = data.count("Adv")
+Propn_occurrences = data.count("PROPN")
+
+usefull_tokens = (Noun_occurrences+Verb_occurrences+Adj_occurrences+Pron_occurrences+Adv_occurrences+Propn_occurrences)
+tokens_we_dont_need = (number_words-usefull_tokens)
+
+print("tokens we need:", usefull_tokens)
+print("tokens we don't need:" ,tokens_we_dont_need)
+
+
+#%%
+
+Noun_occurrences = data.count("NOUN")
+Verb_occurrences = data.count("VERB")
+Adj_occurrences = data.count("ADJ")
+Pron_occurrences = data.count("PRON")
+Adv_occurrences = data.count("Adv")
+Propn_occurrences = data.count("PROPN")
+
+#print("total number of words:", number_words)
+usefull_tokens = (Noun_occurrences+Verb_occurrences+Adj_occurrences+Pron_occurrences+Adv_occurrences+Propn_occurrences)
+#print("tokens we need:", usefull_tokens)
+tokens_we_dont_need = (number_words-usefull_tokens)
+#print("tokens we don't need:" ,tokens_we_dont_need)
+#%%
+path = glob.glob("Data/Final_UTF8_data/New_D_postagged/*.txt")
+
+data = file.read()
+words = data.split()
+number_words = len(words)
+
+f = open(file_name, "r", encoding="utf8", errors="ignore")
+token_lst = []  # tom liste
+if f.mode == "r":  # tjek om filen kan læses
+    contents = f.read()  # læs indholdet i filen
+
+    for filename in path:
+        print(filename)       
+        print("total number of words:", number_words)
+        print("tokens we need:", usefull_tokens)
+        print("tokens we don't need:" , tokens_we_dont_need)
+    
+#%%
+
+Noun_occurrences = data.count("NOUN")
+Verb_occurrences = data.count("VERB")
+Adj_occurrences = data.count("ADJ")
+Pron_occurrences = data.count("PRON")
+Adv_occurrences = data.count("Adv")
+Propn_occurrences = data.count("PROPN")
+
+#print("total number of words:", number_words)
+usefull_tokens = (Noun_occurrences+Verb_occurrences+Adj_occurrences+Pron_occurrences+Adv_occurrences+Propn_occurrences)
+#print("tokens we need:", usefull_tokens)
+tokens_we_dont_need = (number_words-usefull_tokens)
+#print("tokens we don't need:" ,tokens_we_dont_need)
+
+# %%
+dico = {}
+for i in range(1 ,31): # just to init the dict and avoid checking if index exist...
+    dico[i] = 0
+
+with open("Data/Final_UTF8_data/New_D_postagged/tagged_D2.txt", encoding="utf-8") as f: # better to use in that way
+    line = f.read()
+    for word in line.split(" "):
+        dico[len(word)] += 1   
+
+print(dico)
+# %%
+import collections
+
+
+def main():
+    counts = collections.defaultdict(int)
+    with open('Data/Final_UTF8_data/New_D_postagged/tagged_D1.txt', 'rt', encoding='utf-8') as file:
+        for word in file.read().split():
+            counts[len(word)] += 1
+    print('length | How often a word of this length occurs')
+    for i in sorted(counts.keys()):
+        print('%-6d | %d' % (i, counts[i]))
+
+
+if __name__ == '__main__':
+    main()
+# %%

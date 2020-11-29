@@ -79,7 +79,7 @@ for file_name in path:
 # DET HER SKAL VI VEL HAVE IND ET STED?
 # Det nye regex fra Mikkel: = ([.?!)(?![\s]*[\d])
 """
-
+"""
 # RIKKE ARBEJDER HER
 # NEW TOKENIZATION FUNCTION
 # %%
@@ -132,17 +132,16 @@ s_nlp = stanza.Pipeline(lang='da',
 
 def postagger(text, stanza_pipeline):
     """
-    Return lemmas as generator
-    """
+Return lemmas as generator
+"""
     doc = stanza_pipeline(text)
     postag = [(word.lemma, word.upos)
               for sent in doc.sentences
               for word in sent.words]
     return postag
 
-
-# %%
-path = glob.glob("Data/Final_UTF8_data/D_data/D_Tokenfolder/*.txt")
+# %% VIRKER 
+path = glob.glob("Data/Final_UTF8_data/ND_data/ND_Tokenfolder/*.txt")
 i = 0
 for file_name in path:
     f = open(file_name, "r", encoding="utf8", errors="ignore")
@@ -160,28 +159,30 @@ for file_name in path:
         # print(out)
 
         pos_tagged = [postagger(text, s_nlp) for text in out]
-        newFile = "D" + str(i)  # kan ændres hvis vi vil have D og ND
+        newFile = "ND" + str(i)  # kan ændres hvis vi vil have D og ND
         print(newFile)
         tagged_texts = open(
-            f'Data/Final_UTF8_data/New_D_postagged/tagged_{newFile}.txt', 'w')
+            f'Data/Final_UTF8_data/New_ND_postagged/tagged_{newFile}.txt', 'w')
         for tagged in pos_tagged:
             tagged_texts.write(str(tagged))
         tagged_texts.close()
         i += 1
-
+"""
 
 # %%
 # WORD FREQ - Pernille arbejder her
 # Den her kører på det der ikke er tokenized eller fjernet stopwords på
 
 # VIRKER
-file = open("Data/Final_UTF8_data/D_Data/D5 copy.txt", "rt")
+#file = open("Data/D_Tagged_Output/tagged_D3.txt", "rt")
+file = open("Data/Final_UTF8_data/New_D_postagged/tagged_D3.txt", "rt")
 data = file.read()
 words = data.split()
 number_words = len(words)
 print("Total number of words:", number_words)
 # print(words)
 
+# RIKKE FORSTÅR KAN IKKE LIGE TYDE HVAD DET HER LOOP GØR
 freqs = {}
 for word in words:
     if word not in freqs:
@@ -190,6 +191,42 @@ for word in words:
         freqs[word] += 1
 file.close()
 print(freqs)
+
+########
+# Rikke leger her
+# %% VIRKER
+# DET HER VIRKER OG FINDER TOTAL NUMBER OF WORDS VI HAR BRUG FOR OG ORDKLASSE FOR HVER FIL
+
+for fileName in glob.iglob(r'Data/Final_UTF8_data/New_ND_postagged/*.txt'):
+    data = open(fileName, "r").read()
+    words = data.split()
+    number_words = len(words)
+    Noun_occurrences = data.count("NOUN")
+    Verb_occurrences = data.count("VERB")
+    Adj_occurrences = data.count("ADJ")
+    Pron_occurrences = data.count("PRON")
+    Adv_occurrences = data.count("ADV")
+    Propn_occurrences = data.count("PROPN")
+    usefull_tokens = (Noun_occurrences+Verb_occurrences+Adj_occurrences +
+                      Pron_occurrences+Adv_occurrences+Propn_occurrences)
+    tokens_we_dont_need = (number_words-usefull_tokens)
+    Noun_percentage = Noun_occurrences / usefull_tokens * 100
+    Verb_percentage = Verb_occurrences / usefull_tokens * 100
+    Adj_percentage = Adj_occurrences / usefull_tokens * 100
+    Pron_percentage = Pron_occurrences / usefull_tokens * 100
+    Adv_percentage = Adv_occurrences / usefull_tokens * 100
+    Propn_percentage = Propn_occurrences / usefull_tokens * 100
+    print(fileName, "\n",
+          "total amount of words:", number_words, "\n",
+          "Usefull tokens:", usefull_tokens, "\n",
+          "tokens we don't need:", tokens_we_dont_need, "\n",
+          "Noun %:", Noun_percentage, "\n",
+          "Verb %:",  Verb_percentage, "\n",
+          "Adj %:", Adj_percentage, "\n",
+          "Pron %:", Pron_percentage, "\n",
+          "Adv %:", Adv_percentage, "\n",
+          "Propn %:", Propn_percentage)
+
 
 # %%
 # CREATE DF WITH WORDS AND FREQ - VIRKER
