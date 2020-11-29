@@ -25,6 +25,7 @@ import lemmy.pipe
 import morfessor
 from polyglot.text import Text
 
+# %%%
 """ # ALT DET HER SKAL VI IKKE KØRE MERE. DET ER KØRT OG DER ER DANNET FILER
 # %% CLEANING
 # HENTER AL DATA IND --> CLEANER MED REGEX --> GEMMER I NY MAPPE "Final_Data"
@@ -197,7 +198,7 @@ print(freqs)
 # %% VIRKER
 # DET HER VIRKER OG FINDER TOTAL NUMBER OF WORDS VI HAR BRUG FOR OG ORDKLASSE FOR HVER FIL
 
-for fileName in glob.iglob(r'Data/Final_UTF8_data/New_ND_postagged/*.txt'):
+for fileName in glob.iglob(r'Data/All_Tagged_Data/*.txt'):
     data = open(fileName, "r").read()
     words = data.split()
     number_words = len(words)
