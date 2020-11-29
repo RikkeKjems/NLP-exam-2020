@@ -4,7 +4,7 @@ from string import digits
 from os import path
 from pandas import DataFrame
 from nltk.corpus import stopwords
-from spacy.lang.da.stop_words import STOP_WORDS
+#from spacy.lang.da.stop_words import STOP_WORDS
 import regex
 import logging
 from nltk.tokenize import word_tokenize
@@ -13,17 +13,19 @@ import re
 from collections import Counter
 from functools import reduce
 from operator import add
-import spacy
+#import spacy
 import nltk
-import lemmy
+#import lemmy
 import stanza
 import pandas as pd
 import sys
 import glob
 import os.path
-import lemmy.pipe
+#import lemmy.pipe
 import morfessor
 from polyglot.text import Text
+
+#%%
 
 """ # ALT DET HER SKAL VI IKKE KØRE MERE. DET ER KØRT OG DER ER DANNET FILER
 # %% CLEANING
@@ -171,6 +173,7 @@ for file_name in path:
 
 # %%
 # WORD FREQ - Pernille arbejder her
+<<<<<<< HEAD
 # Den her kører på det der ikke er tokenized eller fjernet stopwords på
 
 # VIRKER
@@ -229,13 +232,10 @@ for fileName in glob.iglob(r'Data/Final_UTF8_data/New_ND_postagged/*.txt'):
 
 
 # %%
+=======
+>>>>>>> 02dd369449e252ff527d6b6fcbea2b45f36e29e9
 # CREATE DF WITH WORDS AND FREQ - VIRKER
-d = freqs
-df = pd.DataFrame(data=d)
-df
-
-# %%
-# FORSØG PÅ LOOP - VIRKER også på tokenfolder
+# LOOP - VIRKER også på tokenfolder
 path = glob.glob("Data/Final_UTF8_data/ND_data/ND_Tokenfolder/*.txt")
 # stop = set(stopwords.words("danish"))
 
@@ -247,22 +247,24 @@ for file_name in path:
         contents = f.read()
     words = contents.split(sep="/")
     number_words = len(words)
-    names = file_name  # use to construt df
-    wrd_nmb = number_words  # use to construt df
 
 # loop som sammensætter ord med tilhørende freq
-freqs = {}
-for word in words:
-    if word not in freqs:
-        freqs[word] = 1
-    else:
-        freqs[word] += 1
-file.close()
+    freqs = {}
+    for word in words:
+        if word not in freqs:
+            freqs[word] = 1
+        else:
+            freqs[word] += 1
+             keys = freqs.keys()
+             values = freqs.values()
+        
 
-print(
-    names, wrd_nmb, freqs
-)  # printer liste med filnavn, antal ord i fil, ord og dertilhørende freq
-# den første del er underlig, men ellers virker den faktisk
+    f.close()
+
+#print(file_name, number_words, freqs)
+
+
+ # printer liste med filnavn, antal ord i fil, ord og dertilhørende freq
 # Tjek om den lopper gennem alle filer i Tokenfolder
 
 
@@ -270,18 +272,20 @@ print(
 
 # opdel freqs så ord og freq ikke hænger sammen
 # printing iniial_dictionary
-print("intial_dictionary", str(freqs))
+#print("intial_dictionary", str(freqs))
 
 # split dictionary into keys and values
+
 keys = freqs.keys()
 values = freqs.values()
 
+
 # printing keys and values separately
-print("keys : ", str(keys))  # keys = ord
-print("values : ", str(values))  # values = frequency
+#print("keys : ", str(keys))  # keys = ord
+#print("values : ", str(values))  # values = frequency
 
 # DF  MED ORD + FREQ
-df3 = pd.DataFrame(values, index=keys)
+df3 = pd.DataFrame(values, index=keys, columns=['file_name'])
 df3
 
 # %%
@@ -290,9 +294,9 @@ df3
 # extract values=frequency = 1.
 uniques = []  # tom liste
 un = input("1")  # unique number = 1
-for keys, values in freqs:  # for ord og frequency i dict freqs
-    if values == un:  # hvis frequency er = 1
-        print(keys)  # print det ord som har frequency på 1
+for values in freqs:  # for ord og frequency i dict freqs
+    if values is 1:  # hvis frequency er = 1
+        print(values)  # print det ord som har frequency på 1
 
 # kan bruges senere, kommenerede for at VS code ikke bruger det.
 # uniques.append(keys) #append til liste
@@ -300,35 +304,45 @@ for keys, values in freqs:  # for ord og frequency i dict freqs
 
 
 # %%
-
-print(keys)
 # WORD LENGTH - VIRKER IKKE
 
 
-def string_k(k, str):
+def string_k(k, keys):
 
     # create the empty string
     string = []
 
-    # split the string where space is comes
-    text = str.split(" ")
-
     # iterate the loop till every substring
-    for x in text:
+    for keys in freqs:
 
         # if length of current sub string
         # is greater than k then
-        if len(x) < k:
+        if len(keys) < k:
 
             # append this sub string in
             # string list
-            string.append(x)
+            string.append(keys)
 
     # return string list
     return string
 
 
-# BRUG OVENSTÅENDEN
+# BRUG OVENSTÅENDENE
 k = 8
-str = keys
-print(string_k(k, str))
+print(string_k(k, keys))
+
+
+df_length = pd.DataFrame(keys)
+df_length
+
+# %%
+word_len=[]
+for keys in freqs:
+    keys.split(sep=",")
+    if len(keys) > 6:
+        #print(keys)
+        word_len.append(keys)
+         #word_len.sort()
+    print(word_len)
+
+# %%
