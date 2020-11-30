@@ -1,5 +1,6 @@
 # %%
 # IMPORT PACKAGES
+import numpy as np
 from string import digits
 from os import path
 from pandas import DataFrame
@@ -228,7 +229,50 @@ for fileName in glob.iglob(r'Data/All_Tagged_Data/*.txt'):
           "Adv %:", Adv_percentage, "\n",
           "Propn %:", Propn_percentage)
 
+##########
+# TRYING TO CREATE A DATAFRAME
+# %%
+path = glob.glob('Data/All_Tagged_Data/*.txt')
+ids = []
 
+cols = ['no_words', 'no_useful_tokens', 'no_useless_tokens',
+        'noun %', 'verb %', 'adj %', 'pron %', 'adv %', 'prop %']
+
+records = np.array()
+
+for fileName in path:
+    data = open(fileName, "r").read()
+    words = data.split()
+    number_words = len(words)
+    Noun_occurrences = data.count("NOUN")
+    Verb_occurrences = data.count("VERB")
+    Adj_occurrences = data.count("ADJ")
+    Pron_occurrences = data.count("PRON")
+    Adv_occurrences = data.count("ADV")
+    Propn_occurrences = data.count("PROPN")
+    usefull_tokens = (Noun_occurrences+Verb_occurrences+Adj_occurrences +
+                      Pron_occurrences+Adv_occurrences+Propn_occurrences)
+    tokens_we_dont_need = (number_words-usefull_tokens)
+    Noun_percentage = Noun_occurrences / usefull_tokens * 100
+    Verb_percentage = Verb_occurrences / usefull_tokens * 100
+    Adj_percentage = Adj_occurrences / usefull_tokens * 100
+    Pron_percentage = Pron_occurrences / usefull_tokens * 100
+    Adv_percentage = Adv_occurrences / usefull_tokens * 100
+    Propn_percentage = Propn_occurrences / usefull_tokens * 100
+    # work out the stuff as you do, and instead of printing
+    ids.append(fileName)
+    record = [number_words, usefull_tokens, tokens_we_dont_need,
+              Noun_percentage, Verb_percentage, Adj_percentage, Pron_percentage,
+              Adv_percentage, Propn_percentage]
+
+    records = np.append(records, [record])
+
+df = pd.DataFrame(data=records, index=ids, columns=cols)
+
+# %%
+
+
+##########
 # %%
 # CREATE DF WITH WORDS AND FREQ - VIRKER
 d = freqs
@@ -280,7 +324,7 @@ values = freqs.values()
 # printing keys and values separately
 print("keys : ", str(keys))  # keys = ord
 print("values : ", str(values))  # values = frequency
-
+# %%
 # DF  MED ORD + FREQ
 df3 = pd.DataFrame(values, index=keys)
 df3
