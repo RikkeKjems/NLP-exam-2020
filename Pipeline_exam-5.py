@@ -183,7 +183,7 @@ words = data.split()
 # print(words)
 
 # RIKKE FORSTÅR KAN IKKE LIGE TYDE HVAD DET HER LOOP GØR
-#Danner ord og tilhørende freq
+# Danner ord og tilhørende freq
 freqs = {}
 for word in words:
     if word not in freqs:
@@ -199,7 +199,7 @@ d = freqs
 df = pd.DataFrame(data=d)
 df
 
-#%%
+# %%
 # opdel freqs så ord og freq ikke hænger sammen
 # printing iniial_dictionary
 print("intial_dictionary", str(freqs))
@@ -265,12 +265,7 @@ str = keys
 print(string_k(k, str))
 
 
-
-
-
-
-
-#%%
+# %%
 ########
 # Rikke leger her
 # %% VIRKER
@@ -311,7 +306,7 @@ for fileName in glob.iglob(r'Data/All_Tagged_Data/*.txt'):
 # %%
 path = glob.glob('Data/All_Tagged_Data/*.txt')
 ids = []
-data_record=[]
+data_record = []
 
 for fileName in path:
     data = open(fileName, "r").read()
@@ -340,13 +335,10 @@ for fileName in path:
     data_record.append(record)
 
     cols = ['no_words', 'no_useful_tokens', 'no_useless_tokens',
-        'noun %', 'verb %', 'adj %', 'pron %', 'adv %', 'prop %']
+            'noun %', 'verb %', 'adj %', 'pron %', 'adv %', 'prop %']
 
 df = pd.DataFrame(data=data_record, index=ids, columns=cols)
 df.to_csv(r'Data/Data.csv')
-
-
-
 
 
 # %%
