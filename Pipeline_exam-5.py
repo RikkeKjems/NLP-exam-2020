@@ -173,18 +173,17 @@ for file_name in path:
 
 # %%
 # WORD FREQ - Pernille arbejder her
-# Den her kører på det der ikke er tokenized eller fjernet stopwords på
+
 
 # VIRKER
 #file = open("Data/D_Tagged_Output/tagged_D3.txt", "rt")
 file = open("Data/Final_UTF8_data/New_D_postagged/tagged_D3.txt", "rt")
 data = file.read()
 words = data.split()
-number_words = len(words)
-print("Total number of words:", number_words)
 # print(words)
 
 # RIKKE FORSTÅR KAN IKKE LIGE TYDE HVAD DET HER LOOP GØR
+#Danner ord og tilhørende freq
 freqs = {}
 for word in words:
     if word not in freqs:
@@ -194,6 +193,84 @@ for word in words:
 file.close()
 print(freqs)
 
+# %%
+# CREATE DF WITH WORDS AND FREQ - VIRKER
+d = freqs
+df = pd.DataFrame(data=d)
+df
+
+#%%
+# opdel freqs så ord og freq ikke hænger sammen
+# printing iniial_dictionary
+print("intial_dictionary", str(freqs))
+
+# split dictionary into keys and values
+keys = freqs.keys()
+values = freqs.values()
+
+# printing keys and values separately
+print("keys : ", str(keys))  # keys = ord
+print("values : ", str(values))  # values = frequency
+# %%
+# DF  MED ORD + FREQ
+df3 = pd.DataFrame(values, index=keys)
+df3
+# %%
+# UNIQUE WORDS - WORD FREQ OF 1 - VIRKER IKKE
+
+# extract values=frequency = 1.
+uniques = []  # tom liste
+un = input("1")  # unique number = 1
+for keys, values in freqs:  # for ord og frequency i dict freqs
+    if values == un:  # hvis frequency er = 1
+        print(keys)  # print det ord som har frequency på 1
+
+# kan bruges senere, kommenerede for at VS code ikke bruger det.
+# uniques.append(keys) #append til liste
+# print(uniques) #printe liste med 1-taller
+
+
+# %%
+
+print(keys)
+# WORD LENGTH - VIRKER IKKE
+
+
+def string_k(k, str):
+
+    # create the empty string
+    string = []
+
+    # split the string where space is comes
+    text = str.split(" ")
+
+    # iterate the loop till every substring
+    for x in text:
+
+        # if length of current sub string
+        # is greater than k then
+        if len(x) < k:
+
+            # append this sub string in
+            # string list
+            string.append(x)
+
+    # return string list
+    return string
+
+
+# BRUG OVENSTÅENDEN
+k = 8
+str = keys
+print(string_k(k, str))
+
+
+
+
+
+
+
+#%%
 ########
 # Rikke leger her
 # %% VIRKER
@@ -230,15 +307,11 @@ for fileName in glob.iglob(r'Data/All_Tagged_Data/*.txt'):
           "Propn %:", Propn_percentage)
 
 ##########
-# TRYING TO CREATE A DATAFRAME
+# CREATing A DATAFRAME
 # %%
 path = glob.glob('Data/All_Tagged_Data/*.txt')
 ids = []
-
-cols = ['no_words', 'no_useful_tokens', 'no_useless_tokens',
-        'noun %', 'verb %', 'adj %', 'pron %', 'adv %', 'prop %']
-
-records = np.array()
+data_record=[]
 
 for fileName in path:
     data = open(fileName, "r").read()
@@ -264,70 +337,17 @@ for fileName in path:
     record = [number_words, usefull_tokens, tokens_we_dont_need,
               Noun_percentage, Verb_percentage, Adj_percentage, Pron_percentage,
               Adv_percentage, Propn_percentage]
+    data_record.append(record)
 
-    records = np.append(records, [record])
+    cols = ['no_words', 'no_useful_tokens', 'no_useless_tokens',
+        'noun %', 'verb %', 'adj %', 'pron %', 'adv %', 'prop %']
 
-df = pd.DataFrame(data=records, index=ids, columns=cols)
-
-# %%
-
-
-##########
-# %%
-# CREATE DF WITH WORDS AND FREQ - VIRKER
-d = freqs
-df = pd.DataFrame(data=d)
-df
-
-# %%
-# FORSØG PÅ LOOP - VIRKER også på tokenfolder
-path = glob.glob("Data/Final_UTF8_data/ND_data/ND_Tokenfolder/*.txt")
-# stop = set(stopwords.words("danish"))
-
-# loop der generer hvor mange ord der i hvert doc
-# filnavn og antal ord
-for file_name in path:
-    f = open(file_name, "r", encoding="utf8", errors="ignore")
-    if f.mode == "r":  # tjek om filen kan læses
-        contents = f.read()
-    words = contents.split(sep="/")
-    number_words = len(words)
-    names = file_name  # use to construt df
-    wrd_nmb = number_words  # use to construt df
-
-# loop som sammensætter ord med tilhørende freq
-freqs = {}
-for word in words:
-    if word not in freqs:
-        freqs[word] = 1
-    else:
-        freqs[word] += 1
-file.close()
-
-print(
-    names, wrd_nmb, freqs
-)  # printer liste med filnavn, antal ord i fil, ord og dertilhørende freq
-# den første del er underlig, men ellers virker den faktisk
-# Tjek om den lopper gennem alle filer i Tokenfolder
+df = pd.DataFrame(data=data_record, index=ids, columns=cols)
+df.to_csv(r'Data/D_test.csv')
 
 
-# Lav df med ovenstående info i
 
-# opdel freqs så ord og freq ikke hænger sammen
-# printing iniial_dictionary
-print("intial_dictionary", str(freqs))
 
-# split dictionary into keys and values
-keys = freqs.keys()
-values = freqs.values()
-
-# printing keys and values separately
-print("keys : ", str(keys))  # keys = ord
-print("values : ", str(values))  # values = frequency
-# %%
-# DF  MED ORD + FREQ
-df3 = pd.DataFrame(values, index=keys)
-df3
 
 # %%
 # UNIQUE WORDS - WORD FREQ OF 1 - VIRKER IKKE
