@@ -27,29 +27,26 @@ import morfessor
 from polyglot.text import Text
 
 # %%
-# Pernille arbejder her - VIRKER IKKE
+# VIRKER næsten
 
-### TANKEN ER AT LAVE EN CSV FIL FOR HVER DOC. I CSV FILNE ER ALLE ORD SAMT DERES FREQ OG LÆNGDE
+### TANKEN ER AT LAVE EN CSV FIL FOR HVER DOC. I CSV FILEN ER en kolonne med number of unique words pr doc og number of words with length +10 pr doc
+### HVER CSV FIL BLIVER SÅ MERGED MED VORES STORE CSV FIL
+
+## lige nu kan jeg lave en kæmpe stor csv fil, men der er en del fejl....
+
 
 #### DF for each doc 
 #### DF with words and their freq + length sorted by freq
-path = glob.glob('Data⁩/Final_UTF8_data⁩/⁨ND_data⁩/ND_Tokenfolder/*.txt')
-idx=[]
-
-for filename in path:
-    f = open(filename, "r", encoding="utf8", errors="ignore")
-    if f.mode == "r": 
-        con = f.read()
-        word = f.split()
-        idx.append(filename)
-#print(word)
-#print(idx)
-#print(filename)
-
-# %%
-# Danner ord og tilhørende freq
-freqs = {}
-for word in w:
+path = glob.glob('Data/Final_UTF8_data/ND_data/ND_Tokenfolder/ND_token22.txt')
+### brug nedenstående i stort loop
+#idx = []
+#dat =[]
+for t in path:
+    data = open(t, "r").read()
+    words = data.split('/')
+    #idx.append(t)
+    freqs = {}
+for word in words:
     if word not in freqs:
         freqs[word] = 1
     else:
@@ -58,37 +55,45 @@ for word in w:
 #print(freqs)
 
 ### TIL FORMMÅL AT ADSKILLE ORD OG FREQ
-# printing iniial_dictionary
-print("intial_dictionary", str(freqs))
-
 # split dictionary into keys and values
-keys = freqs.keys() #ord
-values = freqs.values() #freq
+keys = freqs.keys() #word
+values = freqs.values() #frequency
+#kv=[keys, values]
+#dat.append(kv)
 
-# printing keys and values separately
-print("keys : ", str(keys))  # keys = ord
-print("values : ", str(values))  # values = frequency
-
-#Creat DF
+#Create DF
 colm = ['Freq']
 df = pd.DataFrame(data=values, index=keys, columns=colm)
-df
+df 
+    
+#sort df by freq asceding order  - Ikke relevant mere
+#df.sort_values(by='Freq', ascending=True)
+
+#EXTRACT WORDS WITH FREQUENCY OF 1 = UNIQUE WORD - VIRKER 
+final_df = df.loc[df['Freq'] == 1]
+
+#CSV fil
+final_df.to_csv(r'Data/word_freq_ND22.csv')
+#alle ord er i en lang string. det samme gælder for frequency. derfor er filen underlig.
+## dette skyldes at freqs er en dict
+### Ved ikke hvad jeg skal gøre nu
+
+
+
+
+
+
 
 #%%
-#sort df by freq asceding order
-df.sort_values(by='Freq', ascending=True)
 
-#%%
-#add length
-length = len(w)
+
  # defines text to be used
- your_file = open("file_location","r+")
+ your_file = open('Data/Final_UTF8_data/ND_data/ND_Tokenfolder/ND_token22.txt')
  text = your_file.read
+ lines = data.split('/')
 
- # divides the text into lines and defines some arrays
- lines = text.split("\n")
  words = []
- eight_l_words = []
+ ten_l_words = []
 
  # iterating through "lines" adding each separate word to the "words" array
  for each in lines:
@@ -97,12 +102,13 @@ length = len(w)
  # checking to see if each word in the "words" array is 8 chars long, and if so
  # appending that words to the "eight_l_word" array
  for each in words:
-     if len(each) == 8:
-         eight_l_word.append(each)
+     if len(each) == 10:
+         ten_l_words.append(each)
 
  # finding the number of eight letter words
- number_of_8lwords = len(eight_l_words)
+ number_of_10lwords = len(ten_l_words)
 
  # displaying results
- print(eight_l_words)
- print("There are "+str(number_of_8lwords)+" eight letter words")
+ print(ten_l_words)
+ print("There are "+str(number_of_10lwords)+" ten letter words")
+# %%
