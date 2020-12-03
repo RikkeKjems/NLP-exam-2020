@@ -51,12 +51,17 @@ for word in words:
 
     colm = ['Freq']
     df = pd.DataFrame(data=values, index=keys, columns=colm)
+    total_n = (len(df))
+    print(total_n)
     df2 = (df.loc[df['Freq'] == 1])
     num=(len(df2)) # går galt når jeg appender til listen "number"
+    print(num)
    
 c = ['Unique words in doc']
 big_df = pd.DataFrame(data=num, index=idx, columns=c) 
 big_df
+
+unique_percentage = num / total_n * 100
 
 #big_df.to_csv(r'Data/Unique_ND.csv')
 
@@ -82,16 +87,21 @@ for word in words:
     keys = freqs.keys()  # word
     values = freqs.values() #frequency
 
-    colm = ['Freq']
+colm = ['Freq'] 
+for v in freqs:
     df = pd.DataFrame(data=values, index=keys, columns=colm)
     df2 = (df.loc[df['Freq'] == 1])
     num=(len(df2)) # går galt når jeg appender til listen "number"
+    number.append(num) # Vil du kigge her?
    
 c = ['Unique words in doc']
-big_df = pd.DataFrame(data=num, index=idx, columns=c) 
-big_df
+big_df = pd.DataFrame(data=number, index=idx, columns=c) 
+big_df #Skulle gerne være forskellige værdier i kolonnen "unique"
+# Når dette sker skal den laves til csv og merges med Data.csv
 
 #big_df.to_csv(r'Data/Unique_ND.csv')
+
+
 
 
 # %%
@@ -125,22 +135,27 @@ lines = data.split('/')
 # RIKKE LEGER HER
 # %%% #DET HER VIRKER IKKE
 import collections
-path = glob.glob("Data/All_Tagged_Data/*.txt")
+#path = glob.glob("Data/All_Tagged_Data/*.txt")
+path = glob.glob('Data/Final_UTF8_data/D_data/D_Tokenfolder/*.txt')
+word_length = []
+word_occurence = []
+row = []
 
 for fileName in path: 
-
-    def main():
-        counts = collections.defaultdict(int)
         data = open(fileName, "r").read()
-        words = data.split()
-            for word in data.read().split():
-                counts[len(word)] += 1
-        print('length | How often a word of this length occurs')
-        for i in sorted(counts.keys()):
-            print('%-6d | %d' % (i, counts[i]))
+        words = data.split("/")
+        row.append(fileName)
+for word in words:
+    length = [len(word)]
+    word_length.append(length)
+    occur = Counter(words)
+    word_occurence.append(occur)
+print(word_length)
 
-    if __name__ == '__main__':
-        main()
+
+colu = ['Word Length']
+df5 = pd.DataFrame(data=word_length, index=row, columns=colu)
+df5
 
 #########
 # %% #PRØVER NOGET, VIRKER IKKE
