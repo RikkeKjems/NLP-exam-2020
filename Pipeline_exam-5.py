@@ -201,7 +201,7 @@ for word in w:
     
 #print(freqs)
 
-### TIL FORMMÅL AT ADSKILLE ORD OG FREQ
+### TIL FORMÅL AT ADSKILLE ORD OG FREQ
 # printing iniial_dictionary
 print("intial_dictionary", str(freqs))
 
