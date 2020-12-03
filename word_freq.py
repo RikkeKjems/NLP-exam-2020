@@ -28,24 +28,17 @@ import morfessor
 from polyglot.text import Text
 
 # %%
-# VIRKER næsten
+# VIRKER men med forkert unique
+## Loop med df som output. filenavn + antal unique words in each file
 
-# TANKEN ER AT LAVE EN CSV FIL FOR HVER DOC. I CSV FILEN ER en kolonne med number of unique words pr doc og number of words with length +10 pr doc
-# HVER CSV FIL BLIVER SÅ MERGED MED VORES STORE CSV FIL
+path = glob.glob('Data/Final_UTF8_data/ND_data/ND_Tokenfolder/*.txt')
 
-# lige nu kan jeg lave en kæmpe stor csv fil, men der er en del fejl....
-
-
-# DF for each doc
-# DF with words and their freq + length sorted by freq
-path = glob.glob('Data/Final_UTF8_data/ND_data/ND_Tokenfolder/ND_token22.txt')
-# brug nedenstående i stort loop
-# idx = []
-# dat =[]
+idx = [] #filenames for rows = 22
+number =[] #burde også være 22 et tal for hver doc
 for t in path:
     data = open(t, "r").read()
     words = data.split('/')
-    # idx.append(t)
+    idx.append(t)
     freqs = {}
 for word in words:
     if word not in freqs:
@@ -53,31 +46,52 @@ for word in words:
     else:
         freqs[word] += 1
 
-# print(freqs)
+    keys = freqs.keys()  # word
+    values = freqs.values() #frequency
 
-# TIL FORMMÅL AT ADSKILLE ORD OG FREQ
-# split dictionary into keys and values
-keys = freqs.keys()  # word
-values = freqs.values()  # frequency
-# kv=[keys, values]
-# dat.append(kv)
+    colm = ['Freq']
+    df = pd.DataFrame(data=values, index=keys, columns=colm)
+    df2 = (df.loc[df['Freq'] == 1])
+    num=(len(df2)) # går galt når jeg appender til listen "number"
+   
+c = ['Unique words in doc']
+big_df = pd.DataFrame(data=num, index=idx, columns=c) 
+big_df
 
-# Create DF
-colm = ['Freq']
-df = pd.DataFrame(data=values, index=keys, columns=colm)
-df
+#big_df.to_csv(r'Data/Unique_ND.csv')
 
-# sort df by freq asceding order  - Ikke relevant mere
-# df.sort_values(by='Freq', ascending=True)
+#%% 
+# VIRKER men med forkert unique
+## Loop med df som output. filenavn + antal unique words in each file
 
-# EXTRACT WORDS WITH FREQUENCY OF 1 = UNIQUE WORD - VIRKER
-final_df = df.loc[df['Freq'] == 1]
+path = glob.glob('Data/Final_UTF8_data/D_data/D_Tokenfolder/*.txt')
 
-# CSV fil
-final_df.to_csv(r'Data/word_freq_ND22.csv')
-# alle ord er i en lang string. det samme gælder for frequency. derfor er filen underlig.
-# dette skyldes at freqs er en dict
-# Ved ikke hvad jeg skal gøre nu
+idx = [] #filenames for rows = 24
+number =[] #burde også være 24 et tal for hver doc
+for t in path:
+    data = open(t, "r").read()
+    words = data.split('/')
+    idx.append(t)
+    freqs = {}
+for word in words:
+    if word not in freqs:
+        freqs[word] = 1
+    else:
+        freqs[word] += 1
+
+    keys = freqs.keys()  # word
+    values = freqs.values() #frequency
+
+    colm = ['Freq']
+    df = pd.DataFrame(data=values, index=keys, columns=colm)
+    df2 = (df.loc[df['Freq'] == 1])
+    num=(len(df2)) # går galt når jeg appender til listen "number"
+   
+c = ['Unique words in doc']
+big_df = pd.DataFrame(data=num, index=idx, columns=c) 
+big_df
+
+#big_df.to_csv(r'Data/Unique_ND.csv')
 
 
 # %%
