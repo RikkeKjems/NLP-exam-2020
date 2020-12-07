@@ -73,31 +73,56 @@ big_df.to_csv(r'Data/Test_Unique_ND.csv')
 # %%
 # Prøver overstående med tagged data for at få lemma
 
-path = glob.glob('Data/Lemma_data/D_lemma/*.txt')
+#path = glob.glob('Data/Lemma_data/D_lemma/*.txt') #oprindelige path
+#for files in path: #oprindelige loop
+    #data = open(files, "r").read()
+    #words = data.split('/')
+
+#lasse's ide
+##filenames = ['D5_lemma.txt', 'D6_lemma.txt']
 
 idx = []  # filenames for rows = 22
-# number = []  # burde også være 22 et tal for hver doc
-for t in path:
-    data = open(t, "r").read()
-    words = data.split('/')
-    idx.append(t)
+number = []  # burde også være 22 et tal for hver doc
+
+#Endnu et forsøg
+import os
+dir = ('Data/Lemma_data/D_lemma')
+
+for filename in os.listdir(dir):
+    if filename.endswith("*.txt"):
+        f = open(filename)
+        data = f.read()
+        words = data.split('/')
+
     freqs = {}
-for word in words:
-    if word not in freqs:
-        freqs[word] = 1
-    else:
-        freqs[word] += 1
+    for word in words:
+        if word not in freqs:
+            freqs[word] = 1
+        else:
+            freqs[word] += 1
 
-    keys = freqs.keys()  # word
-    values = freqs.values()  # frequency
+        keys = freqs.keys()  # word
+        values = freqs.values()  # frequency
 
+        
     colm = ['Freq']
     df = pd.DataFrame(data=values, index=keys, columns=colm)
+
+    df3 = (df.loc[df['Freq'] == 1])
+
+    num = (len(df3))
+    idx.append(files)
+    c = ['Unique words in doc']
+    df4 = pd.DataFrame(data=num, index=idx, columns=c)
+
+df4 #problemet er at den ikke læser alle filer men kun én 
+   
+
     #total_n = (len(df))
     # print(total_n)
-    df3 = (df.loc[df['Freq'] == 1])
+    
     num = (len(df3))  # går galt når jeg appender til listen "number"
-    # print(num)
+    number.append(num)
 
 c = ['Unique words in doc']
 big_df = pd.DataFrame(data=num, index=idx, columns=c)
@@ -105,6 +130,41 @@ big_df
 
 df3.to_csv(r'Data/df3.csv')
 
+#%% ALTERNATIV TIL OVENSTÅENDE
+
+idx = []  # filenames for rows = 22
+number = []  # burde også være 22 et tal for hver doc
+
+path = ('Data/Lemma_data/D_lemma/')
+for filename in glob.glob(os.path.join(path, '*.txt')):
+   with open(os.path.join(os.getcwd(), filename), 'r') as f:
+       
+       for f in path:
+           data = open(f, "r").read()
+           words = data.split('/')
+           freqs = {}
+       
+            for word in words:
+                if word not in freqs:
+                    freqs[word] = 1
+                else:
+                    freqs[word] += 1
+
+                keys = freqs.keys()  # word
+                values = freqs.values()  # frequency
+
+        
+                colm = ['Freq']
+                df = pd.DataFrame(data=values, index=keys, columns=colm)
+
+                df3 = (df.loc[df['Freq'] == 1])
+
+                num = (len(df3))
+                idx.append(t)
+                c = ['Unique words in doc']
+                df4 = pd.DataFrame(data=num, index=idx, columns=c)
+
+df4
 
 # %%
 # VIRKER men med forkert unique
