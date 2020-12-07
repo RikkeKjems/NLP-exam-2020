@@ -142,7 +142,7 @@ Return lemmas as generator
               for word in sent.words]
     return postag
 
-# %% VIRKER 
+# %% VIRKER
 path = glob.glob("Data/Final_UTF8_data/ND_data/ND_Tokenfolder/*.txt")
 i = 0
 for file_name in path:
@@ -170,20 +170,50 @@ for file_name in path:
         tagged_texts.close()
         i += 1
 """
+"""
+#LEMMATIZER
+path = glob.glob("Data/Final_UTF8_data/D_data/D_Tokenfolder/*.txt")
+i = 0
+for file_name in path:
+    f = open(file_name, "r", encoding="utf8", errors="ignore")
+    if f.mode == "r":  # tjek om filen kan læses
+        contents = f.read()  # læs indholdet i filen
+        texts = contents.split("/")
+        texts.sort()
+        out = []
+        for text in texts:
+            new = text.replace("[", "")
+            new = new.replace("]", "")
+            new = new.replace("'", "")
+            if new != "":
+                out.append(new)
+        # print(out)
+
+        lemmas = [lemmatizer(text, s_nlp) for text in out]
+        newFile = "D" + str(i)  # kan ændres hvis vi vil have D og ND
+        print(newFile)
+        tagged_texts = open(
+            f"Data/Lemma_data/D_lemma/{newFile}_lemma.txt", "w")
+        for tagged in lemmas:
+            tagged_texts.write(str(tagged))
+            tagged_texts.write("/")
+        tagged_texts.close()
+        i += 1
+"""
 
 # %%
 # Pernille arbejder her - VIRKER IKKE
 
-### TANKEN ER AT LAVE EN CSV FIL FOR HVER DOC. I CSV FILNE ER ALLE ORD SAMT DERES FREQ OG LÆNGDE
+# TANKEN ER AT LAVE EN CSV FIL FOR HVER DOC. I CSV FILNE ER ALLE ORD SAMT DERES FREQ OG LÆNGDE
 
-#### DF for each doc 
-#### DF with words and their freq + length sorted by freq
+# DF for each doc
+# DF with words and their freq + length sorted by freq
 path = glob.glob('Data⁩/Final_UTF8_data⁩/⁨ND_data⁩/ND_Tokenfolder/*.txt')
-idx=[]
+idx = []
 
 for fileN in path:
     f = open(fileN, "r", encoding="utf8", errors="ignore")
-    if f.mode == "r": 
+    if f.mode == "r":
         c = f.read()
         w = f.split()
         idx.append(fileN)
@@ -198,56 +228,56 @@ for word in w:
         freqs[word] = 1
     else:
         freqs[word] += 1
-    
-#print(freqs)
 
-### TIL FORMÅL AT ADSKILLE ORD OG FREQ
+# print(freqs)
+
+# TIL FORMÅL AT ADSKILLE ORD OG FREQ
 # printing iniial_dictionary
 print("intial_dictionary", str(freqs))
 
 # split dictionary into keys and values
-keys = freqs.keys() #ord
-values = freqs.values() #freq
+keys = freqs.keys()  # ord
+values = freqs.values()  # freq
 
 # printing keys and values separately
 print("keys : ", str(keys))  # keys = ord
 print("values : ", str(values))  # values = frequency
 
-#Creat DF
+# Creat DF
 colm = ['Freq']
 df = pd.DataFrame(data=values, index=keys, columns=colm)
 df
 
-#sort df by freq asceding order
+# sort df by freq asceding order
 df.sort_values(by='Freq', ascending=True)
 
-#add length
+# add length
 length = len(w)
- # defines text to be used
- your_file = open("file_location","r+")
- text = your_file.read
+# defines text to be used
+your_file = open("file_location", "r+")
+text = your_file.read
 
- # divides the text into lines and defines some arrays
- lines = text.split("\n")
+# divides the text into lines and defines some arrays
+lines = text.split("\n")
  words = []
- eight_l_words = []
+  eight_l_words = []
 
- # iterating through "lines" adding each separate word to the "words" array
- for each in lines:
-     words += each.split(" ")
+   # iterating through "lines" adding each separate word to the "words" array
+   for each in lines:
+        words += each.split(" ")
 
- # checking to see if each word in the "words" array is 8 chars long, and if so
- # appending that words to the "eight_l_word" array
- for each in words:
-     if len(each) == 8:
-         eight_l_word.append(each)
+    # checking to see if each word in the "words" array is 8 chars long, and if so
+    # appending that words to the "eight_l_word" array
+    for each in words:
+        if len(each) == 8:
+            eight_l_word.append(each)
 
- # finding the number of eight letter words
- number_of_8lwords = len(eight_l_words)
+    # finding the number of eight letter words
+    number_of_8lwords = len(eight_l_words)
 
- # displaying results
- print(eight_l_words)
- print("There are "+str(number_of_8lwords)+" eight letter words")
+    # displaying results
+    print(eight_l_words)
+    print("There are "+str(number_of_8lwords)+" eight letter words")
 
 # %% VIRKER
 ########
@@ -320,5 +350,5 @@ for fileName in path:
             'noun %', 'verb %', 'adj %', 'pron %', 'adv %', 'prop %']
 
 #df = pd.DataFrame(data=data_record, index=ids, columns=cols)
-#df.to_csv(r'Data/Data.csv')
+# df.to_csv(r'Data/Data.csv')
 # Uncomment når DF skal laves. Overrider den eksisterende.

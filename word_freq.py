@@ -27,18 +27,19 @@ import lemmy.pipe
 import morfessor
 from polyglot.text import Text
 
+
 # %%
 # VIRKER men med forkert unique
 # Loop med df som output. filenavn + antal unique words in each file
 
-path = glob.glob("Data/Final_UTF8_data/ND_data/ND_Tokenfolder/*.txt")
+path = glob.glob('Data/Final_UTF8_data/ND_data/ND_Tokenfolder/ND_token2.txt')
 
-# idx = []  # filenames for rows = 22
+idx = []  # filenames for rows = 22
 # number = []  # burde også være 22 et tal for hver doc
 for t in path:
     data = open(t, "r").read()
-    words = data.split("/")
-    # idx.append(t)
+    words = data.split('/')
+    idx.append(t)
     freqs = {}
 for word in words:
     if word not in freqs:
@@ -49,20 +50,61 @@ for word in words:
     keys = freqs.keys()  # word
     values = freqs.values()  # frequency
 
-    colm = ["Freq"]
+    colm = ['Freq']
     df = pd.DataFrame(data=values, index=keys, columns=colm)
+    #total_n = (len(df))
+    # print(total_n)
+    df2 = (df.loc[df['Freq'] == 1])
+    num = (len(df2))  # går galt når jeg appender til listen "number"
+    # print(num)
 
-    df2 = df.loc[df["Freq"] == 1]
-    num = len(df2)  # går galt når jeg appender til listen "number"
-    print(num)
-
-c = ["Unique words in doc"]
+c = ['Unique words in doc']
 big_df = pd.DataFrame(data=num, index=idx, columns=c)
 big_df
 
-unique_percentage = num / total_n * 100
+df2.to_csv(r'Data/df2.csv')
+
+#unique_percentage = num / total_n * 100
 
 # big_df.to_csv(r'Data/Unique_ND.csv')
+# %%
+big_df.to_csv(r'Data/Test_Unique_ND.csv')
+
+# %%
+# Prøver overstående med tagged data for at få lemma
+
+path = glob.glob('Data/Lemma_data/D_lemma/*.txt')
+
+idx = []  # filenames for rows = 22
+# number = []  # burde også være 22 et tal for hver doc
+for t in path:
+    data = open(t, "r").read()
+    words = data.split('/')
+    idx.append(t)
+    freqs = {}
+for word in words:
+    if word not in freqs:
+        freqs[word] = 1
+    else:
+        freqs[word] += 1
+
+    keys = freqs.keys()  # word
+    values = freqs.values()  # frequency
+
+    colm = ['Freq']
+    df = pd.DataFrame(data=values, index=keys, columns=colm)
+    #total_n = (len(df))
+    # print(total_n)
+    df3 = (df.loc[df['Freq'] == 1])
+    num = (len(df3))  # går galt når jeg appender til listen "number"
+    # print(num)
+
+c = ['Unique words in doc']
+big_df = pd.DataFrame(data=num, index=idx, columns=c)
+big_df
+
+df3.to_csv(r'Data/df3.csv')
+
 
 # %%
 # VIRKER men med forkert unique
@@ -74,7 +116,7 @@ idx = []  # filenames for rows = 24
 number = []  # burde også være 24 et tal for hver doc
 for t in path:
     data = open(t, "r").read()
-    words = data.split("/")
+    words = data.split("][")
     idx.append(t)
     freqs = {}
     for word in words:
@@ -180,4 +222,50 @@ def main():
 if __name__ == "__main__":
     main()
 
+# %%
+stanza.download("da")
+
+# %%VIRKER
+s_nlp = stanza.Pipeline(
+    lang="da", processors="tokenize,pos,lemma", use_gpu=False)
+
+
+def lemmatizer(text, stanza_pipeline):
+    """
+    Return lemmas as generator
+    """
+    doc = stanza_pipeline(text)
+    lemmas = [(word.lemma)
+              for sent in doc.sentences for word in sent.words]
+    return lemmas
+
+
+# LEMMATIZER VIRKER
+path = glob.glob("Data/Final_UTF8_data/D_data/D_Tokenfolder/*.txt")
+i = 0
+for file_name in path:
+    f = open(file_name, "r", encoding="utf8", errors="ignore")
+    if f.mode == "r":  # tjek om filen kan læses
+        contents = f.read()  # læs indholdet i filen
+        texts = contents.split("/")
+        texts.sort()
+        out = []
+        for text in texts:
+            new = text.replace("[", "")
+            new = new.replace("]", "")
+            new = new.replace("'", "")
+            if new != "":
+                out.append(new)
+        # print(out)
+
+        lemmas = [lemmatizer(text, s_nlp) for text in out]
+        newFile = "D" + str(i)  # kan ændres hvis vi vil have D og ND
+        print(newFile)
+        tagged_texts = open(
+            f"Data/Lemma_data/D_lemma/{newFile}_lemma.txt", "w")
+        for tagged in lemmas:
+            tagged_texts.write(str(tagged))
+            tagged_texts.write("/")
+        tagged_texts.close()
+        i += 1
 # %%
