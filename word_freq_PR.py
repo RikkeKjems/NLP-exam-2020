@@ -29,12 +29,12 @@ from polyglot.text import Text
 
 # %%
 # VIRKER men med forkert unique
-## Loop med df som output. filenavn + antal unique words in each file
+# Loop med df som output. filenavn + antal unique words in each file
 
 path = glob.glob('Data/Final_UTF8_data/ND_data/ND_Tokenfolder/*.txt')
 
-idx = [] #filenames for rows = 22
-number =[] #burde også være 22 et tal for hver doc
+idx = []  # filenames for rows = 22
+number = []  # burde også være 22 et tal for hver doc
 for t in path:
     data = open(t, "r").read()
     words = data.split('/')
@@ -47,32 +47,35 @@ for word in words:
         freqs[word] += 1
 
     keys = freqs.keys()  # word
-    values = freqs.values() #frequency
+    values = freqs.values()  # frequency
 
     colm = ['Freq']
     df = pd.DataFrame(data=values, index=keys, columns=colm)
     total_n = (len(df))
     print(total_n)
     df2 = (df.loc[df['Freq'] == 1])
-    num=(len(df2)) # går galt når jeg appender til listen "number"
+    num = (len(df2))  # går galt når jeg appender til listen "number"
     print(num)
-   
+
 c = ['Unique words in doc']
-big_df = pd.DataFrame(data=num, index=idx, columns=c) 
+big_df = pd.DataFrame(data=num, index=idx, columns=c)
 big_df
 
 unique_percentage = num / total_n * 100
 
-#big_df.to_csv(r'Data/Unique_ND.csv')
+# big_df.to_csv(r'Data/Unique_ND.csv')
 
-#%% 
+# %%
+print(df)
+
+# %%
 # VIRKER men med forkert unique
-## Loop med df som output. filenavn + antal unique words in each file
+# Loop med df som output. filenavn + antal unique words in each file
 
 path = glob.glob('Data/Final_UTF8_data/D_data/D_Tokenfolder/*.txt')
 
-idx = [] #filenames for rows = 24
-number =[] #burde også være 24 et tal for hver doc
+idx = []  # filenames for rows = 24
+number = []  # burde også være 24 et tal for hver doc
 for t in path:
     data = open(t, "r").read()
     words = data.split('/')
@@ -85,23 +88,21 @@ for word in words:
         freqs[word] += 1
 
     keys = freqs.keys()  # word
-    values = freqs.values() #frequency
+    values = freqs.values()  # frequency
 
-colm = ['Freq'] 
+colm = ['Freq']
 for v in freqs:
     df = pd.DataFrame(data=values, index=keys, columns=colm)
     df2 = (df.loc[df['Freq'] == 1])
-    num=(len(df2)) # går galt når jeg appender til listen "number"
-    number.append(num) # Vil du kigge her?
-   
+    num = (len(df2))  # går galt når jeg appender til listen "number"
+    number.append(num)  # Vil du kigge her?
+
 c = ['Unique words in doc']
-big_df = pd.DataFrame(data=number, index=idx, columns=c) 
-big_df #Skulle gerne være forskellige værdier i kolonnen "unique"
+big_df = pd.DataFrame(data=number, index=idx, columns=c)
+big_df  # Skulle gerne være forskellige værdier i kolonnen "unique"
 # Når dette sker skal den laves til csv og merges med Data.csv
 
-#big_df.to_csv(r'Data/Unique_ND.csv')
-
-
+# big_df.to_csv(r'Data/Unique_ND.csv')
 
 
 # %%
@@ -134,9 +135,9 @@ lines = data.split('/')
 
 # RIKKE LEGER HER
 # %%% #DET HER VIRKER IKKE
-### SÅ TÆT PÅ
+# SÅ TÆT PÅ
 
-#path = glob.glob("Data/All_Tagged_Data/*.txt")
+# path = glob.glob("Data/All_Tagged_Data/*.txt")
 path = glob.glob('Data/Final_UTF8_data/D_data/D_Tokenfolder/*.txt')
 word_length = []
 ten_words = []
@@ -184,3 +185,65 @@ if __name__ == '__main__':
     main()
 
 # %%
+# VIRKER PÅ EN HEL MAPPE! 
+# SKAL LAVES TIL DF NEDENUNDER
+
+path = glob.glob('Data/Final_UTF8_data/D_data/D_Tokenfolder/*.txt')
+i = 0
+
+for file_name in path:
+    def main():
+        counts = collections.defaultdict(int)
+        file = open(file_name, 'rt', encoding='utf-8')
+        for word in file.read().split('/'):
+            counts[len(word)] += 1
+        # print(file_name)
+        print('length' , file_name)
+        for i in sorted(counts.keys()):
+            print(i, counts[i])
+
+    if __name__ == '__main__':
+        main()
+    i +=1
+
+
+
+# %%
+# FORSØGER AT LAVE TIL DF MEN VIRKER IKKE
+path = glob.glob('Data/Final_UTF8_data/D_data/D_Tokenfolder/*txt')
+i = 0
+ids = []
+data_record = []
+record = [0]
+
+for file_name in path:
+    def main():
+        counts = collections.defaultdict(int)
+        data = open(file_name, 'rt', encoding='utf-8')
+        for word in data.read().split('/'):
+            counts[len(word)] += 1
+        # print(file_name)
+        print('length' , file_name)
+        for i in sorted(counts.keys()):
+            print(i, counts[i])
+        # record[len(word)] +=1
+
+    if __name__ == '__main__':
+        main()
+    i +=1
+
+    ids.append(file_name)
+    data_record.append(record)
+
+    cols = ['filename'] + [ str(i) for i in range(1,34) ]
+
+    df = pd.DataFrame(data=data_record, index=ids, columns=cols)
+
+
+# TIPS FRA ROBERT
+# %%
+record[0]
+record[len(word)] +=1
+cols = ['filename'] + [ str(i) for i in range(1,34) ]
+
+df = df = pd.DataFrame(data=data_record, index=ids, columns=cols)
