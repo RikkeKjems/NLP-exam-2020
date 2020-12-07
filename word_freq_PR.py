@@ -35,27 +35,56 @@ path = glob.glob('Data/Final_UTF8_data/ND_data/ND_Tokenfolder/*.txt')
 
 idx = []  # filenames for rows = 22
 number = []  # burde også være 22 et tal for hver doc
+freqs = {}
+list_freq=[]
 for t in path:
     data = open(t, "r").read()
     words = data.split('/')
+
+    for word in words:
+        if word not in freqs:
+            freqs[word] = 1
+        else:
+            freqs[word] += 1
     idx.append(t)
-    freqs = {}
-for word in words:
-    if word not in freqs:
-        freqs[word] = 1
-    else:
-        freqs[word] += 1
+    list_freq.append(freqs)
+    print(list_freq)
+    #print(freqs) alle ord med freq i ND_tokenfolder
+        for p in freqs:
+            keys = freqs.keys()  # word
+            values = freqs.values()  # frequency
+            keys
 
-    keys = freqs.keys()  # word
-    values = freqs.values()  # frequency
+#print(idx, freqs)
 
-    colm = ['Freq']
-    df = pd.DataFrame(data=values, index=keys, columns=colm)
-    total_n = (len(df))
-    print(total_n)
+
+with open("Data/Final_UTF8_data/ND_Data/ND_Tokenfolder/ND_token1.txt", "r") 
+as file:    
+    lines = file.read().splitlines("/")
+    print(lines)
+    words = []
+for i in lines:   
+    if i not in words:        
+    words.append(i)
+    print(words)
+    uniques = set()
+for line in lines:    
+uniques |= set(line.split())
+print(f"Unique words: {len(uniques)}")  
+
+
+
+        colm = ['Freq']
+        df = pd.DataFrame(data=values, index=keys, columns=colm)
+        df
+    #total_n = (len(df))  ikke nødvendigt
+    #print(total_n) ikke nødvendigt
+
     df2 = (df.loc[df['Freq'] == 1])
-    num = (len(df2))  # går galt når jeg appender til listen "number"
-    print(num)
+    df2
+    num = len(df2)  # går galt når jeg appender til listen "number"
+    number.append(num)
+  
 
 c = ['Unique words in doc']
 big_df = pd.DataFrame(data=num, index=idx, columns=c)
