@@ -29,10 +29,10 @@ from polyglot.text import Text
 
 
 # %%
-# VIRKER men med forkert unique
+# VIRKER på en fil
 # Loop med df som output. filenavn + antal unique words in each file
 
-path = glob.glob('Data/Final_UTF8_data/ND_data/ND_Tokenfolder/ND_token2.txt')
+path = glob.glob('Data/Lemma_data/ND_lemma/ND21_lemma.txt')
 
 idx = []  # filenames for rows = 22
 # number = []  # burde også være 22 et tal for hver doc
@@ -59,10 +59,29 @@ for word in words:
     # print(num)
 
 c = ['Unique words in doc']
-big_df = pd.DataFrame(data=num, index=idx, columns=c)
-big_df
+ND21 = pd.DataFrame(data=num, index=idx, columns=c)
 
-df2.to_csv(r'Data/df2.csv')
+df_ND = pd.concat([ND0, ND1, ND2, ND3, ND4, ND5, ND6, ND7, ND8, ND9, ND10, ND11, ND12, ND13, ND14, ND15, ND16, ND17, ND18, ND19, ND20, ND21])
+
+df_unique = pd.concat(df_D, df_ND)
+
+df_ND.to_csv(r'Data/ND_unique.csv')
+
+#%%
+import os
+import glob
+import pandas as pd
+os.chdir("Data/Unique")
+
+extension = 'csv'
+all_filenames = [i for i in glob.glob('*.{}'.format(extension))]
+
+#combine all files in the list
+combined_csv = pd.concat([pd.read_csv(f) for f in all_filenames ])
+#export to csv
+combined_csv.to_csv( "Unique.csv", index=False, encoding='utf-8-sig')
+
+
 
 #unique_percentage = num / total_n * 100
 
@@ -79,16 +98,16 @@ big_df.to_csv(r'Data/Test_Unique_ND.csv')
     #words = data.split('/')
 
 #lasse's ide
-##filenames = ['D5_lemma.txt', 'D6_lemma.txt']
+filenames = ['D5_lemma.txt', 'D6_lemma.txt']
 
 idx = []  # filenames for rows = 22
 number = []  # burde også være 22 et tal for hver doc
 
 #Endnu et forsøg
-import os
-dir = ('Data/Lemma_data/D_lemma')
+#import os
+#dir = ('Data/Lemma_data/D_lemma')
 
-for filename in os.listdir(dir):
+for filename in filenames:
     if filename.endswith("*.txt"):
         f = open(filename)
         data = f.read()
@@ -111,7 +130,7 @@ for filename in os.listdir(dir):
     df3 = (df.loc[df['Freq'] == 1])
 
     num = (len(df3))
-    idx.append(files)
+    idx.append(filename)
     c = ['Unique words in doc']
     df4 = pd.DataFrame(data=num, index=idx, columns=c)
 
