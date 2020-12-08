@@ -25,6 +25,9 @@ import os.path
 import lemmy.pipe
 import morfessor
 from polyglot.text import Text
+import os
+import glob
+import pandas as pd
 
 # %%%
 """ # ALT DET HER SKAL VI IKKE KØRE MERE. DET ER KØRT OG DER ER DANNET FILER
@@ -202,82 +205,45 @@ for file_name in path:
 """
 
 # %%
-# Pernille arbejder her - VIRKER IKKE
+# Loop med df som output. filenavn + antal unique words in each file
+# gøres fil for fil i de to mapper
 
-# TANKEN ER AT LAVE EN CSV FIL FOR HVER DOC. I CSV FILNE ER ALLE ORD SAMT DERES FREQ OG LÆNGDE
+path = glob.glob('Data/Lemma_data/ND_lemma/ND21_lemma.txt')
 
-# DF for each doc
-# DF with words and their freq + length sorted by freq
-path = glob.glob('Data⁩/Final_UTF8_data⁩/⁨ND_data⁩/ND_Tokenfolder/*.txt')
-idx = []
-
-for fileN in path:
-    f = open(fileN, "r", encoding="utf8", errors="ignore")
-    if f.mode == "r":
-        c = f.read()
-        w = f.split()
-        idx.append(fileN)
-print(w)
-print(idx)
-print(fileN)
-
-# Danner ord og tilhørende freq
-freqs = {}
-for word in w:
+idx = [] 
+for t in path:
+    data = open(t, "r").read()
+    words = data.split('/')
+    idx.append(t)
+    freqs = {}
+for word in words:
     if word not in freqs:
         freqs[word] = 1
     else:
         freqs[word] += 1
 
-# print(freqs)
+    keys = freqs.keys()  # word
+    values = freqs.values()  # frequency
 
-# TIL FORMÅL AT ADSKILLE ORD OG FREQ
-# printing iniial_dictionary
-print("intial_dictionary", str(freqs))
+    colm = ['Freq']
+    df = pd.DataFrame(data=values, index=keys, columns=colm)
+    df2 = (df.loc[df['Freq'] == 1])
+    num = (len(df2)) 
+   
 
-# split dictionary into keys and values
-keys = freqs.keys()  # ord
-values = freqs.values()  # freq
+c = ['Unique words in doc']
+ND21 = pd.DataFrame(data=num, index=idx, columns=c)
+df_ND = pd.concat([ND0, ND1, ND2, ND3, ND4, ND5, ND6, ND7, ND8, ND9, ND10, ND11, ND12, ND13, ND14, ND15, ND16, ND17, ND18, ND19, ND20, ND21])
+df_ND.to_csv(r'Data/ND_unique.csv')
 
-# printing keys and values separately
-print("keys : ", str(keys))  # keys = ord
-print("values : ", str(values))  # values = frequency
-
-# Creat DF
-colm = ['Freq']
-df = pd.DataFrame(data=values, index=keys, columns=colm)
-df
-
-# sort df by freq asceding order
-df.sort_values(by='Freq', ascending=True)
-
-# add length
-length = len(w)
-# defines text to be used
-your_file = open("file_location", "r+")
-text = your_file.read
-
-# divides the text into lines and defines some arrays
-lines = text.split("\n")
- words = []
-  eight_l_words = []
-
-   # iterating through "lines" adding each separate word to the "words" array
-   for each in lines:
-        words += each.split(" ")
-
-    # checking to see if each word in the "words" array is 8 chars long, and if so
-    # appending that words to the "eight_l_word" array
-    for each in words:
-        if len(each) == 8:
-            eight_l_word.append(each)
-
-    # finding the number of eight letter words
-    number_of_8lwords = len(eight_l_words)
-
-    # displaying results
-    print(eight_l_words)
-    print("There are "+str(number_of_8lwords)+" eight letter words")
+#combining both DF's into one csv file
+os.chdir("Data/Unique")
+extension = 'csv'
+all_filenames = [i for i in glob.glob('*.{}'.format(extension))]
+#combine all files in the list
+combined_csv = pd.concat([pd.read_csv(f) for f in all_filenames ])
+#export to csv
+combined_csv.to_csv( "Unique.csv", index=False, encoding='utf-8-sig')
 
 # %% VIRKER
 ########

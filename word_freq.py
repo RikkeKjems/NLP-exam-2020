@@ -28,17 +28,17 @@ import morfessor
 from polyglot.text import Text
 
 
-# %%
+# %% UNIQUE
 # VIRKER på en fil
 # Loop med df som output. filenavn + antal unique words in each file
 
-path = glob.glob('Data/Lemma_data/ND_lemma/ND21_lemma.txt')
+path = glob.glob("Data/Lemma_data/ND_lemma/ND21_lemma.txt")
 
 idx = []  # filenames for rows = 22
 # number = []  # burde også være 22 et tal for hver doc
 for t in path:
     data = open(t, "r").read()
-    words = data.split('/')
+    words = data.split("/")
     idx.append(t)
     freqs = {}
 for word in words:
@@ -50,176 +50,118 @@ for word in words:
     keys = freqs.keys()  # word
     values = freqs.values()  # frequency
 
-    colm = ['Freq']
+    colm = ["Freq"]
     df = pd.DataFrame(data=values, index=keys, columns=colm)
-    #total_n = (len(df))
+    # total_n = (len(df))
     # print(total_n)
-    df2 = (df.loc[df['Freq'] == 1])
-    num = (len(df2))  # går galt når jeg appender til listen "number"
+    df2 = df.loc[df["Freq"] == 1]
+    num = len(df2)
     # print(num)
 
-c = ['Unique words in doc']
+c = ["Unique words in doc"]
 ND21 = pd.DataFrame(data=num, index=idx, columns=c)
 
-df_ND = pd.concat([ND0, ND1, ND2, ND3, ND4, ND5, ND6, ND7, ND8, ND9, ND10, ND11, ND12, ND13, ND14, ND15, ND16, ND17, ND18, ND19, ND20, ND21])
+df_ND = pd.concat(
+    [
+        ND0,
+        ND1,
+        ND2,
+        ND3,
+        ND4,
+        ND5,
+        ND6,
+        ND7,
+        ND8,
+        ND9,
+        ND10,
+        ND11,
+        ND12,
+        ND13,
+        ND14,
+        ND15,
+        ND16,
+        ND17,
+        ND18,
+        ND19,
+        ND20,
+        ND21,
+    ]
+)
 
 df_unique = pd.concat(df_D, df_ND)
 
-df_ND.to_csv(r'Data/ND_unique.csv')
+df_ND.to_csv(r"Data/ND_unique.csv")
 
 #%%
 import os
 import glob
 import pandas as pd
+
 os.chdir("Data/Unique")
 
-extension = 'csv'
-all_filenames = [i for i in glob.glob('*.{}'.format(extension))]
+extension = "csv"
+all_filenames = [i for i in glob.glob("*.{}".format(extension))]
 
-#combine all files in the list
-combined_csv = pd.concat([pd.read_csv(f) for f in all_filenames ])
-#export to csv
-combined_csv.to_csv( "Unique.csv", index=False, encoding='utf-8-sig')
+# combine all files in the list
+combined_csv = pd.concat([pd.read_csv(f) for f in all_filenames])
+# export to csv
+combined_csv.to_csv("Unique.csv", index=False, encoding="utf-8-sig")
 
 
+#%% LENGTH
 
-#unique_percentage = num / total_n * 100
+# %% #DET HER VIRKER PÅ 1 FIL
+def main():
+    counts = collections.defaultdict(int)
+    with open("Data/All_Tagged_Data/tagged_D1.txt", "rt", encoding="utf-8") as file:
+        for word in file.read().split():
+            counts[len(word)] += 1
+    print(file)
+    print("length | How often a word of this length occurs")
+    for i in sorted(counts.keys()):
+        print("%-6d | %d" % (i, counts[i]))
 
-# big_df.to_csv(r'Data/Unique_ND.csv')
-# %%
-big_df.to_csv(r'Data/Test_Unique_ND.csv')
 
-# %%
-# Prøver overstående med tagged data for at få lemma
+if __name__ == "__main__":
+    main()
 
-#path = glob.glob('Data/Lemma_data/D_lemma/*.txt') #oprindelige path
-#for files in path: #oprindelige loop
-    #data = open(files, "r").read()
-    #words = data.split('/')
 
-#lasse's ide
-filenames = ['D5_lemma.txt', 'D6_lemma.txt']
+#%%
+### LONGEST WORD - virker på tagged men ikke lemma filer
+def longest_word(filename):
+    with open("Data/All_Tagged_Data/tagged_D1.txt", "rt", encoding="utf-8") as infile:
+        words = infile.read().split()
+    max_len = len(max(words, key=len))
+    return [word for word in words if len(word) == max_len]
 
-idx = []  # filenames for rows = 22
-number = []  # burde også være 22 et tal for hver doc
 
-#Endnu et forsøg
-#import os
-#dir = ('Data/Lemma_data/D_lemma')
+print(longest_word("test.txt"))
 
-for filename in filenames:
-    if filename.endswith("*.txt"):
-        f = open(filename)
-        data = f.read()
-        words = data.split('/')
+#%%
+# ENDNU ET FORSØG - kig her imorgen
+path = glob.glob("Data/Lemma_data/ND_lemma/ND21_lemma.txt")
 
-    freqs = {}
-    for word in words:
-        if word not in freqs:
-            freqs[word] = 1
-        else:
-            freqs[word] += 1
+for files in path:
+    data = open(files, "r").read()
+    words = data.split("/")
 
-        keys = freqs.keys()  # word
-        values = freqs.values()  # frequency
+    for word in word:
+        longest = max(word, key=len)
+print(longest)
 
-        
-    colm = ['Freq']
-    df = pd.DataFrame(data=values, index=keys, columns=colm)
-
-    df3 = (df.loc[df['Freq'] == 1])
-
-    num = (len(df3))
-    idx.append(filename)
-    c = ['Unique words in doc']
-    df4 = pd.DataFrame(data=num, index=idx, columns=c)
-
-df4 #problemet er at den ikke læser alle filer men kun én 
-   
-
-    #total_n = (len(df))
-    # print(total_n)
-    
-    num = (len(df3))  # går galt når jeg appender til listen "number"
-    number.append(num)
-
-c = ['Unique words in doc']
-big_df = pd.DataFrame(data=num, index=idx, columns=c)
-big_df
-
-df3.to_csv(r'Data/df3.csv')
-
-#%% ALTERNATIV TIL OVENSTÅENDE
-
-idx = []  # filenames for rows = 22
-number = []  # burde også være 22 et tal for hver doc
-
-path = ('Data/Lemma_data/D_lemma/')
-for filename in glob.glob(os.path.join(path, '*.txt')):
-   with open(os.path.join(os.getcwd(), filename), 'r') as f:
-       
-       for f in path:
-           data = open(f, "r").read()
-           words = data.split('/')
-           freqs = {}
-       
-            for word in words:
-                if word not in freqs:
-                    freqs[word] = 1
-                else:
-                    freqs[word] += 1
-
-                keys = freqs.keys()  # word
-                values = freqs.values()  # frequency
-
-        
-                colm = ['Freq']
-                df = pd.DataFrame(data=values, index=keys, columns=colm)
-
-                df3 = (df.loc[df['Freq'] == 1])
-
-                num = (len(df3))
-                idx.append(t)
-                c = ['Unique words in doc']
-                df4 = pd.DataFrame(data=num, index=idx, columns=c)
-
-df4
-
-# %%
-# VIRKER men med forkert unique
-# Loop med df som output. filenavn + antal unique words in each file
-
-path = glob.glob("Data/Final_UTF8_data/D_data/D_Tokenfolder/*.txt")
-
-idx = []  # filenames for rows = 24
-number = []  # burde også være 24 et tal for hver doc
-for t in path:
-    data = open(t, "r").read()
-    words = data.split("][")
-    idx.append(t)
-    freqs = {}
-    for word in words:
-        if word not in freqs:
-            freqs[word] = 1
-        else:
-            freqs[word] += 1
-
-        keys = freqs.keys()  # word
-        values = freqs.values()  # frequency
-
-        colm = ["Freq"]
-        for v in freqs:
-            df = pd.DataFrame(data=values, index=keys, columns=colm)
-            df2 = df.loc[df["Freq"] == 1]
-            num = len(df2)  # går galt når jeg appender til listen "number"
-            number.append(num)  # Vil du kigge her?
-
-            c = ["Unique words in doc"]
-            big_df = pd.DataFrame(data=num, index=idx, columns=c)
-            big_df  # Skulle gerne være forskellige værdier i kolonnen "unique"
-# Når dette sker skal den laves til csv og merges med Data.csv
-
-# big_df.to_csv(r'Data/Unique_ND.csv')
+c = ["Length of longest word"]
+c2 = ["Length of longest word", "Most common word length"]
+c3 = [
+    "Length of longest word",
+    "Most common word length",
+    "<-- Occur %",
+]
+idx = ["D1"]
+df = pd.DataFrame(data=max_len, index=idx, columns=c)
+#%%
+##########################
+# KAN NEDENSTÅENDE SLETTES?
+########################
 
 
 # %% #PRINTER EN MASSE OG CHRASHER NÆSTEN INTERACTIVE WINDOW
@@ -253,7 +195,10 @@ for each in lines:
 # RIKKE LEGER HER
 # %%% #DET HER VIRKER IKKE
 # path = glob.glob("Data/All_Tagged_Data/*.txt")
-path = glob.glob("Data/Final_UTF8_data/D_data/D_Tokenfolder/*.txt")
+# path = glob.glob("Data//*.txt")
+
+path = glob.glob("Data/Lemma_data/D_lemma/")
+
 word_length = []
 word_occurence = []
 row = []
@@ -305,8 +250,7 @@ if __name__ == "__main__":
 stanza.download("da")
 
 # %%VIRKER
-s_nlp = stanza.Pipeline(
-    lang="da", processors="tokenize,pos,lemma", use_gpu=False)
+s_nlp = stanza.Pipeline(lang="da", processors="tokenize,pos,lemma", use_gpu=False)
 
 
 def lemmatizer(text, stanza_pipeline):
@@ -314,8 +258,7 @@ def lemmatizer(text, stanza_pipeline):
     Return lemmas as generator
     """
     doc = stanza_pipeline(text)
-    lemmas = [(word.lemma)
-              for sent in doc.sentences for word in sent.words]
+    lemmas = [(word.lemma) for sent in doc.sentences for word in sent.words]
     return lemmas
 
 
@@ -340,8 +283,7 @@ for file_name in path:
         lemmas = [lemmatizer(text, s_nlp) for text in out]
         newFile = "D" + str(i)  # kan ændres hvis vi vil have D og ND
         print(newFile)
-        tagged_texts = open(
-            f"Data/Lemma_data/D_lemma/{newFile}_lemma.txt", "w")
+        tagged_texts = open(f"Data/Lemma_data/D_lemma/{newFile}_lemma.txt", "w")
         for tagged in lemmas:
             tagged_texts.write(str(tagged))
             tagged_texts.write("/")
