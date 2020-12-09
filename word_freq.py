@@ -63,7 +63,7 @@ ND21 = pd.DataFrame(data=num, index=idx, columns=c)
 
 df_ND = pd.concat(
     [
-        ND0,
+        ND1,
         ND1,
         ND2,
         ND3,
@@ -109,9 +109,9 @@ combined_csv = pd.concat([pd.read_csv(f) for f in all_filenames])
 combined_csv.to_csv("Unique.csv", index=False, encoding="utf-8-sig")
 
 
-#%% LENGTH
 
 # %% #DET HER VIRKER PÅ 1 FIL
+### SLETTES?
 def main():
     counts = collections.defaultdict(int)
     with open("Data/All_Tagged_Data/tagged_D1.txt", "rt", encoding="utf-8") as file:
@@ -132,7 +132,7 @@ if __name__ == "__main__":
 #%%
 ## LONGEST WORD IN TEXT ---- VIRKER
 ## Køres på hver enkelt fil manuelt
-path = glob.glob("Data/Lemma_data/D_lemma/D0_lemma.txt")
+path = glob.glob("Data/Lemma_data/ND_lemma/ND21_lemma.txt")
 
 for files in path:
     data = open(files, "r").read()
@@ -140,17 +140,14 @@ for files in path:
 
     for word in words:
         longest = max(words, key=len)
-        length_longest = len(max_lens)
+        length_longest = len(longest)
 
         word_length = len(word)
         word_length
 
 c = ["Length of longest word"]
-#c2 = ["Length of longest word", "Most common word length"]
-#c3 = ["Length of longest word","Most common word length","<-- Occur %"]
-idx = ["D0"]
-D0 = pd.DataFrame(data=length_longest, index=idx, columns=c)
-D0
+idx = ["ND21"]
+ND21 = pd.DataFrame(data=length_longest, index=idx, columns=c)
 
 ### Most common word length
 for files in path:
@@ -174,22 +171,103 @@ yey = df.loc[df['Occurence in text'].idxmax()]
 
 df4 = pd.DataFrame(data=yey)
 df5 = pd.melt(df4)
-D0_0 = df5.rename(index = {0:'D0'},columns = {'variable':'Most common word Length', 'value':'Occurence'})
-D0_0
+ND21_21 =  df5.rename(index = {0:'ND21'},columns = {'variable':'Most common word Length', 'value':'Occurence'})
+ND21_21
 
-merged_D0= D0.merge(D0_0, left_index=True, right_index=True)
-merged_D0
+merged_ND21= ND21.merge(ND21_21, left_index=True, right_index=True)
+merged_ND21
 
 ### procent
-procent = (164/len(words))*100
-procent
+procent = (289/len(words))*100
 
-df_procent=pd.DataFrame(data=procent, index=['D0'], columns=['Occurence %'])
-df_procent
+df_procent=pd.DataFrame(data=procent, index=['ND21'], columns=['Occurence %'])
+
 
 ### Final df 
-final_df=merged_D0.merge(df_procent, left_index=True, right_index=True)
-final_df
+final_ND21=merged_ND21.merge(df_procent, left_index=True, right_index=True)
+final_ND21
+
+final_ND_df = pd.concat(
+    [
+        final_ND0,
+        final_ND1,
+        final_ND2,
+        final_ND3,
+        final_ND4,
+        final_ND5,
+        final_ND6,
+        final_ND7,
+        final_ND8,
+        final_ND9,
+        final_ND10,
+        final_ND11,
+        final_ND12,
+        final_ND13,
+        final_ND14,
+        final_ND15,
+        final_ND16,
+        final_ND17,
+        final_ND18,
+        final_ND19,
+        final_ND20,
+        final_ND21,
+    ]
+)
+
+### df --> csv
+final_D_df.to_csv(r"Data/Length/D_length.csv")
+
+### one big csv file
+os.chdir("Data/Length")
+
+extension = "csv"
+all_filenames = [i for i in glob.glob("*.{}".format(extension))]
+
+# combine all files in the list
+combined_csv = pd.concat([pd.read_csv(f) for f in all_filenames])
+# export to csv
+combined_csv.to_csv("Length.csv", index=False, encoding="utf-8-sig")
+
+#%%
+### Trying to merge all csv files into one
+#VIRKER IKKE
+### combined csv 
+os.chdir("Data/Length")
+
+extension = "csv"
+all_filenames = [i for i in glob.glob("*.{}".format(extension))]
+
+# combine all files in the list
+combined_csv = pd.concat([pd.read_csv(f) for f in all_filenames])
+# export to csv
+combined_csv.to_csv("Length.csv", index=False, encoding="utf-8-sig")
+
+###
+path = "Data/CSV"
+
+all_files = glob.glob(os.path.join(path, "*.csv"))
+
+pd.merge(all_files, how='left', on='Unnamed:0')
+
+#%%
+### MERGE ALL CSV FILES FROM FOLDER CSV
+### ONE BIG CSV FILE WITH ALL DATA TO USE IN CLASSIFER
+### VIRKER IKKE
+
+os.chdir("Data/Length")
+
+extension = "csv"
+all_filenames = [i for i in glob.glob("*.{}".format(extension))]
+
+# combine all files in the list
+combined_csv = pd.concat([pd.read_csv(f) for f in all_filenames])
+# export to csv
+combined_csv.to_csv("Length.csv", index=False, encoding="utf-8-sig")
+
+#%%
+####
+### SKAL ALT NEDENSTÅENDE SLTTES?
+####
 
 #%%
 # Most common word -- VIRKER -- dog ikke relevant
