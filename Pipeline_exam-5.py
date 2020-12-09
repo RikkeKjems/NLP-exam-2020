@@ -210,7 +210,7 @@ for file_name in path:
 
 path = glob.glob('Data/Lemma_data/ND_lemma/ND21_lemma.txt')
 
-idx = [] 
+idx = []
 for t in path:
     data = open(t, "r").read()
     words = data.split('/')
@@ -228,22 +228,23 @@ for word in words:
     colm = ['Freq']
     df = pd.DataFrame(data=values, index=keys, columns=colm)
     df2 = (df.loc[df['Freq'] == 1])
-    num = (len(df2)) 
-   
+    num = (len(df2))
+
 
 c = ['Unique words in doc']
 ND21 = pd.DataFrame(data=num, index=idx, columns=c)
-df_ND = pd.concat([ND0, ND1, ND2, ND3, ND4, ND5, ND6, ND7, ND8, ND9, ND10, ND11, ND12, ND13, ND14, ND15, ND16, ND17, ND18, ND19, ND20, ND21])
+df_ND = pd.concat([ND0, ND1, ND2, ND3, ND4, ND5, ND6, ND7, ND8, ND9, ND10,
+                   ND11, ND12, ND13, ND14, ND15, ND16, ND17, ND18, ND19, ND20, ND21])
 df_ND.to_csv(r'Data/ND_unique.csv')
 
-#combining both DF's into one csv file
+# combining both DF's into one csv file
 os.chdir("Data/Unique")
 extension = 'csv'
 all_filenames = [i for i in glob.glob('*.{}'.format(extension))]
-#combine all files in the list
-combined_csv = pd.concat([pd.read_csv(f) for f in all_filenames ])
-#export to csv
-combined_csv.to_csv( "Unique.csv", index=False, encoding='utf-8-sig')
+# combine all files in the list
+combined_csv = pd.concat([pd.read_csv(f) for f in all_filenames])
+# export to csv
+combined_csv.to_csv("Unique.csv", index=False, encoding='utf-8-sig')
 
 # %% VIRKER
 ########
@@ -318,3 +319,13 @@ for fileName in path:
 #df = pd.DataFrame(data=data_record, index=ids, columns=cols)
 # df.to_csv(r'Data/Data.csv')
 # Uncomment når DF skal laves. Overrider den eksisterende.
+# %%
+df = pd.read_csv('Data/CSV/Data.csv', header=0)
+# %%
+df.insert(1, "D_or_ND", ['D', 'D', 'D', 'ND', 'ND', 'D', 'ND', 'ND', 'D', 'ND', 'ND', 'D', 'D', 'D', 'D', 'D', 'D', 'D', 'D', 'D', 'D',
+                         'D', 'ND', 'ND', 'ND', 'ND', 'D', 'D', 'ND', 'ND', 'ND', 'ND', 'D', 'D', 'ND', 'ND', 'ND', 'ND', 'D', 'D', 'ND', 'ND', 'ND', 'D'], True)
+# %%
+df
+# %%
+df.to_csv(r'Data/CSV/New_Data.csv')
+# %%
