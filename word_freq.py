@@ -93,6 +93,7 @@ df_unique = pd.concat(df_D, df_ND)
 df_ND.to_csv(r"Data/ND_unique.csv")
 
 #%%
+### CSV FIL MED ALLE UNIQUE
 import os
 import glob
 import pandas as pd
@@ -126,38 +127,173 @@ if __name__ == "__main__":
     main()
 
 
-#%%
-### LONGEST WORD - virker på tagged men ikke lemma filer
-def longest_word(filename):
-    with open("Data/All_Tagged_Data/tagged_D1.txt", "rt", encoding="utf-8") as infile:
-        words = infile.read().split()
-    max_len = len(max(words, key=len))
-    return [word for word in words if len(word) == max_len]
 
-
-print(longest_word("test.txt"))
 
 #%%
-# ENDNU ET FORSØG - kig her imorgen
-path = glob.glob("Data/Lemma_data/ND_lemma/ND21_lemma.txt")
+## LONGEST WORD IN TEXT ---- VIRKER
+## Køres på hver enkelt fil manuelt
+path = glob.glob("Data/Lemma_data/D_lemma/D0_lemma.txt")
 
 for files in path:
     data = open(files, "r").read()
     words = data.split("/")
 
-    for word in word:
-        longest = max(word, key=len)
-print(longest)
+    for word in words:
+        longest = max(words, key=len)
+        length_longest = len(max_lens)
+
+        word_length = len(word)
+        word_length
 
 c = ["Length of longest word"]
-c2 = ["Length of longest word", "Most common word length"]
-c3 = [
-    "Length of longest word",
-    "Most common word length",
-    "<-- Occur %",
-]
-idx = ["D1"]
-df = pd.DataFrame(data=max_len, index=idx, columns=c)
+#c2 = ["Length of longest word", "Most common word length"]
+#c3 = ["Length of longest word","Most common word length","<-- Occur %"]
+idx = ["D0"]
+D0 = pd.DataFrame(data=length_longest, index=idx, columns=c)
+D0
+
+### Most common word length
+for files in path:
+    data = open(files, "r").read()
+    words = data.split("/")
+    
+    length_counter = {}
+    for w in words:
+        len(w)
+        if len(w) in length_counter:
+            length_counter[len(w)] += 1
+        else:
+            length_counter[len(w)] = 1
+
+w_len = length_counter.keys() 
+common = length_counter.values()
+
+c = ['Occurence in text']
+df = pd.DataFrame(data = common, index=w_len, columns=c)
+yey = df.loc[df['Occurence in text'].idxmax()]
+
+df4 = pd.DataFrame(data=yey)
+df5 = pd.melt(df4)
+D0_0 = df5.rename(index = {0:'D0'},columns = {'variable':'Most common word Length', 'value':'Occurence'})
+D0_0
+
+merged_D0= D0.merge(D0_0, left_index=True, right_index=True)
+merged_D0
+
+### procent
+procent = (164/len(words))*100
+procent
+
+df_procent=pd.DataFrame(data=procent, index=['D0'], columns=['Occurence %'])
+df_procent
+
+### Final df 
+final_df=merged_D0.merge(df_procent, left_index=True, right_index=True)
+final_df
+
+#%%
+# Most common word -- VIRKER -- dog ikke relevant
+from collections import Counter
+
+path = glob.glob("Data/Lemma_data/ND_lemma/ND21_lemma.txt")
+
+for files in path:
+    data = open(files, "r").read()
+    words = data.split("/")
+    
+    word_counter = {}
+    for word in words:
+        if word in word_counter:
+            word_counter[word] += 1
+        else:
+            word_counter[word] = 1
+
+popular_words = sorted(word_counter, key = word_counter.get, reverse = True)
+popular_words[:1]
+
+
+#length of most common word
+word_length =  [len(x) for x in popular_words[:1]]
+word_length
+
+
+#%% 
+## VIRKER 
+### Most common word length
+path = glob.glob("Data/Lemma_data/ND_lemma/ND21_lemma.txt")
+
+for files in path:
+    data = open(files, "r").read()
+    words = data.split("/")
+    
+    length_counter = {}
+    for w in words:
+        len(w)
+        if len(w) in length_counter:
+            length_counter[len(w)] += 1
+        else:
+            length_counter[len(w)] = 1
+
+    for v in sorted(length_counter.keys()):
+        print("%-6d | %d" % (v, counts[v]))
+
+w_len = length_counter.keys() 
+w_len
+common = length_counter.values() 
+common
+
+c = ['Occurence in text']
+df = pd.DataFrame(data = common, index=w_len, columns=c)
+df
+yey = df.loc[df['Occurence in text'].idxmax()]
+
+df4 = pd.DataFrame(data=yey)
+df4
+df5 = pd.melt(df4)
+df5
+df5.rename(columns = {'variable':'Word Lengh', 'value':'Occurence'})
+
+
+
+#%%
+print (popular_words[:1])
+print(word_counter)
+print(popular_words)
+#word_length = len((popular_words[:1])
+#x = popular_words[:1]
+
+#####Length of most common word
+### tæller '' og [] med
+word_length =  [len(x) for x in popular_words[:1]]
+word_length
+
+#%%
+### most common word length
+path = glob.glob("Data/Lemma_data/ND_lemma/ND21_lemma.txt")
+counts = collections.defaultdict(int)
+for files in path:
+    data = open(files, "r").read()
+    words = data.split("/")
+    
+    for word in files:
+            counts[len(word)] += 1
+for i in sorted(counts.keys()):
+        print("%-6d | %d" % i, counts[i])
+
+print(leng)
+    
+    word_counter = {}
+    for words in files:
+        len(words)
+        if word in word_counter:
+            word_counter[word] += 1
+        else:
+            word_counter[word] = 1
+
+print(len(words))
+popular_words = sorted(word_counter, key = word_counter.get, reverse = True)
+
+print (popular_words[:1])
 #%%
 ##########################
 # KAN NEDENSTÅENDE SLETTES?
