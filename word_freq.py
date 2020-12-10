@@ -217,7 +217,7 @@ final_ND_df = pd.concat(
 final_D_df.to_csv(r"Data/Length/D_length.csv")
 
 #%%
-### CSV FIL MED ALLE UNIQUE
+### CSV FIL MED ALLE LENGTH
 import os
 import glob
 import pandas as pd
@@ -233,21 +233,18 @@ combined_csv = pd.concat([pd.read_csv(f) for f in all_filenames])
 combined_csv.to_csv("Length.csv", index=False, encoding="utf-8-sig")
 
 #%%
-### Det her burde virke!!!
-
-os.chdir("Data/CSV") #nødvendigt?
-
-df_l = pd.read_csv ('Length.csv')
-df_u = pd.read_csv('filename_change_unique.csv')
-df_d = pd.read_csv('filename_chnage_data.csv')
+#CSV WITH ALL DATA FOR CLASSIFIER
+df_l = pd.read_csv('Data/CSV/Length.csv')
+df_u = pd.read_csv('Data/CSV/filename_change_unique.csv')
+df_d = pd.read_csv('Data/CSV/filename_change_data.csv')
 
 dft = pd.merge(df_l, df_u, how='left', on='Unnamed: 0')
+dft
 
 dfg = pd.merge(dft, df_d, how='left', on='Unnamed: 0')
+dfg
 
-dfg.to_csv(r"Data/CSV/All.csv")
-
-
+dfg.to_csv(r'Data/CSV/All.csv')
 #%%
 ####
 ### SKAL ALT NEDENSTÅENDE SLTTES?
