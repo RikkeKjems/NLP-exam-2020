@@ -232,7 +232,7 @@ combined_csv.to_csv("Length.csv", index=False, encoding="utf-8-sig")
 ### Trying to merge all csv files into one
 #VIRKER IKKE
 ### combined csv 
-os.chdir("Data/Length")
+os.chdir("Data/Pernille")
 
 extension = "csv"
 all_filenames = [i for i in glob.glob("*.{}".format(extension))]
@@ -240,14 +240,8 @@ all_filenames = [i for i in glob.glob("*.{}".format(extension))]
 # combine all files in the list
 combined_csv = pd.concat([pd.read_csv(f) for f in all_filenames])
 # export to csv
-combined_csv.to_csv("Length.csv", index=False, encoding="utf-8-sig")
+combined_csv.to_csv("All_Data.csv", index=True, encoding="utf-8-sig")
 
-###
-path = "Data/CSV"
-
-all_files = glob.glob(os.path.join(path, "*.csv"))
-
-pd.merge(all_files, how='left', on='Unnamed:0')
 
 #%%
 ### MERGE ALL CSV FILES FROM FOLDER CSV
