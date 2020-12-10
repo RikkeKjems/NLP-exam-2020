@@ -146,15 +146,3 @@ print(y_pred)
 # %%
 
 #####
-# Fra Pernille
-# os.chdir('Data/CSV') #nødvendigt?
-df_l = pd.read_csv('Data/CSV/Length.csv')
-# %%
-df_u = pd.read_csv('Data/CSV/filename_change_unique.csv')
-df_d = pd.read_csv('Data/CSV/filename_chnage_data.csv')
-dft = pd.merge(df_l, df_u, how='left', on='Unnamed: 0')
-dfg = pd.merge(dft, df_d, how='left', on='Unnamed: 0')
-
-# %%
-dfg.to_csv(r'Data/CSV/All.csv')
-# %%
