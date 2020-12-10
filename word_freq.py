@@ -128,7 +128,6 @@ if __name__ == "__main__":
 
 
 
-
 #%%
 ## LONGEST WORD IN TEXT ---- VIRKER
 ## Køres på hver enkelt fil manuelt
@@ -217,7 +216,12 @@ final_ND_df = pd.concat(
 ### df --> csv
 final_D_df.to_csv(r"Data/Length/D_length.csv")
 
-### one big csv file
+#%%
+### CSV FIL MED ALLE UNIQUE
+import os
+import glob
+import pandas as pd
+
 os.chdir("Data/Length")
 
 extension = "csv"
@@ -229,34 +233,20 @@ combined_csv = pd.concat([pd.read_csv(f) for f in all_filenames])
 combined_csv.to_csv("Length.csv", index=False, encoding="utf-8-sig")
 
 #%%
-### Trying to merge all csv files into one
-#VIRKER IKKE
-### combined csv 
-os.chdir("Data/Pernille")
+### Det her burde virke!!!
 
-extension = "csv"
-all_filenames = [i for i in glob.glob("*.{}".format(extension))]
+os.chdir("Data/CSV") #nødvendigt?
 
-# combine all files in the list
-combined_csv = pd.concat([pd.read_csv(f) for f in all_filenames])
-# export to csv
-combined_csv.to_csv("All_Data.csv", index=True, encoding="utf-8-sig")
+df_l = pd.read_csv ('Length.csv')
+df_u = pd.read_csv('filename_change_unique.csv')
+df_d = pd.read_csv('filename_chnage_data.csv')
 
+dft = pd.merge(df_l, df_u, how='left', on='Unnamed: 0')
 
-#%%
-### MERGE ALL CSV FILES FROM FOLDER CSV
-### ONE BIG CSV FILE WITH ALL DATA TO USE IN CLASSIFER
-### VIRKER IKKE
+dfg = pd.merge(dft, df_d, how='left', on='Unnamed: 0')
 
-os.chdir("Data/Length")
+dfg.to_csv(r"Data/CSV/All.csv")
 
-extension = "csv"
-all_filenames = [i for i in glob.glob("*.{}".format(extension))]
-
-# combine all files in the list
-combined_csv = pd.concat([pd.read_csv(f) for f in all_filenames])
-# export to csv
-combined_csv.to_csv("Length.csv", index=False, encoding="utf-8-sig")
 
 #%%
 ####
