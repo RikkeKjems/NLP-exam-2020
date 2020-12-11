@@ -35,6 +35,48 @@ print(raw_data.shape)
 # runs the first 5 rows
 raw_data.head(5)
 
+#%%
+#### EDITING RAW DATA
+raw_data.insert(1, "D_or_ND", ['ND', 'ND', 'ND', 'ND', 'ND', 'ND', 'ND', 'ND', 'ND', 'ND', 'ND', 'ND', 'ND', 'ND', 'ND', 'ND', 'ND', 'ND', 'ND', 'ND',
+                         'ND', 'ND', 'D', 'D', 'D', 'D', 'D', 'D', 'D', 'D', 'D', 'D', 'D', 'D', 'D', 'D', 'D', 'D', 'D', 'D', 'D', 'D', 'D', 'D', 'D', 'D'], True)
+
+
+print(list(raw_data.columns))
+
+
+df = raw_data.rename(columns={
+                        'Unnamed: 0.1': 'File',
+                        'Length of longest word': 'max_word_length',
+                        'Most common word Length': 'Most_common_word_length',
+                        'Occurence %': 'Occurence_perc',
+                        'Unique words in doc': 'Unique_words_in_doc',
+                        'noun %': 'Noun_perc',
+                        'verb %': 'Verb_perc',
+                        'adj %': 'Adj_perc',
+                        'pron %': 'Pron_perc',
+                        'adv %': 'Adv_perc', 
+                        'prop %': 'Prop_perc'})
+
+raw_data
+
+print(df)
+
+df = df.drop(columns=['Unnamed: 0'])
+df
+
+df.to_csv(r'Data/newnames.csv')
+
+#%%
+#### New data with updated columns
+raw_data = pd.read_csv('Data/newnames.csv')
+
+# print the shape
+print(raw_data.shape)
+
+# runs the first 5 rows
+raw_data.head(5)
+
+raw_data.drop(columns=['Unnamed: 0'])
 # %%
 #### DATA PREPROCCESSING #####
 #### EXPLORATORY DATA ANALYSIS ####
@@ -61,6 +103,7 @@ raw_data.isnull().sum()
 
 # %%
 # Investigate all the elements whithin each Feature
+### Hvad er ideen bag dette?
 
 for column in raw_data:
     unique_values = np.unique(raw_data[column])
@@ -74,7 +117,7 @@ for column in raw_data:
 
 # %%
 # Visualize the data using seaborn Pairplots
-
+%matplotlib inline
 g = sns.pairplot(raw_data)
 
 # Notes: Do not run this on a big dataset. Filter the columns first
@@ -83,53 +126,106 @@ g = sns.pairplot(raw_data)
 #### DATA CLEANING ####
 # %%
 # Deleting the outlier
+# hard to see if we have any outliers
 
-raw_data = raw_data[raw_data['Age'] < 100]
+raw_data = raw_data[raw_data['max_word_length'] < 60]
 
 raw_data.shape
 
 # %%
 # Visualize the data using seaborn Pairplots
-g = sns.pairplot(raw_data, hue='Good Loan')
+g = sns.pairplot(raw_data, hue='D_or_ND')
 
 # %%
 # Investigating the distr of y
-sns.countplot(x='Good Loan', data=raw_data, palette='Set3')
+sns.countplot(x='D_or_ND', data=raw_data, palette='Set3')
 
 # %%
+
 raw_data.columns
 
 # %%
 # Looping through all the features by our y variable - see if there is relationship
 
-features = ['Type of Account', 'Account History', 'Reason for the Loan',
-            'Account Savings', 'Employment History',
-            'Individual Stauts', 'Other Loans', 'Security / Collateral',
-            'Residence Status', 'Job', 'Completed Other loan?']
+features = ['File', 'max_word_length', 'Most_common_word_length',
+            'Occurence', 'Occurence_perc',
+            'Unique_words_in_doc', 'no_words', 'no_useful_tokens',
+       'no_useless_tokens', 'Noun_perc', 'Verb_perc', 'Adj_perc', 'Pron_perc',
+       'Adv_perc', 'Prop_perc']
 
 for f in features:
-    sns.countplot(x=f, data=raw_data, palette='Set3', hue='Good Loan')
+    sns.countplot(x=f, data=raw_data, palette='Set3', hue='D_or_ND')
     plt.show()
 
 # %%
 raw_data.head()
+raw_data
 
 # %%
 # Making categorical variables into numeric representation
+new_raw_data=raw_data
+new_raw_data
 
-new_raw_data = pd.get_dummies(raw_data, columns=features)
 
-# Notes:
-# We can also do this with Label Encoding and OneHotEncoder from the preprocessing library
 
 print(raw_data.shape)
 # print the shape
 print(new_raw_data.shape)
 
+
 # Creating a new 0-1 y variable
-#new_raw_data['Loan Approved2'] = 0
-new_raw_data['Good Loan'][new_raw_data['Good Loan'] == 'Yes'] = 1
-new_raw_data['Good Loan'][new_raw_data['Good Loan'] == 'No'] = 0
+new_raw_data["File"].replace({
+    'ND0': '0.0',   
+    'ND1': '0.1',
+    'ND2': '0.2',
+    'ND3': '0.3',
+    'ND4': '0.4',
+    'ND5': '0.5',
+    'ND6': '0.6',
+    'ND7': '0.7',
+    'ND8': '0.8',
+    'ND9': '0.9',
+    'ND10': '0.10',
+    'ND11': '0.11',
+    'ND12': '0.12',
+    'ND13':'0.13',
+    'ND14': '0.14',
+    'ND15': '0.15',
+    'ND16': '0.16',
+    'ND17': '0.17',
+    'ND18': '0.18',
+    'ND19': '0.19',
+    'ND20': '0.20',
+    'ND21': '0.21',
+    'D0': '1.0',
+    'D1': '1.1',
+    'D2': '1.2',
+    'D3': '1.3',
+    'D4': '1.4',
+    'D5': '1.5',
+    'D6': '1.6',
+    'D7': '1.7',
+    'D8': '1.8',
+    'D9': '1.9',
+    'D10':'1.10',
+    'D11': '1.11',
+    'D12': '1.12',
+    'D13': '1.13',
+    'D14': '1.14',
+    'D15': '1.15',
+    'D16': '1.16',
+    'D17': '1.17',
+    'D18': '1.18',
+    'D19': '1.19',
+    'D20': '1.20',
+    'D21': '1.21',
+    'D22': '1.22',
+    'D23': '1.23'
+    }, inplace=True)
+
+
+new_raw_data['D_or_ND'][new_raw_data['D_or_ND'] == 'D'] = 1
+new_raw_data['D_or_ND'][new_raw_data['D_or_ND'] == 'ND'] = 0
 
 # Visualizing the data
 new_raw_data
@@ -149,8 +245,8 @@ new_raw_data
 # %%
 # Split the data into X & y
 
-X = new_raw_data.drop('Good Loan', axis=1).values
-y = new_raw_data['Good Loan']
+X = raw_data.drop('D_or_ND', axis=1).values
+y = raw_data['D_or_ND']
 
 y = y.astype(int)
 
@@ -160,7 +256,7 @@ print(y.shape)
 # %%
 # Run a Tree-based estimators (i.e. decision trees & random forests)
 
-dt = DecisionTreeClassifier(random_state=15, criterion='entropy', max_depth=10)
+dt = DecisionTreeClassifier(random_state=15, criterion = 'entropy', max_depth = 10)
 dt.fit(X, y)
 
 # If you want to learn how Decesion Trees work, read here: https://www.datacamp.com/community/tutorials/decision-tree-classification-python
@@ -172,7 +268,7 @@ dt.fit(X, y)
 fi_col = []
 fi = []
 
-for i, column in enumerate(new_raw_data.drop('Good Loan', axis=1)):
+for i, column in enumerate(new_raw_data.drop('D_or_ND', axis=1)):
     print('The feature importance for {} is : {}'.format(
         column, dt.feature_importances_[i]))
 
