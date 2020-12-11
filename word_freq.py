@@ -244,7 +244,7 @@ dft
 dfg = pd.merge(dft, df_d, how='left', on='Unnamed: 0')
 dfg
 
-dfg.to_csv(r'Data/CSV/All.csv')
+dfg.to_csv(r'Data/CSV/F.csv')
 #%%
 ####
 ### SKAL ALT NEDENSTÅENDE SLTTES?
