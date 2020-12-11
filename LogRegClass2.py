@@ -147,12 +147,12 @@ raw_data.columns
 # %%
 # Looping through all the features by our y variable - see if there is relationship
 
-features = ['File', 'max_word_length', 'Most_common_word_length',
-            'Occurence', 'Occurence_perc',
-            'Unique_words_in_doc', 'no_words', 'no_useful_tokens',
-       'no_useless_tokens', 'Noun_perc', 'Verb_perc', 'Adj_perc', 'Pron_perc',
+features = ['File', 'max_word_length', 'Most_common_word_length', 'Occurence_perc',
+            'Unique_words_in_doc', 'Noun_perc', 'Verb_perc', 'Adj_perc', 'Pron_perc',
        'Adv_perc', 'Prop_perc']
 
+#%%
+## PLOT MED MANGE PLOTS
 for f in features:
     sns.countplot(x=f, data=raw_data, palette='Set3', hue='D_or_ND')
     plt.show()
@@ -161,9 +161,14 @@ for f in features:
 raw_data.head()
 raw_data
 
+#%% 
+
+Leg = df.drop(columns=['Occurence', 'no_words', 'Unique_words_in_doc', 'no_useful_tokens', 'no_useless_tokens' ])
+Leg
+
 # %%
 # Making categorical variables into numeric representation
-new_raw_data=raw_data
+new_raw_data=Leg
 new_raw_data
 
 
@@ -245,8 +250,11 @@ new_raw_data
 # %%
 # Split the data into X & y
 
-X = raw_data.drop('D_or_ND', axis=1).values
+X = raw_data.drop('D_or_ND', axis=1)
 y = raw_data['D_or_ND']
+
+X
+y
 
 y = y.astype(int)
 
@@ -255,8 +263,9 @@ print(y.shape)
 
 # %%
 # Run a Tree-based estimators (i.e. decision trees & random forests)
+from sklearn import tree
 
-dt = DecisionTreeClassifier(random_state=15, criterion = 'entropy', max_depth = 10)
+dt = tree.DecisionTreeClassifier()
 dt.fit(X, y)
 
 # If you want to learn how Decesion Trees work, read here: https://www.datacamp.com/community/tutorials/decision-tree-classification-python
