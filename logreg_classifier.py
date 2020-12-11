@@ -115,7 +115,8 @@ df["D_or_ND"].replace({"D": "1", "ND": "0"}, inplace=True)
 df
 # %%
 # Setting independent (x) og dependent variables (y)
-X = df[['max_word_length', 'Most_common_word_length', 'Occurence_perc']]
+#X = df[['max_word_length', 'Most_common_word_length', 'Occurence_perc']]
+X = df[['max_word_length']]
 y = df['D_or_ND']
 df
 # %%
