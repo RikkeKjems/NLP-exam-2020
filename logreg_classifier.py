@@ -46,8 +46,8 @@ plt.savefig('count_plot')
 
 # %%
 # Virker ikke
-count_no_sub = len(data[data['D_or_ND'] == 0])
-count_sub = len(data[data['D_or_ND'] == 1])
+count_no_sub = len(data[data['D_or_ND'] == 0]) #dette giver 0, hvorfor?
+count_sub = len(data[data['D_or_ND'] == 1]) #samme hvad vil vi gerne have?
 pct_of_no_sub = count_no_sub/(count_no_sub+count_sub)
 print("percentage of no subscription is", pct_of_no_sub*100)
 pct_of_sub = count_sub/(count_no_sub+count_sub)
