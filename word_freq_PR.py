@@ -36,7 +36,7 @@ path = glob.glob('Data/Final_UTF8_data/ND_data/ND_Tokenfolder/*.txt')
 idx = []  # filenames for rows = 22
 number = []  # burde også være 22 et tal for hver doc
 freqs = {}
-list_freq=[]
+list_freq = []
 for t in path:
     data = open(t, "r").read()
     words = data.split('/')
@@ -49,36 +49,34 @@ for t in path:
     idx.append(t)
     list_freq.append(freqs)
     print(list_freq)
-    #print(freqs) alle ord med freq i ND_tokenfolder
+    # print(freqs) alle ord med freq i ND_tokenfolder
         for p in freqs:
             keys = freqs.keys()  # word
             values = freqs.values()  # frequency
             keys
 
-#print(idx, freqs)
+# print(idx, freqs)
 
 
-with open("Data/Final_UTF8_data/ND_Data/ND_Tokenfolder/ND_token1.txt", "r") 
-as file:    
+with open("Data/Final_UTF8_data/ND_Data/ND_Tokenfolder/ND_token1.txt", "r")
+as file:
     lines = file.read().splitlines("/")
     print(lines)
     words = []
-for i in lines:   
-    if i not in words:        
+for i in lines:
+    if i not in words:
     words.append(i)
     print(words)
     uniques = set()
-for line in lines:    
+for line in lines:
 uniques |= set(line.split())
-print(f"Unique words: {len(uniques)}")  
-
-
+print(f"Unique words: {len(uniques)}")
 
         colm = ['Freq']
         df = pd.DataFrame(data=values, index=keys, columns=colm)
         df
-    #total_n = (len(df))  ikke nødvendigt
-    #print(total_n) ikke nødvendigt
+    # total_n = (len(df))  ikke nødvendigt
+    # print(total_n) ikke nødvendigt
 
     df2 = (df.loc[df['Freq'] == 1])
     df2
@@ -276,3 +274,67 @@ record[len(word)] +=1
 cols = ['filename'] + [ str(i) for i in range(1,34) ]
 
 df = df = pd.DataFrame(data=data_record, index=ids, columns=cols)
+
+###
+# %%
+df = pd.read_csv('Data/newnames.csv')
+# %%
+# OMREGNER NUMBER OF UNIQUE WORD TIL PROCENT DEL
+df.insert(8, "Unique_occ_perc", 
+    ['17.55050505',
+    '19.25436527',
+    '22.21210742',
+    '27.81546811',
+    '23.35984095',
+    '19.51661631',
+    '14.98847041',
+    '15.71925754',
+    '11.72943601',
+    '16.57192829',
+    '17.42400501',
+    '35.88328076',
+    '19.96320147',
+    '29.37788018',
+    '14.52130096',
+    '21.12131464',
+    '65.25096525',
+    '18.00766284',
+    '11.91646192',
+    '24.37446074',
+    '19.23076923',
+    '26.64556962',
+    '33.00546448',
+    '50.0',
+    '58.15602837',
+    '64.17112299',
+    '57.28813559',
+    '28.5472973',
+    '31.46292585',
+    '54.64480874',
+    '16.57179001',
+    '26.48',
+    '41.32231405',
+    '46.85598377',
+    '48.20143885',
+    '44.44444444',
+    '32.51336898',
+    '39.11819887',
+    '36.49635036',
+    '45.64220183',
+    '13.90708755',
+    '19.49221949',
+    '29.44550669',
+    '41.85022026',
+    '24.54545455',
+    '51.5625']
+    , True)
+
+
+# %%
+df.to_csv(r'Data/CSV/newnames2.csv')
+# %%
+
+# %%
+# %%
+df.dtypes
+# %%
