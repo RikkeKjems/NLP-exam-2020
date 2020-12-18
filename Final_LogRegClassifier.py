@@ -487,21 +487,22 @@ def plot_confusion_matrix(cm, classes=None, title='Confusion matrix'):
     plt.ylabel('True label')
     plt.xlabel('Predicted label')
 
-
+#%%
+log_reg.predict(X_valid)
+y_pret = log_reg.predict(X_valid)
+print(y_pret)
 # %%
 # Visualizing cm
-cm = confusion_matrix(y_valid, y_pred)
+cm = confusion_matrix(y_valid, y_pret)
 cm_norm = cm / cm.sum(axis=1).reshape(-1, 1)
 
 plot_confusion_matrix(cm_norm, classes=log_reg.classes_,
                       title='Confusion matrix')
 # %%
-# Accuracy on Train
-print("The Training Accuracy is: ", log_reg.score(X_train, y_train))
-
-# Accuracy on Test
-print("The Testing Accuracy is: ", log_reg.score(X_test, y_test))
-
+# Accuracy on Validation
+print("The Validation Accuracy is: ", log_reg.score(X_valid, y_valid))
 
 # Classification Report
-print(classification_report(y_train, y_pred))
+print(classification_report(y_valid, y_pret))
+
+# %%
