@@ -8,9 +8,9 @@ from sklearn import preprocessing
 import matplotlib.pyplot as plt
 from sklearn import metrics
 import seaborn as sn
-plt.rc("font", size=14)
-sns.set(style="white")
-sns.set(style="whitegrid", color_codes=True)
+#plt.rc("font", size=14)
+# sns.set(style="white")
+#sns.set(style="whitegrid", color_codes=True)
 
 # %%
 df = pd.read_csv('Data/CSV/Length.csv', header=0)
@@ -147,3 +147,31 @@ print(y_pred)
 # %%
 
 #
+
+
+# %%%
+
+
+df = pd.read_csv('Data/CSV/percandquar.csv', header=0)
+
+# %%
+df = df.drop(columns=['Unnamed: 0', 'Unnamed: 0.1', 'max_word_length',
+                      'Most_common_word_length', 'max_word_length_quar', 'Most_common_word_length_quar',
+                      'Occurence_perc_quar', 'Unique_occ_perc_quar', 'Noun_perc_quar',
+                      'Verb_perc_quar', 'Adj_perc_quar', 'Pron_perc_quar', 'Adv_perc_quar'])
+
+#df = df.drop(columns=['Unnamed: 0', 'Unnamed: 0.1'])
+
+
+# %%
+df.groupby('D_or_ND').mean()
+
+
+# %%
+df = pd.read_csv('Data/CSV/Final_Data.csv', header=0)
+
+# %%
+df = df.drop(columns=['Unnamed: 0', 'Unnamed: 0.1'])
+# %%
+df.groupby('D_or_ND').mean()
+# %%
