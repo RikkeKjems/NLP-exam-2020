@@ -152,19 +152,22 @@ for file_name in path:
         tagged_texts.close()
         i += 1
 
+### UNIQUE WORDS ###
+#%%
+# Loop through all files in dir did not work, therefore it was done manually.
 
-# %%
-# Loop med df som output. filenavn + antal unique words in each file
-# gøres fil for fil i de to mapper
+# Loop with df as output. Filename and number of unique words for each file.
 
-path = glob.glob('Data/Lemma_data/ND_lemma/ND21_lemma.txt')
+path = glob.glob("Data/Lemma_data/ND_lemma/ND21_lemma.txt") # Loading one file at a time
 
-idx = []
+idx = []  # empty list
+
+#loop
 for t in path:
-    data = open(t, "r").read()
-    words = data.split('/')
-    idx.append(t)
-    freqs = {}
+    data = open(t, "r").read() #reading the file
+    words = data.split("/") # Splitting the files by "/"
+    idx.append(t) #appending filenmaes to list
+    freqs = {} #empty dir
 for word in words:
     if word not in freqs:
         freqs[word] = 1
@@ -174,18 +177,52 @@ for word in words:
     keys = freqs.keys()  # word
     values = freqs.values()  # frequency
 
-    colm = ['Freq']
-    df = pd.DataFrame(data=values, index=keys, columns=colm)
-    df2 = (df.loc[df['Freq'] == 1])
-    num = (len(df2))
+    colm = ["Freq"]
+    df = pd.DataFrame(data=values, index=keys, columns=colm) #df with filename and frequency of ech word in file
+   
+    #total_n = (len(df))
+    #print(total_n)
 
+    df2 = df.loc[df["Freq"] == 1] #new df containing only frequency of 1
+    num = len(df2)
+    #print(num)
 
-c = ['Unique words in doc']
+#Creating final df
+c = ["Unique words in doc"]
 ND21 = pd.DataFrame(data=num, index=idx, columns=c)
-df_ND = pd.concat([ND0, ND1, ND2, ND3, ND4, ND5, ND6, ND7, ND8, ND9, ND10,
-                   ND11, ND12, ND13, ND14, ND15, ND16, ND17, ND18, ND19, ND20, ND21])
-df_ND.to_csv(r'Data/ND_unique.csv')
 
+#Merging all df's. Change ND to D when switching folder
+df_ND = pd.concat(
+    [
+        ND1,
+        ND1,
+        ND2,
+        ND3,
+        ND4,
+        ND5,
+        ND6,
+        ND7,
+        ND8,
+        ND9,
+        ND10,
+        ND11,
+        ND12,
+        ND13,
+        ND14,
+        ND15,
+        ND16,
+        ND17,
+        ND18,
+        ND19,
+        ND20,
+        ND21,
+    ]
+)
+
+# Converting df to csv and saving it in folder 
+df_ND.to_csv(r"Data/ND_unique.csv")
+
+#%%
 # combining both DF's into one csv file
 os.chdir("Data/Unique")
 extension = 'csv'
@@ -195,6 +232,136 @@ combined_csv = pd.concat([pd.read_csv(f) for f in all_filenames])
 # export to csv
 combined_csv.to_csv("Unique.csv", index=False, encoding='utf-8-sig')
 
+
+### MAXIMUM WORD LENGTH ###
+# %%
+# Run on each file as the loop did not work on an entire folder
+
+#Loading data
+path=glob.glob("Data/Lemma_data/ND_lemma/ND21_lemma.txt")
+
+#loop 
+for files in path:
+    data=open(files, "r").read() #reading file
+    words=data.split("/") # splitting content of file by "/"
+
+    for word in words:
+        longest=max(words, key=len) #longest word
+        length_longest=len(longest) #length of the longest word
+
+        word_length=len(word)
+        word_length
+# creating df
+c=["Length of longest word"]
+idx=["ND21"]
+ND21=pd.DataFrame(data=length_longest, index=idx, columns=c)
+
+### MOST COMMON WORD LENGTH ###
+#%%
+#loop
+for files in path: #same path as above
+    data=open(files, "r").read() #reading file
+    words=data.split("/") #splitting content of file by "/"
+
+#loop counting letters in word
+    length_counter={}
+    for w in words:
+        len(w)
+        if len(w) in length_counter:
+            length_counter[len(w)] += 1
+        else:
+            length_counter[len(w)]=1
+
+w_len=length_counter.keys() #word length
+common=length_counter.values() #most common word length
+
+#creating df
+c=['Occurence in text']
+df=pd.DataFrame(data=common, index=w_len, columns=c)
+yey=df.loc[df['Occurence in text'].idxmax()]
+
+df4=pd.DataFrame(data=yey)
+df5=pd.melt(df4)
+ND21_21=df5.rename(index={0: 'ND21'}, columns={
+                   'variable': 'Most common word Length', 'value': 'Occurence'})
+ND21_21
+
+merged_ND21=ND21.merge(ND21_21, left_index=True, right_index=True)
+merged_ND21
+
+#%%
+# Recalculated as percentage
+
+procent=(289/len(words))*100
+
+df_procent=pd.DataFrame(data=procent, index=['ND21'], columns=['Occurence %'])
+
+#%%
+# Merging all df's together to one csv
+
+#Change ND to D when folder is changed in path
+final_ND21=merged_ND21.merge(df_procent, left_index=True, right_index=True)
+final_ND21
+
+final_ND_df=pd.concat(
+    [
+        final_ND0,
+        final_ND1,
+        final_ND2,
+        final_ND3,
+        final_ND4,
+        final_ND5,
+        final_ND6,
+        final_ND7,
+        final_ND8,
+        final_ND9,
+        final_ND10,
+        final_ND11,
+        final_ND12,
+        final_ND13,
+        final_ND14,
+        final_ND15,
+        final_ND16,
+        final_ND17,
+        final_ND18,
+        final_ND19,
+        final_ND20,
+        final_ND21,
+    ]
+)
+
+# df --> csv
+final_ND_df.to_csv(r"Data/Length/ND_length.csv")
+
+### CSV FILE WITH ALL LENGTH
+# %%
+#Specifying dir
+os.chdir("Data/Length")
+#specifying only csv file
+extension="csv"
+all_filenames=[i for i in glob.glob("*.{}".format(extension))]
+
+# combine all files in the list
+combined_csv=pd.concat([pd.read_csv(f) for f in all_filenames])
+
+# export to csv
+combined_csv.to_csv("Length.csv", index=False, encoding="utf-8-sig")
+
+### FINAL DF READY FOR CLASSIFIER ###
+# %%
+df_l=pd.read_csv('Data/CSV/Length.csv') #length data
+df_u=pd.read_csv('Data/CSV/filename_change_unique.csv') #unique data
+df_d=pd.read_csv('Data/CSV/filename_change_data.csv') # big data file
+
+dft=pd.merge(df_l, df_u, how='left', on='Unnamed: 0') #merging two at a time
+dft
+
+dfg=pd.merge(dft, df_d, how='left', on='Unnamed: 0') #merging next two
+dfg
+
+dfg.to_csv(r'Data/CSV/F.csv') #final df converted into csv file. Ready for classifier
+
+### HEREFTER SKAL DER IKKE VÆRE MERE KODE ####
 # %% VIRKER
 ########
 # DET HER VIRKER OG FINDER TOTAL NUMBER OF WORDS VI HAR BRUG FOR OG ORDKLASSE FOR HVER FIL

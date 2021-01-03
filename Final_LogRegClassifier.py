@@ -45,8 +45,7 @@ df = df.drop(columns=['Unnamed: 0', 'Unnamed: 0.1'])
 df.head(5)
 
 # %%
-# Investigate all the elements whithin each Feature
-# Hvad er ideen bag dette?
+# Investigate all the elements whithin each feature
 
 for column in df:
     unique_values = np.unique(df[column])
@@ -167,7 +166,7 @@ print(y_valid.shape)
 # Official Doc: https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html
 
 # %%
-# Investigating the distr of all ys
+# Investigating the distr of all y's
 
 ax = sns.countplot(x=y_valid, palette="Set3")
 # %%

@@ -29,18 +29,15 @@ import os
 import glob
 import pandas as pd
 
-# %%%
-""" # ALT DET HER SKAL VI IKKE KØRE MERE. DET ER KØRT OG DER ER DANNET FILER
-# %% CLEANING
-# HENTER AL DATA IND --> CLEANER MED REGEX --> GEMMER I NY MAPPE "Final_Data"
-# Cleaning AL data VIRKER
-
+#### DATA CLEANING ####
+#%%
+# Loading the data
 list_of_files = glob.glob("Data/*.txt")
 
+# looping through all files using the regular expression
 for file_name in list_of_files:
-    # print(file_name)  # Dette kan kommenteres ud hvis vi har lyst
+    print(file_name) #ensuring all files are beiing looped through
 
-    # This needs to be done *inside the loop*
     f = open(file_name, "r", encoding="utf8", errors="ignore")
     lst = []
     for line in f:
@@ -55,52 +52,46 @@ for file_name in list_of_files:
         lst.append(line)
     f.close()
 
+    # Creating a new folder with the cleaned files
     f = open(os.path.join("Data/Final_data", os.path.basename(file_name)), "w")
 
     for line in lst:
         f.write(line)
     f.close()
 
-
-# %% SEGMENTATION ORIGINAL
-# Segmentation Data VIRKER
-# Filer hentes fra Final_UTF8_data da alle filer skal være uft8
+### SEGMENTATION ###
+#%% 
+# Loading all cleaned files
 path = glob.glob("Data/Final_UTF8_data/*.txt")
 
 for file_name in path:
     f = open(file_name, "r", encoding="utf8", errors="ignore")
-    seg_lst = []  # tom liste
-    if f.mode == "r":  # tjek om filen kan læses
-        contents = f.read()  # læs indholdet i filen
-        # print(contents)  #print indholdet - Kan undlades, tjekker om vi er inde i filen
+    seg_lst = [] # empty list
+    if f.mode == "r":  # chekcing that the file is readable
+        contents = f.read()  # reading the content of the file
+        # print(contents)  # prInting content to ensure we are inside the file. Can be commented out
     for words in file_name:
-        segment = sent_tokenize(contents)  # segmentation funktion
-        # gem segmentation for hvert dokument i en liste
+        segment = sent_tokenize(contents)  # segmentation function
+        # Each segmentation file is appended to a list 
         seg_lst.append(segment)
 
-# print(seg_lst)  # print liste, kan kommenteres ud
+print(seg_lst)  # print list to ensure all files have been looped through
 
-# %%
-# DET HER SKAL VI VEL HAVE IND ET STED?
-# Det nye regex fra Mikkel: = ([.?!)(?![\s]*[\d])
-"""
-"""
-# RIKKE ARBEJDER HER
-# NEW TOKENIZATION FUNCTION
-# %%
+### TOKENIZATION ###
+#%%
 path = glob.glob("Data/Final_UTF8_data/D_data/*.txt")
 i = 1
 stop = set(stopwords.words("danish"))
 
 for file_name in path:
     f = open(file_name, "r", encoding="utf8", errors="ignore")
-    token_lst = []  # tom liste
-    if f.mode == "r":  # tjek om filen kan læses
-        contents = f.read()  # læs indholdet i filen
-        # print(contents)  #print indholdet - Kan undlades, tjekker om vi er inde i filen
+    token_lst = []  # empty list
+    if f.mode == "r": # chekcing that the file is readable
+        contents = f.read()  # reading the content of the file
+        # print(contents)  # prInting content to ensure we are inside the file. Can be commented out
 
     tokens = nltk.tokenize.word_tokenize(contents)  # tokenization function
-    # gem segmentation for hvert dokument i en liste
+     # Each segmentation file is saved in a list 
     print(len(tokens))
     for token in tokens:
         if token not in stop:
