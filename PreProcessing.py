@@ -152,6 +152,77 @@ for file_name in path:
         tagged_texts.close()
         i += 1
 
+
+#Calculate amount of words of a given word class 
+
+for fileName in glob.iglob(r'Data/All_Tagged_Data/*.txt'):
+    data = open(fileName, "r").read()
+    words = data.split()
+    number_words = len(words)
+    Noun_occurrences = data.count("NOUN")
+    Verb_occurrences = data.count("VERB")
+    Adj_occurrences = data.count("ADJ")
+    Pron_occurrences = data.count("PRON")
+    Adv_occurrences = data.count("ADV")
+    Propn_occurrences = data.count("PROPN")
+    usefull_tokens = (Noun_occurrences+Verb_occurrences+Adj_occurrences +
+                      Pron_occurrences+Adv_occurrences+Propn_occurrences)
+    tokens_we_dont_need = (number_words-usefull_tokens)
+    Noun_percentage = Noun_occurrences / usefull_tokens * 100
+    Verb_percentage = Verb_occurrences / usefull_tokens * 100
+    Adj_percentage = Adj_occurrences / usefull_tokens * 100
+    Pron_percentage = Pron_occurrences / usefull_tokens * 100
+    Adv_percentage = Adv_occurrences / usefull_tokens * 100
+    Propn_percentage = Propn_occurrences / usefull_tokens * 100
+    print(fileName, "\n",
+          "total amount of words:", number_words, "\n",
+          "Usefull tokens:", usefull_tokens, "\n",
+          "tokens we don't need:", tokens_we_dont_need, "\n",
+          "Noun %:", Noun_percentage, "\n",
+          "Verb %:",  Verb_percentage, "\n",
+          "Adj %:", Adj_percentage, "\n",
+          "Pron %:", Pron_percentage, "\n",
+          "Adv %:", Adv_percentage, "\n",
+          "Propn %:", Propn_percentage)
+
+#Calculating word class occurence into percentage
+# %%
+path = glob.glob('Data/All_Tagged_Data/*.txt')
+ids = []
+data_record = []
+
+for fileName in path:
+    data = open(fileName, "r").read()
+    words = data.split()
+    number_words = len(words)
+    Noun_occurrences = data.count("NOUN")
+    Verb_occurrences = data.count("VERB")
+    Adj_occurrences = data.count("ADJ")
+    Pron_occurrences = data.count("PRON")
+    Adv_occurrences = data.count("ADV")
+    Propn_occurrences = data.count("PROPN")
+    usefull_tokens = (Noun_occurrences+Verb_occurrences+Adj_occurrences +
+                      Pron_occurrences+Adv_occurrences+Propn_occurrences)
+    tokens_we_dont_need = (number_words-usefull_tokens)
+    Noun_percentage = Noun_occurrences / usefull_tokens * 100
+    Verb_percentage = Verb_occurrences / usefull_tokens * 100
+    Adj_percentage = Adj_occurrences / usefull_tokens * 100
+    Pron_percentage = Pron_occurrences / usefull_tokens * 100
+    Adv_percentage = Adv_occurrences / usefull_tokens * 100
+    Propn_percentage = Propn_occurrences / usefull_tokens * 100
+    # work out the stuff as you do, and instead of printing
+    ids.append(fileName)
+    record = [number_words, usefull_tokens, tokens_we_dont_need,
+              Noun_percentage, Verb_percentage, Adj_percentage, Pron_percentage,
+              Adv_percentage, Propn_percentage]
+    data_record.append(record)
+
+    cols = ['no_words', 'no_useful_tokens', 'no_useless_tokens',
+            'noun %', 'verb %', 'adj %', 'pron %', 'adv %', 'prop %']
+
+#df = pd.DataFrame(data=data_record, index=ids, columns=cols)
+# df.to_csv(r'Data/Data.csv')
+
 ### UNIQUE WORDS ###
 #%%
 # Loop through all files in dir did not work, therefore it was done manually.
@@ -361,86 +432,4 @@ dfg
 
 dfg.to_csv(r'Data/CSV/F.csv') #final df converted into csv file. Ready for classifier
 
-### HEREFTER SKAL DER IKKE VÆRE MERE KODE ####
-# %% VIRKER
-########
-# DET HER VIRKER OG FINDER TOTAL NUMBER OF WORDS VI HAR BRUG FOR OG ORDKLASSE FOR HVER FIL
 
-for fileName in glob.iglob(r'Data/All_Tagged_Data/*.txt'):
-    data = open(fileName, "r").read()
-    words = data.split()
-    number_words = len(words)
-    Noun_occurrences = data.count("NOUN")
-    Verb_occurrences = data.count("VERB")
-    Adj_occurrences = data.count("ADJ")
-    Pron_occurrences = data.count("PRON")
-    Adv_occurrences = data.count("ADV")
-    Propn_occurrences = data.count("PROPN")
-    usefull_tokens = (Noun_occurrences+Verb_occurrences+Adj_occurrences +
-                      Pron_occurrences+Adv_occurrences+Propn_occurrences)
-    tokens_we_dont_need = (number_words-usefull_tokens)
-    Noun_percentage = Noun_occurrences / usefull_tokens * 100
-    Verb_percentage = Verb_occurrences / usefull_tokens * 100
-    Adj_percentage = Adj_occurrences / usefull_tokens * 100
-    Pron_percentage = Pron_occurrences / usefull_tokens * 100
-    Adv_percentage = Adv_occurrences / usefull_tokens * 100
-    Propn_percentage = Propn_occurrences / usefull_tokens * 100
-    print(fileName, "\n",
-          "total amount of words:", number_words, "\n",
-          "Usefull tokens:", usefull_tokens, "\n",
-          "tokens we don't need:", tokens_we_dont_need, "\n",
-          "Noun %:", Noun_percentage, "\n",
-          "Verb %:",  Verb_percentage, "\n",
-          "Adj %:", Adj_percentage, "\n",
-          "Pron %:", Pron_percentage, "\n",
-          "Adv %:", Adv_percentage, "\n",
-          "Propn %:", Propn_percentage)
-
-##########
-# CREATING A DATAFRAME
-# %%
-path = glob.glob('Data/All_Tagged_Data/*.txt')
-ids = []
-data_record = []
-
-for fileName in path:
-    data = open(fileName, "r").read()
-    words = data.split()
-    number_words = len(words)
-    Noun_occurrences = data.count("NOUN")
-    Verb_occurrences = data.count("VERB")
-    Adj_occurrences = data.count("ADJ")
-    Pron_occurrences = data.count("PRON")
-    Adv_occurrences = data.count("ADV")
-    Propn_occurrences = data.count("PROPN")
-    usefull_tokens = (Noun_occurrences+Verb_occurrences+Adj_occurrences +
-                      Pron_occurrences+Adv_occurrences+Propn_occurrences)
-    tokens_we_dont_need = (number_words-usefull_tokens)
-    Noun_percentage = Noun_occurrences / usefull_tokens * 100
-    Verb_percentage = Verb_occurrences / usefull_tokens * 100
-    Adj_percentage = Adj_occurrences / usefull_tokens * 100
-    Pron_percentage = Pron_occurrences / usefull_tokens * 100
-    Adv_percentage = Adv_occurrences / usefull_tokens * 100
-    Propn_percentage = Propn_occurrences / usefull_tokens * 100
-    # work out the stuff as you do, and instead of printing
-    ids.append(fileName)
-    record = [number_words, usefull_tokens, tokens_we_dont_need,
-              Noun_percentage, Verb_percentage, Adj_percentage, Pron_percentage,
-              Adv_percentage, Propn_percentage]
-    data_record.append(record)
-
-    cols = ['no_words', 'no_useful_tokens', 'no_useless_tokens',
-            'noun %', 'verb %', 'adj %', 'pron %', 'adv %', 'prop %']
-
-#df = pd.DataFrame(data=data_record, index=ids, columns=cols)
-# df.to_csv(r'Data/Data.csv')
-# Uncomment når DF skal laves. Overrider den eksisterende.
-# %%
-df = pd.read_csv('Data/CSV/Data.csv', header=0)
-# %%
-df.insert(1, "D_or_ND", ['D', 'D', 'D', 'ND', 'ND', 'D', 'ND', 'ND', 'D', 'ND', 'ND', 'D', 'D', 'D', 'D', 'D', 'D', 'D', 'D', 'D', 'D',
-                         'D', 'ND', 'ND', 'ND', 'ND', 'D', 'D', 'ND', 'ND', 'ND', 'ND', 'D', 'D', 'ND', 'ND', 'ND', 'ND', 'D', 'D', 'ND', 'ND', 'ND', 'D'], True)
-# %%
-df
-# %%
-# df.to_csv(r'Data/CSV/New_Data.csv')
