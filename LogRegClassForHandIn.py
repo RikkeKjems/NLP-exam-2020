@@ -26,7 +26,7 @@ sns.set(rc={'figure.figsize': (12, 10)})
 
 
 # %% IMPORT DATA
-df = pd.read_csv('Data/CSV/newnames2.csv')
+df = pd.read_csv('newnames2.csv')
 
 # %% DROP COLUMNS WE DO NOT NEED
 df = df.drop(columns=['Unnamed: 0', 'File', 'Occurence', 'Unique_words_in_doc',
@@ -176,7 +176,7 @@ print(df['Adv_perc_quar'].value_counts())
 # df.to_csv(r'Data/CSV/percandquar.csv')
 
 # %%
-df = pd.read_csv('Data/CSV/finalpercandquar.csv')
+df = pd.read_csv('finalpercandquar.csv')
 
 # %% DROP PERCENTAGE COLUMNS AND SAVE DF INTO A DATAFRAME WITH ONLY QUARTILES
 df = df.drop(columns=['max_word_length', 'Occurence_perc', 'Unique_occ_perc', 'Noun_perc', 'Verb_perc',
@@ -187,7 +187,7 @@ df.to_csv(r'Data/CSV/Final_Data.csv')
 ###### CLASSIFICATION STARTS HERE #######
 # %%
 # Loading the data
-df = pd.read_csv('Data/CSV/Final_Data.csv')
+df = pd.read_csv('Final_Data.csv')
 
 # print the shape
 print(df.shape)
@@ -360,8 +360,13 @@ print("The Training Accuracy is: ", log_reg.score(X_train, y_train))
 print("The Testing Accuracy is: ", log_reg.score(X_test, y_test))
 
 
-# Classification Report
+# Classification Report for training
 print(classification_report(y_train, y_pred))
+
+# Classification Report for testing
+log_reg.predict(X_test)
+y_pred_2 = log_reg.predict(X_test)
+print(classification_report(y_test, y_pred_2))
 
 # %%
 # Confusion Matrix function
@@ -568,6 +573,40 @@ cm_norm = cm / cm.sum(axis=1).reshape(-1, 1)
 
 plot_confusion_matrix(cm_norm, classes=log_reg.classes_,
                       title='Confusion matrix')
+
+#%%
+# Calculating False Positives (FP), False Negatives (FN), True Positives (TP) & True Negatives (TN)
+
+FP = cm.sum(axis=0) - np.diag(cm)
+FN = cm.sum(axis=1) - np.diag(cm)
+TP = np.diag(cm)
+TN = cm.sum() - (FP + FN + TP)
+
+
+# Sensitivity, hit rate, recall, or true positive rate
+TPR = TP / (TP + FN)
+print("The True Positive Rate is:", TPR)
+
+# Precision or positive predictive value
+PPV = TP / (TP + FP)
+print("The Precision is:", PPV)
+
+# False positive rate or False alarm rate
+FPR = FP / (FP + TN)
+print("The False positive rate is:", FPR)
+
+
+# False negative rate or Miss Rate
+FNR = FN / (FN + TP)
+print("The False Negative Rate is: ", FNR)
+
+
+# Total averages :
+print("")
+print("The average TPR is:", TPR.sum()/2)
+print("The average Precision is:", PPV.sum()/2)
+print("The average False positive rate is:", FPR.sum()/2)
+print("The average False Negative Rate is:", FNR.sum()/2)
 # %%
 # Accuracy on Validation
 print("The Validation Accuracy is: ", log_reg.score(X_valid, y_valid))
